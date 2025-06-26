@@ -1,10 +1,10 @@
 import React from 'react';
 import droneImg from '../../src/assets/drone.svg'
 
-const SecondHero = ({name,bordercolor}) => {
+const CollectionCard = ({name,bordercolor}) => {
   return (
     <div className ={`w-28 h-28 border border-${bordercolor || "red-600"} rounded-lg flex flex-col items-center justify-center hover:bg-red-50 cursor-pointer transition-all duration-300 ml-12`}>
-      
+      <h2></h2>
       <img
         src={droneImg}
         alt="Drone Parts"
@@ -15,4 +15,4 @@ const SecondHero = ({name,bordercolor}) => {
   );
 };
 
-export default SecondHero;
+export default CollectionCard;
