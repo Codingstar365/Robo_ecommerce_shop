@@ -80,15 +80,6 @@ const CollectionPageSecond = () => {
         </h2>
        </div>
        <div className='w-40px'>
-        {/* {
-          ElecrowFAQ.map((item,index)=>{
-          <SecondPageFAQ
-          key={index}
-          question={item.question}
-          answer={item.answer}
-          />
-          })
-        } */}
         <div >
         {
           ElecrowFAQ.map((item,index)=>{

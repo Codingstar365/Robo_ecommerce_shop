@@ -4,6 +4,8 @@ import { FiChevronDown } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import { FaBagShopping } from 'react-icons/fa6';
+import UserDropdown from './OrderInfo';
+import AddToCartHover from './AddToCard';
 
 function Navbar() {
   return (
@@ -89,8 +91,8 @@ function Navbar() {
             </ul>
           </ul>
           <div className='flex gap-5 justify items-center px-6'>
-              <Link to={"/order"}><FaUser/>   </Link>  
-             <Link to={"/order"}> <FaBagShopping/></Link>
+        <UserDropdown/>
+             <AddToCartHover/>
           </div>
         </div>
       </div>

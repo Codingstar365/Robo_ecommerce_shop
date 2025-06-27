@@ -6,6 +6,14 @@ import img5 from '../assets/hero/thirdpage.jpg'
 import img6 from '../assets/hero/thirdpage.jpg'
 import img7 from '../assets/hero/thirdpage.jpg'
 import img8 from '../assets/hero/thirdpage.jpg'
+
+import imag1 from '../assets/hero/thirdpagelogo.jpg'
+import imag2 from '../assets/hero/thirdpagelogo.jpg'
+import imag3 from '../assets/hero/thirdpagelogo.jpg'
+import imag4 from '../assets/hero/thirdpagelogo.jpg'
+import imag5 from '../assets/hero/thirdpagelogo.jpg'
+import imag6 from '../assets/hero/thirdpagelogo.jpg'
+
 export const ThirdPageInfo = {
   title: "India’s Most Trusted Electronic Component Wholesale Store",
   description: [
@@ -54,3 +62,31 @@ export const CategoryList = [
     image: img8,
   },
 ];
+export const WhyBuyHere = [
+  {
+    "title": "Ready Stock Available",
+    image: imag1
+  },
+  {
+    "title": "Competitive Pricing",
+    image: imag2
+  },
+  {
+    "title": "Premium Quality",
+    image: imag3
+  },
+  {
+    "title": "Same Day Shipping",
+    image: imag4
+  },
+  {
+    "title": "Dedicated Account Manager",
+    image: imag5
+  },
+  {
+    "title": "GST Invoices",
+    image: imag6
+  }
+]
+
+
