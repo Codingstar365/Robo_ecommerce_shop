@@ -33,7 +33,7 @@ const sidebarData = [
   { name: "Tools & Instruments", items: ["Soldering Iron", "Multimeter", "Cutters"] }
 ];
 
-const Sidebar = () => {
+const MainSideBar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const itemRefs = useRef({});
 
@@ -82,4 +82,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default MainSideBar;

@@ -1,6 +1,5 @@
 import React from 'react';
 import HeroCarousel from '../components/HeroCarousel';
-import Mainsidebar from '../components/Mainsidebar';
 import Card from '../components/card';
 import { CardData } from '../constants/CardConstant';
 import SecondHero from '../components/SecondHero';
@@ -12,7 +11,7 @@ import { Testimonial } from '../constants/TestimonialConstant';
 const LandingScreen = () => {
   return (
     <div className="flex ">
-      <Mainsidebar />
+      {/* <MainSideBar /> */}
 
       <div className="w-full ml-2  ">
         <HeroCarousel />
