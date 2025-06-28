@@ -26,7 +26,7 @@ const TestimonialCard = ({ name, avatar, platform, rating, time, message }) => {
         </div>
         <img
           src={platform}
-          alt="platform"
+          alt="platformmmmmmmmmmmm"
           className="w-6 h-6"
         />
       </div>
