@@ -14,8 +14,6 @@ const UserRoutes = () => {
         <Route path="/" element={<LandingScreen />} />
         <Route path="/collection/*" element={<CollectionRoutes />} />
         <Route path="/track-order" element={<UserOrder />} />
-        <Route path="/track-order" element={<UserOrder />} />
-
       </Route>
        <Route path='*'    element={<NotFound/>}/>
 
