@@ -38,5 +38,10 @@ export const CardData = [
     "name": "HC-05 Bluetooth Module for Arduino",
     "price": 249,
     "discount": 25
+  },
+    {
+    "name": "HC-05 Bluetooth Module for Arduino",
+    "price": 249,
+    "discount": 25
   }
 ]

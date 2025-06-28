@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import productImage from '../assets/hero/download.jpg';
 
@@ -27,6 +27,20 @@ const AddToCartHover = () => {
     }
   ]);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleIncrement = (id) => {
     setCartItems(prev =>
       prev.map(item =>
@@ -51,9 +65,12 @@ const AddToCartHover = () => {
   );
 
   return (
-    <div className="relative inline-block text-left group">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       {/* Cart Icon */}
-      <button className="relative p-2 rounded-full hover:bg-gray-200 transition">
+      <button
+        onClick={() => setIsOpen(prev => !prev)}
+        className="relative p-2 rounded-full hover:bg-gray-200 transition"
+      >
         <ShoppingCart className="w-6 h-6 text-gray-800" />
         {cartItems.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
@@ -62,65 +79,66 @@ const AddToCartHover = () => {
         )}
       </button>
 
-      {/* Hover Dropdown */}
-      <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-50">
-        
-        {/* Items List */}
-        <div className="p-4 max-h-52 overflow-y-auto">
-          {cartItems.length === 0 ? (
-            <p className="text-center text-gray-500">Your cart is empty</p>
-          ) : (
-            cartItems.map(item => (
-              <div key={item.id} className="flex items-center gap-4 mb-4 last:mb-0">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-12 h-12 rounded object-cover"
-                />
-                <div className="flex-grow">
-                  <h4 className="text-sm font-medium">{item.name}</h4>
-                  <p className="text-sm text-gray-600">
-                    ₹{item.price} × {item.quantity}
-                  </p>
+      {/* Click Dropdown */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">
+          {/* Items List */}
+          <div className="p-4 max-h-52 overflow-y-auto">
+            {cartItems.length === 0 ? (
+              <p className="text-center text-gray-500">Your cart is empty</p>
+            ) : (
+              cartItems.map(item => (
+                <div key={item.id} className="flex items-center gap-4 mb-4 last:mb-0">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 rounded object-cover"
+                  />
+                  <div className="flex-grow">
+                    <h4 className="text-sm font-medium">{item.name}</h4>
+                    <p className="text-sm text-gray-600">
+                      ₹{item.price} × {item.quantity}
+                    </p>
 
-                  {/* Quantity Buttons */}
-                  <div className="flex items-center mt-1 space-x-2">
-                    <button
-                      onClick={() => handleDecrement(item.id)}
-                      className="p-1 rounded bg-gray-200 hover:bg-gray-300"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="text-sm">{item.quantity}</span>
-                    <button
-                      onClick={() => handleIncrement(item.id)}
-                      className="p-1 rounded bg-gray-200 hover:bg-gray-300"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
+                    {/* Quantity Buttons */}
+                    <div className="flex items-center mt-1 space-x-2">
+                      <button
+                        onClick={() => handleDecrement(item.id)}
+                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => handleIncrement(item.id)}
+                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
+                  <p className="text-sm font-semibold text-gray-800">
+                    ₹{item.price * item.quantity}
+                  </p>
                 </div>
-                <p className="text-sm font-semibold text-gray-800">
-                  ₹{item.price * item.quantity}
-                </p>
+              ))
+            )}
+          </div>
+
+          {/* Total & Checkout */}
+          {cartItems.length > 0 && (
+            <div className="border-t px-4 py-3">
+              <div className="flex justify-between mb-3 text-sm font-medium">
+                <span>Total</span>
+                <span>₹{total}</span>
               </div>
-            ))
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition">
+                Go to Checkout
+              </button>
+            </div>
           )}
         </div>
-
-        {/* Total & Checkout */}
-        {cartItems.length > 0 && (
-          <div className="border-t px-4 py-3">
-            <div className="flex justify-between mb-3 text-sm font-medium">
-              <span>Total</span>
-              <span>₹{total}</span>
-            </div>
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition">
-              Go to Checkout
-            </button>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };

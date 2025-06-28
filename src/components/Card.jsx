@@ -7,7 +7,7 @@ const Card = ({ name, price, discount }) => {
 
   return (
     
-    <div className="  bg-white rounded-lg shadow-md p-4 relative border border-gray-400">
+    <div className=" w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-400">
       
       {/* Discount Tag */}
       <div className="absolute top-2 left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg">

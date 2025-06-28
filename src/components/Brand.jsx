@@ -24,14 +24,19 @@ const brandLogos = [
   { image: img8 }
 ];
 
-const Brand = ({isCenter}) => {
+const Brand = ({ isCenter }) => {
   return (
-    <div className=" ">
-      <h2 className={`${isCenter? "text-center" : "text-left ml-16"} text-2xl font-bold mt-4`}>BRANDS</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5  items-center justify-items-center ">
-        {brandLogos.map((item,index)=>{
-          return <img className='w-25 flex-wrap   'src={item.image} alt="lmn," />;
-        })}
+    <div className="px-4 py-6">
+      <h2 className={`${isCenter ? "text-center" : "text-left ml-4"} text-2xl font-bold mb-6`}>BRANDS</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center">
+        {brandLogos.map((item, index) => (
+          <img
+            key={index}
+            className="w-full h-24 object-contain rounded shadow-sm"
+            src={item.image}
+            alt="Brand"
+          />
+        ))}
       </div>
     </div>
   );

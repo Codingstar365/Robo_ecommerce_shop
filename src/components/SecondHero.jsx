@@ -3,7 +3,7 @@ import droneImg from '../../src/assets/drone.svg'
 
 const SecondHero = ({name,bordercolor}) => {
   return (
-    <div className ={`w-28 h-28 border border-${bordercolor || "red-600"} rounded-lg flex flex-col items-center justify-center hover:bg-red-50 cursor-pointer transition-all duration-300 ml-12`}>
+    <div className ={` w-full h-32 border border-${bordercolor || "red-600"} flex flex-col items-center justify-center hover:bg-red-50 cursor-pointer transition-all duration-300  rounded-lg `}>
       
       <img
         src={droneImg}

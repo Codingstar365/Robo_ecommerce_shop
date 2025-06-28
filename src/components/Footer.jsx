@@ -8,77 +8,77 @@ import { Allcategories, FooterBlogs, ShopByBrand, Support } from '../constants/N
 const Footer = () => {
   return (
     <div className='bottom-0 left-0 w-full  '>
-      <div className='flex justify-between p-7  text-center bg-secondary'>
-        <div>
-          <h2 className='mb-8xl'>Sign up for our newsletter and unlock exclusive promotions and discounts</h2>
-        </div>
+<div className="bg-secondary text-center px-6 py-7 flex flex-col md:flex-row justify-between items-center gap-4">
+  <h2 className="text-white text-base md:text-lg font-semibold ">
+    Sign up for our newsletter and unlock exclusive promotions and discounts
+  </h2>
 
+  <div className="flex flex-wrap justify-center gap-4">
+    <FaInstagram size={28} className="text-white  hover:bg-blue-600 rounded-full p-1 transition-all" />
+    <FaFacebook size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+    <FaYoutube size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+    <FaLinkedin size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+    <FaTwitter size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+    <FaGoogle size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+  </div>
+</div>
 
-        <div className='flex gap-5'>
-          <FaInstagram size={28} className="text-[#3c30e1] hover:scale-110 transition-transform" />
-          <FaFacebook size={28}
-            className="text-blue-600 hover:text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaYoutube size={28} className="text-[#3c30e1] hover:scale-110 transition-transform" />
-          <FaLinkedin size={28} className="text-[#3c30e1] hover:scale-110 transition-transform" />
-          <FaTwitter size={28} className="text-[#3c30e1] hover:scale-110 transition-transform" />
-          <FaGoogle size={28} className="text-[#3c30e1] hover:scale-110 transition-transform" />
-
-        </div>
-
-      </div>
-      <div className='bg-white flex justify-between p-8 text-1xl'>
-        <div>
-          <div>Logo </div>
-          <div className='w-50 text-sm'>
-            Robocraze is India's most trusted 
+      <div className='bg-white flex gap-10 flex-col md:flex-row justify-between text-center md:text-left p-8 text-1xl '>
+        <div className='md:w-1/5  '>
+          <div className="text-primary font-bold text-2xl">Logo </div>
+          <div className='w-full text-sm mt-5'>
+            Robocraze is India's most trusted
             Robotics and DIY store. We aim at
-             fostering the growth of knowledge in
-               Embedded Systems, IoT and Automation.</div>
+            fostering the growth of knowledge in
+            Embedded Systems, IoT and Automation.</div>
         </div>
-        <div>
-          <div className='font-bold'>
-            Top Categories
+        <div className='md:w-4/5 flex justify-between flex-col md:flex-row'>
+          <div>
+            <div className='text-primary font-bold text-2xl'>
+              Top Categories
+            </div>
+            <div className='mt-5'>
+              {
+                Allcategories.map((value) => {
+                  return <div className='text-sm'>{value.name}</div>
+                })
+              }
+            </div>
           </div>
           <div>
-            {
-              Allcategories.map((value) => {
-                return <div  className='text-sm'>{value.name}</div>
-              })
-            }
+            <div className='text-primary font-bold text-2xl '>
+              Shop By Brand
+            </div>
+            <div className='mt-5'>
+              {
+                ShopByBrand.map((value) => {
+                  return <div className='text-sm'>{value.name}</div>
+                })
+              }
+            </div>
           </div>
-        </div>
-        <div>
-        <div className='font-bold'>
-          Shop By Brand
-        </div>
-        <div>
-          {
-            ShopByBrand.map((value)=>{
-              return <div className='text-sm'>{value.name}</div>
-            })
-          }
-        </div>
-         </div>
-        <div>
-          <div className='font-bold'>Blogs</div>
+          <div className='hidden md:block'>
+            <div className='text-primary font-bold text-2xl'>Blogs</div>
+            <div className='mt-5'>
+              {
+                FooterBlogs.map((value) => {
+                  return <div className='text-sm'>{value.name}</div>
+                })
+              }
+            </div>
+          </div>
           <div>
-            {
-              FooterBlogs.map((value)=>{
-                return <div className='text-sm'>{value.name}</div>
-              })
-            }
+            <div className='text-primary font-bold text-2xl '>Support</div>
+            <div className='mt-5'>
+              {
+                Support.map((value) => {
+                  return <div className='text-sm'>{value.name}</div>
+                })
+              }
+            </div>
           </div>
         </div>
-        <div>
-          <div className='font-bold'>Support</div>
-          <div>
-            {
-              Support.map((value)=>{
-                return <div className='text-sm'>{value.name}</div>
-              })
-            }
-          </div>
-        </div>
+
       </div>
     </div >
   )

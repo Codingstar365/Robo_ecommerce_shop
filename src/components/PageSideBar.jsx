@@ -2,7 +2,7 @@ import React from "react";
 
 const PageSidebar = () => {
   return (
-    <section className="w-64 bg-gray-200 p-4 border-r text-sm h-full">
+    <div className="w-64 h-full p-4 border-r text-sm">
       {/* Filter Section */}
       <h2 className="font-semibold mb-2">Filter:</h2>
       <div className="border-b mb-4 pb-2">
@@ -42,7 +42,7 @@ const PageSidebar = () => {
       </div>
 
       {/* Category Section */}
-      <h2 className="font-bold text-blue-900 text-base  mb-2">Show All Categories</h2>
+      <h2 className="font-bold text-blue-900 text-base mb-2">Show All Categories</h2>
       <div className="text-sm">
         <h3 className="text-gray-700 font-semibold mb-1">Raspberry Pi</h3>
         <ul className="space-y-1 text-blue-800">
@@ -68,7 +68,7 @@ const PageSidebar = () => {
           ))}
         </ul>
       </div>
-    </section>
+    </div>
   );
 };
 
