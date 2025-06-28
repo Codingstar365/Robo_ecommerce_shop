@@ -3,9 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import MainLayout from '../pages/Layouts/MainLayout';
 import LandingScreen from '../pages/LandingScreen';
-import Mainsidebar from '../components/Mainsidebar';
-import Card from '../components/card';
-// import Stempages from '../pages/Stempages';
 import CollectionRoutes from './CollectionRoute';
 import UserOrder from '../pages/UserOrder';
 import NotFound from '../pages/NotFound';
