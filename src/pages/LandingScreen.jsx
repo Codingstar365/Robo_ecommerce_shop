@@ -1,12 +1,13 @@
 import React from 'react';
 import HeroCarousel from '../components/HeroCarousel';
-import Card from '../components/card';
+// import Card from '../components/card';
 import { CardData } from '../constants/CardConstant';
 import SecondHero from '../components/SecondHero';
 import { CardDataSecond } from '../constants/SecondHeroConstant';
 import Brand from '../components/Brand';
 import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
+// import Card from '../components/card';
 
 const LandingScreen = () => {
   return (
@@ -36,7 +37,7 @@ const LandingScreen = () => {
         <div className= "font-bold justify-items-center text-2xl mt-12 ">
           <h2>BEST SELLER</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3  gap-10 mt-5 mx-5 mb-5 ">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3  gap-10 mt-5 mx-5 mb-5 ">
           {CardData.map((item, index) => (
             <Card
               key={index}
@@ -45,7 +46,7 @@ const LandingScreen = () => {
               discount={item.discount}
             />
           ))}
-        </div>
+        </div> */}
         </div>
         <div className='border relative border-gray-400 mb-3 rounded-lg mt-4' >
           <Brand 
