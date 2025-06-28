@@ -7,7 +7,7 @@ import Brand from '../components/Brand';
 import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
  import Card from '../components/Card';
-import MainSideBar from '../components/MainsideBar';
+import MainSideBar from '../components/MainSideBar';
 
 const LandingScreen = () => {
   return (
