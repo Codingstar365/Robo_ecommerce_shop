@@ -3,10 +3,10 @@ import { CollectionCardData } from '../constants/CollectionCardConstant';
 import CollectionCard from '../components/CollectionCard';
 import PageSidebar from '../components/PageSideBar';
 import { CardData } from '../constants/CardConstant';
-import Card from '../components/card';
 import PagesBData from '../components/PagesBData';
+import ItemCard from '../components/ItemCard';
 
-const CollectionPages = () => {
+const MyCollectionPages = () => {
   return (
     <div className="flex flex-col w-full px-2 sm:px-6 md:px-10">
       {/* Title and Collection Cards */}
@@ -37,7 +37,7 @@ const CollectionPages = () => {
           {/* Product Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3  gap-10 mt-5 mx-5 mb-5 ">
             {CardData.map((item, index) => (
-              <Card
+              <ItemCard
                 key={index}
                 name={item.name}
                 price={item.price}
@@ -56,4 +56,4 @@ const CollectionPages = () => {
   );
 };
 
-export default CollectionPages;
+export default MyCollectionPages;

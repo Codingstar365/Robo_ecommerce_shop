@@ -2,9 +2,9 @@ import React from 'react';
 import image1 from '../assets/hero/secondpageimage.jpg';
 import { ElecrowFAQ, ElecrowHighlightConstant, SecondPageConstant } from '../constants/SecondPageConstant';
 import { CardData } from '../constants/CardConstant';
-import Card from '../components/card';
 import PagesBData from '../components/PagesBData';
 import SecondPageFAQ from '../components/SecondPageFAQ';
+import ItemCard from '../components/ItemCard';
 
 const CollectionPageSecond = () => {
   const { title, image, sections, ctaButton } = SecondPageConstant;
@@ -52,7 +52,7 @@ const CollectionPageSecond = () => {
       <div className="border m-10 border-gray-300 rounded-lg">
      <div className="grid grid-cols-1 md:grid-cols-3  gap-15 mt-5 mx-5 mb-5">
           {CardData.map((item, index) => (
-            <Card
+            <ItemCard
               key={index}
               name={item.name}
               price={item.price}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import image from '../assets/hero/ordertrack.jpg'; // Ensure the path is correct
 import { CardData } from '../constants/CardConstant';
-import Card from '../components/Card';
+import ItemCard from '../components/ItemCard';
 
 const UserOrder = () => {
   const [formData, setFormData] = useState({
@@ -78,7 +78,7 @@ const UserOrder = () => {
       {/* Product Cards */}
       <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {CardData.slice(0, 5).map((item, index) => (
-          <Card
+          <ItemCard
             key={index}
             name={item.name}
             price={item.price}

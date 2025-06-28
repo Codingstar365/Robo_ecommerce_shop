@@ -6,13 +6,13 @@ import { CardDataSecond } from '../constants/SecondHeroConstant';
 import Brand from '../components/Brand';
 import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
- import Card from '../components/Card';
-import MainSideBar from '../components/MainSideBar';
+import MySideBar from '../components/MySideBar';
+import ItemCard from '../components/ItemCard';
 
 const LandingScreen = () => {
   return (
     <div className="flex ">
-       <MainSideBar />
+       <MySideBar />
 
       <div className="w-full ml-2  ">
         <HeroCarousel />
@@ -39,7 +39,7 @@ const LandingScreen = () => {
         </div>
          <div className="grid grid-cols-1 md:grid-cols-3  gap-10 mt-5 mx-5 mb-5 ">
           {CardData.map((item, index) => (
-            <Card
+            <ItemCard
               key={index}
               name={item.name}
               price={item.price}

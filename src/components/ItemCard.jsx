@@ -2,7 +2,7 @@ import React from 'react';
 import { Star } from 'lucide-react';
 import image from '../../src/assets/hero/download.jpg';
 
-const Card = ({ name, price, discount }) => {
+const ItemCard = ({ name, price, discount }) => {
   const finalPrice = Math.round(price * (1 - discount / 100));
 
   return (
@@ -62,4 +62,4 @@ const Card = ({ name, price, discount }) => {
   );
 };
 
-export default Card;
+export default ItemCard;

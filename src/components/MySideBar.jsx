@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-
 const sidebarData = [
   { name: "Flash Sale", items: [] },
   { name: "STEM Kits", items: ["DIY STEM Kit", "School Kits", "Science Toys"] },
@@ -33,7 +32,7 @@ const sidebarData = [
   { name: "Tools & Instruments", items: ["Soldering Iron", "Multimeter", "Cutters"] }
 ];
 
-const MainSideBar = () => {
+const MySideBar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const itemRefs = useRef({});
 
@@ -82,4 +81,4 @@ const MainSideBar = () => {
   );
 };
 
-export default MainSideBar;
+export default MySideBar;
