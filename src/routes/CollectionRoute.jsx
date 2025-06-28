@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import CollectionPageThird from '../pages/CollectionPageThird';
 //import UserOrder from '../pages/UserOrder';
- import CollectionPages from '../pages/collectionPages';
+ import CollectionPages from '../pages/CollectionPages';
 import CollectionPageSecond from '../pages/CollectionPageSecond';
 
 const CollectionRoutes = () => {
