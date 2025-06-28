@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import image from '../assets/hero/ordertrack.jpg'; // Ensure the path is correct
 import { CardData } from '../constants/CardConstant';
-import Card from '../components/card';
+import Card from '../components/Card';
 
-const TrackOrderPage = () => {
+const UserOrder = () => {
   const [formData, setFormData] = useState({
     orderId: '',
     mobile: ''
@@ -90,4 +90,4 @@ const TrackOrderPage = () => {
   );
 };
 
-export default TrackOrderPage;
+export default UserOrder;

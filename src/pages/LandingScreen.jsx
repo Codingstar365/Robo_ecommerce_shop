@@ -6,7 +6,7 @@ import { CardDataSecond } from '../constants/SecondHeroConstant';
 import Brand from '../components/Brand';
 import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
- import Card from '../components/card';
+ import Card from '../components/Card';
 import MainSideBar from '../components/Mainsidebar';
 
 const LandingScreen = () => {
