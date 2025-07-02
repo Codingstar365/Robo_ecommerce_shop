@@ -1,45 +1,38 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import image from '../../src/assets/hero/download.jpg';
+import useCartStore from '../data/stores/cartStore';
 
-const ItemCard = ({ name, price, discount }) => {
+const ItemCard = ({ id, name, price, discount }) => {
   const finalPrice = Math.round(price * (1 - discount / 100));
+  const addToCart = useCartStore((state) => state.addToCart);
 
   return (
-    
-    <div className=" w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-400">
-      
-      {/* Discount Tag */}
+    <div className="w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-400 transform transition duration-300 hover:shadow-lg hover:scale-[1.02]">
       <div className="absolute top-2 left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg">
         -{discount}%
       </div>
 
-      {/* Wishlist Heart */}
-      <div className="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-secondary">
+      <div className="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-secondary transition-colors duration-300">
         ❤️
       </div>
 
-      {/* Product Image */}
       <img
         src={image}
         alt={name}
         className="w-full h-40 object-contain mb-4"
       />
 
-      {/* Title */}
       <h2 className="text-sm font-semibold truncate hover:underline leading-snug mb-2 w-48">
-
         {name}
       </h2>
 
-      {/* Rating */}
       <div className="flex space-x-1 text-yellow-500 text-sm mb-2">
         {Array(5).fill().map((_, i) => (
           <Star key={i} className="w-4 h-4 fill-yellow-500" />
         ))}
       </div>
 
-      {/* Price */}
       <div className="mb-2">
         <span className="line-through text-gray-500 text-sm">Rs. {price}</span>{' '}
         <span className="text-xl font-bold text-secondary">Rs. {finalPrice}</span>
@@ -49,12 +42,24 @@ const ItemCard = ({ name, price, discount }) => {
         <p className="text-xs text-gray-500">Incl. GST (No Hidden Charges)</p>
       </div>
 
-      {/* Buttons */}
       <div className="flex gap-2 mt-4">
-        <button className="flex-1 bg-black text-white text-sm px-4 py-2 rounded hover:bg-gray-800">
+        <button
+          className="flex-1 bg-black text-white text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-800 cursor-pointer hover:shadow-md"
+          onClick={() =>
+            addToCart({
+              id,
+              name,
+              price: finalPrice,
+              image,
+            })
+          }
+        >
           Add To Cart
         </button>
-        <button className="flex-1 border border-black text-sm px-4 py-2 rounded hover:bg-gray-100">
+
+        <button
+          className="flex-1 border border-black text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-100 cursor-pointer hover:shadow-md hover:border-secondary"
+        >
           Buy Now
         </button>
       </div>

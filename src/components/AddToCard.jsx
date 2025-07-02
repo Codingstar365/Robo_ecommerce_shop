@@ -1,36 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import productImage from '../assets/hero/download.jpg';
+import useCartStore from '../data/stores/cartStore'; // ✅ Zustand store
+import { useNavigate } from 'react-router-dom';
 
 const AddToCartHover = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Arduino Uno R3',
-      price: 1849,
-      quantity: 1,
-      image: productImage
-    },
-    {
-      id: 2,
-      name: 'Raspberry Pi 5',
-      price: 8209,
-      quantity: 2,
-      image: productImage
-    },
-    {
-      id: 3,
-      name: 'NodeMCU ESP8266',
-      price: 499,
-      quantity: 1,
-      image: productImage
-    }
-  ]);
-
+  const navigate = useNavigate();
+  const { cartItems, incrementQty, decrementQty } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown if clicked outside
+  // Close on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -40,24 +20,6 @@ const AddToCartHover = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleIncrement = (id) => {
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const handleDecrement = (id) => {
-    setCartItems(prev =>
-      prev
-        .map(item =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
-        .filter(item => item.quantity > 0)
-    );
-  };
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -74,15 +36,14 @@ const AddToCartHover = () => {
         <ShoppingCart className="w-6 h-6 text-gray-800" />
         {cartItems.length > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
-            {cartItems.length}
+            {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
         )}
       </button>
 
-      {/* Click Dropdown */}
+      {/* Dropdown */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">
-          {/* Items List */}
           <div className="p-4 max-h-52 overflow-y-auto">
             {cartItems.length === 0 ? (
               <p className="text-center text-gray-500">Your cart is empty</p>
@@ -90,7 +51,7 @@ const AddToCartHover = () => {
               cartItems.map(item => (
                 <div key={item.id} className="flex items-center gap-4 mb-4 last:mb-0">
                   <img
-                    src={item.image}
+                    src={item.image || productImage}
                     alt={item.name}
                     className="w-12 h-12 rounded object-cover"
                   />
@@ -99,18 +60,16 @@ const AddToCartHover = () => {
                     <p className="text-sm text-gray-600">
                       ₹{item.price} × {item.quantity}
                     </p>
-
-                    {/* Quantity Buttons */}
                     <div className="flex items-center mt-1 space-x-2">
                       <button
-                        onClick={() => handleDecrement(item.id)}
+                        onClick={() => decrementQty(item.id)}
                         className="p-1 rounded bg-gray-200 hover:bg-gray-300"
                       >
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="text-sm">{item.quantity}</span>
                       <button
-                        onClick={() => handleIncrement(item.id)}
+                        onClick={() => incrementQty(item.id)}
                         className="p-1 rounded bg-gray-200 hover:bg-gray-300"
                       >
                         <Plus className="w-4 h-4" />
@@ -125,14 +84,17 @@ const AddToCartHover = () => {
             )}
           </div>
 
-          {/* Total & Checkout */}
+          {/* Total and Checkout Button */}
           {cartItems.length > 0 && (
             <div className="border-t px-4 py-3">
               <div className="flex justify-between mb-3 text-sm font-medium">
                 <span>Total</span>
                 <span>₹{total}</span>
               </div>
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
+              >
                 Go to Checkout
               </button>
             </div>

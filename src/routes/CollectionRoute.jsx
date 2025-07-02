@@ -13,6 +13,7 @@ const CollectionRoutes = () => {
          <Route path="/allcategories" element={<MyCollectionPages/>}/>  
         <Route path="/shopbybrand" element={<CollectionPageSecond/>}/> 
         <Route path="/bulkorders" element={<CollectionPageThird/>}/> 
+        
       </Routes>
      
   );

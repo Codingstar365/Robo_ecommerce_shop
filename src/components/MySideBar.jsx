@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+
 const sidebarData = [
   { name: "Flash Sale", items: [] },
   { name: "STEM Kits", items: ["DIY STEM Kit", "School Kits", "Science Toys"] },
@@ -50,7 +51,7 @@ const MySideBar = () => {
   };
 
   return (
-    <div className="relative bg-white text-black p-4 rounded ml-2 border border-gray-400 mt-18 hidden md:block">
+    <div className="relative z-10 bg-white text-black p-5 rounded ml-2 border border-gray-400 mt-18 hidden md:block no-wrap">
       <h2 className="text-xl font-bold mb-4">CATEGORIES</h2>
 
       {sidebarData.map((category) => (
@@ -58,17 +59,17 @@ const MySideBar = () => {
           key={category.name}
           ref={(el) => (itemRefs.current[category.name] = el)}
           onClick={() => handleClick(category.name)}
-          className="relative hover:bg-gray-300 text-[12px] mb-2 cursor-pointer px-2 py-1 rounded border border-gray-300"
+          className="relative text-[12px] mb-2 cursor-pointer px-2 py-1 rounded border border-gray-300 transition duration-300 hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01]"
         >
           {category.name} ▾
           {activeCategory === category.name && getItemsForCategory(category.name).length > 0 && (
             <div
-              className="absolute left-full top-0 ml-2 w-48 z-10 bg-white shadow-lg border border-gray-300 rounded-md p-2 space-y-1"
+              className="absolute left-full top-0 ml-2 w-48 z-50 bg-white shadow-lg border border-gray-300 rounded-md p-2 space-y-1 transition-all duration-300"
             >
               {getItemsForCategory(category.name).map((item, index) => (
                 <div
                   key={index}
-                  className="text-sm hover:bg-blue-800 hover:text-white px-2 py-1 rounded cursor-pointer"
+                  className="text-sm hover:bg-blue-800 hover:text-white px-2 py-1 rounded cursor-pointer transition duration-200"
                 >
                   {item}
                 </div>

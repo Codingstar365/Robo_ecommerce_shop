@@ -1,5 +1,4 @@
 import React from 'react';
-// import image from '../../src/assets/BrandLogo/Brand'
 import img1 from '../assets/hero/BrandOne.jpg'
 import img2 from '../assets/hero/BrandTwo.jpg'
 import img3 from '../assets/hero/BrandOne.jpg'
@@ -32,7 +31,7 @@ const Brand = ({ isCenter }) => {
         {brandLogos.map((item, index) => (
           <img
             key={index}
-            className="w-full h-24 object-contain rounded shadow-sm"
+            className="w-full h-24 object-contain rounded shadow-sm transition-transform duration-300 transform hover:scale-105 hover:shadow-md active:scale-95 cursor-pointer"
             src={item.image}
             alt="Brand"
           />
