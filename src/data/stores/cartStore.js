@@ -1,6 +1,6 @@
+// src/data/stores/cartStore.js
 import { create } from "zustand";
 
-// Load cart from localStorage
 const storedCart = localStorage.getItem("cartItems");
 const initialCart = storedCart ? JSON.parse(storedCart) : [];
 
@@ -10,24 +10,23 @@ const syncToLocalStorage = (cart) => {
 
 const useCartStore = create((set) => ({
   cartItems: initialCart,
+  buyNowItem: null,
 
-  // ✅ Add item (or increment if exists)
   addToCart: (product) =>
     set((state) => {
       const updatedCart = [...state.cartItems];
       const existingIndex = updatedCart.findIndex((item) => item.id === product.id);
-
       if (existingIndex !== -1) {
         updatedCart[existingIndex].quantity += 1;
       } else {
         updatedCart.push({ ...product, quantity: 1 });
       }
-
       syncToLocalStorage(updatedCart);
-      return { cartItems: updatedCart };
+
+      // ✅ Clear buyNowItem if user starts using cart
+      return { cartItems: updatedCart, buyNowItem: null };
     }),
 
-  // ✅ Increment quantity
   incrementQty: (id) =>
     set((state) => {
       const updatedCart = state.cartItems.map((item) =>
@@ -37,17 +36,17 @@ const useCartStore = create((set) => ({
       return { cartItems: updatedCart };
     }),
 
-  // ✅ Decrement quantity or remove if zero
   decrementQty: (id) =>
     set((state) => {
       const updatedCart = state.cartItems
-        .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
+        .map((item) => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item))
         .filter((item) => item.quantity > 0);
       syncToLocalStorage(updatedCart);
       return { cartItems: updatedCart };
     }),
+
+  setBuyNowItem: (item) => set({ buyNowItem: { ...item, quantity: 1 } }),
+  clearBuyNowItem: () => set({ buyNowItem: null }),
 }));
 
 export default useCartStore;

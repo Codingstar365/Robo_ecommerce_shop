@@ -26,7 +26,7 @@ const HeroCarousel = () => {
   }, [images.length]);
 
   return (
-    <div className="relative items-end h-[400px] md:h-[500px] overflow-hidden mt-[73px]">
+    <div className="relative items-end h-[400px] md:h-[500px] overflow-hidden mt-[62px]">
       {images.map((img, index) => (
         <div
           key={index}

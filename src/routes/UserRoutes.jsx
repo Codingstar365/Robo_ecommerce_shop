@@ -8,11 +8,19 @@ import UserOrder from '../pages/UserOrder';
 import NotFound from '../pages/NotFound';
 import Login from '../pages/auth/Login';
 import Signup from '../pages/auth/SignUp';
-//import Home from '../pages/auth/LogOut';
-import LogOut from '../pages/auth/LogOut';
-import Academy from '../pages/Academy';
+//import LogOut from '../pages/auth/LogOut';
+//import Academy from '../pages/Academy';
 import CheckOut from '../pages/CheckOut';
 import AdminLayout from '../pages/Layouts/AdminLayout';
+import Products from '../pages/Products';
+import ItemAdd from '../pages/ItemAdd';
+import AdminOrders from '../pages/AdminOrders';
+import BuyNow from '../pages/BuyNow';
+import PayOnline from '../components/PayOnline';
+import PaymentSelection from '../pages/PaymentSelection';
+import UserOrders from '../pages/UserOrderInfo';
+
+
 
 const UserRoutes = () => {
   return (
@@ -20,17 +28,23 @@ const UserRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<LandingScreen />} />
         <Route path="/collection/*" element={<CollectionRoutes />} />
-        <Route path="/track-order" element={<UserOrder />} />
-              <Route path="/checkout" element={<CheckOut/>}/> 
-      </Route>
-      <Route element={<AdminLayout/>}>
+
+        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/track-order" element={<UserOrders />} />
 
       </Route>
+      <Route element={<AdminLayout />}>
+        <Route path='/admin/products' element={<Products />} />
+        <Route path='/admin/products/add' element={<ItemAdd />} />
+        <Route path='/admin/orders' element={<AdminOrders />} />
+      </Route>
+
       <Route path='*' element={<NotFound />} />
-      <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
-      <Route path='/logout' element={<LogOut />} />
-
+      <Route path='/login' element={<Login />} />
+      <Route path="/payment-method" element={<PaymentSelection />} />
+      <Route path="/order-success" element={<UserOrder />} />
+      <Route path='/pay-online' element={<PayOnline />} />
 
     </Routes>
   );

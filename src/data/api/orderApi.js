@@ -1,61 +1,36 @@
+// ✅ src/data/api/orderApi.js
+import { collection, addDoc, getDocs, query, where, doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
-import { db } from "../firebase";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  doc,
-  query,
-  where,
-  getDoc
-} from "firebase/firestore";
-
-// 🔹 1. Place Order
+// 🔹 Create a new order
 export const placeOrder = async (orderData) => {
-  const ref = await addDoc(collection(db, "orders"), {
+  const docRef = await addDoc(collection(db, "orders"), {
     ...orderData,
-    status: "confirmed",
-    createdAt: Date.now(),
-    rated: false,
-    rating: 0
+    createdAt: new Date().toISOString(),
   });
-  return ref.id;
+  return docRef.id;
 };
 
-// 🔹 2. Get All Orders for a User
+// 🔹 Get orders by user ID
 export const getUserOrders = async (userId) => {
   const q = query(collection(db, "orders"), where("userId", "==", userId));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
 
-// 🔹 3. Get All Orders for a Merchant
-export const getMerchantOrders = async (merchantId) => {
-  const q = query(collection(db, "orders"), where("merchantId", "==", merchantId));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-};
-
-// 🔹 4. Get Single Order by ID
+// 🔹 Get order by ID
 export const getOrderById = async (orderId) => {
-  const orderRef = doc(db, "orders", orderId);
-  const docSnap = await getDoc(orderRef);
+  const docRef = doc(db, "orders", orderId);
+  const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { id: docSnap.id, ...docSnap.data() };
+  } else {
+    throw new Error("Order not found");
   }
-  throw new Error("Order not found");
 };
 
-// 🔹 5. Update Order Status
+// 🔹 Update order status
 export const updateOrderStatus = async (orderId, status) => {
-  await updateDoc(doc(db, "orders", orderId), { status });
-};
-
-// 🔹 6. Rate Order
-export const rateOrder = async (orderId, rating) => {
-  await updateDoc(doc(db, "orders", orderId), {
-    rated: true,
-    rating
-  });
+  const docRef = doc(db, "orders", orderId);
+  await updateDoc(docRef, { status });
 };

@@ -1,12 +1,15 @@
+// src/pages/Login.jsx
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // ✅ import useNavigate
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../data/stores/authStore';
-//import { signInWithEmailAndPassword } from 'firebase/auth';
-//import { auth } from '../../firebase';
 
 const Login = () => {
   const { error, loadig, loginWithEmail } = useAuthStore();
-  const navigate = useNavigate(); // ✅ initialize navigation
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectTo = new URLSearchParams(location.search).get("redirect") || "/";
+  const fallbackRoute = redirectTo === "/payment" ? "/checkout" : "/";
 
   const [formData, setFormData] = useState({
     email: '',
@@ -20,20 +23,29 @@ const Login = () => {
     }));
   };
 
-   const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     await loginWithEmail(formData.email, formData.password);
-    if (!error) navigate("/");
+
+    if (!error) {
+      navigate(redirectTo);
+    }
   };
-if(loadig)
-  return<>
-  <div>loading....</div>
-  </>
-  if(error)
-    return<>
-    <div>errorr from backend{error}
-    </div>
-    </>
+
+  const handleBack = () => {
+    navigate(fallbackRoute);
+  };
+
+  if (loadig)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="loader ease-linear rounded-full border-8 border-t-8 border-blue-500 h-16 w-16 mb-4 animate-spin mx-auto"></div>
+          <p className="text-gray-600 text-lg">Logging you in...</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white p-8 md:p-10 rounded-xl shadow-md w-full max-w-md">
@@ -66,6 +78,8 @@ if(loadig)
             />
           </div>
 
+          {error && <div className="text-red-600 text-sm">{error}</div>}
+
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center space-x-2">
               <input type="checkbox" className="h-4 w-4 text-blue-600" />
@@ -88,6 +102,16 @@ if(loadig)
             Sign up
           </Link>
         </p>
+
+        {/* 👇 Back to Checkout button */}
+        <div className="mt-4 text-center">
+          <button
+            onClick={handleBack}
+            className="text-sm text-gray-600 underline hover:text-gray-800"
+          >
+            ← Back to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );

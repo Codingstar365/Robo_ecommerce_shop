@@ -51,7 +51,7 @@ const MySideBar = () => {
   };
 
   return (
-    <div className="relative z-10 bg-white text-black p-5 rounded ml-2 border border-gray-400 mt-18 hidden md:block no-wrap">
+    <div className="relative z-10 bg-white text-black p-5 rounded ml-2 border border-gray-400 mt-16 hidden md:block no-wrap">
       <h2 className="text-xl font-bold mb-4">CATEGORIES</h2>
 
       {sidebarData.map((category) => (
@@ -61,7 +61,11 @@ const MySideBar = () => {
           onClick={() => handleClick(category.name)}
           className="relative text-[12px] mb-2 cursor-pointer px-2 py-1 rounded border border-gray-300 transition duration-300 hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01]"
         >
-          {category.name} ▾
+          <div className="flex items-center justify-between">
+            <span>{category.name}</span>
+            <span className="ml-1">▾</span>
+          </div>
+
           {activeCategory === category.name && getItemsForCategory(category.name).length > 0 && (
             <div
               className="absolute left-full top-0 ml-2 w-48 z-50 bg-white shadow-lg border border-gray-300 rounded-md p-2 space-y-1 transition-all duration-300"

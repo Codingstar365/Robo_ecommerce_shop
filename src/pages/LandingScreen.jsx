@@ -18,7 +18,7 @@ const LandingScreen = () => {
         <HeroCarousel />
         <div>
 
-          <div className="  border border-2xl p-5 border-gray-300 mt- rounded-lg ">
+          <div className="  border border-2xl p-5 border-gray-300  rounded-lg ">
 
             <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mt-5 justify-around  ">
               {CardDataSecond.map((item, index) => (

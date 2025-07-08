@@ -1,90 +1,63 @@
+// ✅ src/data/stores/orderStore.js
 import { create } from "zustand";
 import {
   placeOrder,
   getUserOrders,
-  getMerchantOrders,
-  updateOrderStatus,
   getOrderById,
-  rateOrder
+  updateOrderStatus,
 } from "../api/orderApi";
 
 const useOrderStore = create((set) => ({
   userOrders: [],
-  merchantOrders: [],
   selectedOrder: null,
   loading: false,
   error: null,
-  
-  // 🔹 Place a new order
+
+  // 🔹 Place order
   createOrder: async (orderData) => {
     set({ loading: true, error: null });
     try {
       const id = await placeOrder(orderData);
       set({ loading: false });
       return id;
-    } catch (error) {
-      set({ loading: false, error: error.message });
+    } catch (err) {
+      set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Fetch orders for logged-in user
+  // 🔹 Fetch all orders for user
   fetchUserOrders: async (userId) => {
     set({ loading: true, error: null });
     try {
       const orders = await getUserOrders(userId);
       set({ userOrders: orders, loading: false });
-    } catch (error) {
-      set({ loading: false, error: error.message });
+    } catch (err) {
+      set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Fetch orders for logged-in merchant
-  fetchMerchantOrders: async (merchantId) => {
-    set({ loading: true, error: null });
-    try {
-      const orders = await getMerchantOrders(merchantId);
-      set({ merchantOrders: orders, loading: false });
-    } catch (error) {
-      set({ loading: false, error: error.message });
-    }
-  },
-
-  // 🔹 Fetch single order details
+  // 🔹 Get single order detail
   fetchOrderDetails: async (orderId) => {
     set({ loading: true });
     try {
       const order = await getOrderById(orderId);
       set({ selectedOrder: order, loading: false });
-    } catch (error) {
-      set({ loading: false, error: error.message });
+    } catch (err) {
+      set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Merchant changes order status
+  // 🔹 Update order status (used by admin)
   changeOrderStatus: async (orderId, status) => {
     try {
       await updateOrderStatus(orderId, status);
       set((state) => ({
-        merchantOrders: state.merchantOrders.map((order) =>
+        userOrders: state.userOrders.map((order) =>
           order.id === orderId ? { ...order, status } : order
         ),
       }));
-    } catch (error) {
-      set({ error: error.message });
-    }
-  },
-
-  // 🔹 User rates order
-  submitRating: async (orderId, rating) => {
-    try {
-      await rateOrder(orderId, rating);
-      set((state) => ({
-        userOrders: state.userOrders.map((order) =>
-          order.id === orderId ? { ...order, rated: true, rating } : order
-        ),
-      }));
-    } catch (error) {
-      set({ error: error.message });
+    } catch (err) {
+      set({ error: err.message });
     }
   },
 }));

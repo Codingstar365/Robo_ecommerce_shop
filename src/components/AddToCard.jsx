@@ -6,7 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 const AddToCartHover = () => {
   const navigate = useNavigate();
-  const { cartItems, incrementQty, decrementQty } = useCartStore();
+  const {
+    cartItems,
+    incrementQty,
+    decrementQty,
+    clearBuyNowItem, // ✅ Import this function
+  } = useCartStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -92,7 +98,11 @@ const AddToCartHover = () => {
                 <span>₹{total}</span>
               </div>
               <button
-                onClick={() => navigate("/checkout")}
+                onClick={() => {
+                  setIsOpen(false);        // ✅ Immediately close popup
+                  clearBuyNowItem();       // ✅ Ensure cart is the checkout source
+                  navigate("/checkout");   // ✅ Navigate to checkout
+                }}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
               >
                 Go to Checkout
