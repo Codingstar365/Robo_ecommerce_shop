@@ -37,6 +37,9 @@ const UserDropdown = () => {
       >
         <ul className="py-2 text-sm text-gray-700">
           <li className="px-4 py-2 hover:bg-gray-100">
+            <Link to="/user-profile" onClick={() => setIsOpen(false)}>Your Profile</Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/track-order" onClick={() => setIsOpen(false)}>Track Your Order</Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-100">

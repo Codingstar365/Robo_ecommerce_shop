@@ -1,31 +1,31 @@
-// src/api/userApi.js
 import { doc, setDoc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase"; // ✅ Ensure db is imported
 
-// 🔹 Create user profile in Firestore after signup
 export const createUserProfile = async (userData) => {
   await setDoc(doc(db, "users", auth.currentUser.uid), userData);
-
 };
 
 // 🔹 Read user profile
 export const getUserProfile = async () => {
   const docRef = doc(db, "users", auth.currentUser.uid);
   const docSnap = await getDoc(docRef);
-  return docSnap.data();
+
+  const firestoreData = docSnap.exists() ? docSnap.data() : {};
+  const user = auth.currentUser;
+
+  return {
+    ...firestoreData,
+    email: user?.email || "",
+    photoURL: user?.photoURL || "",
+    name: firestoreData.name || user?.displayName || "User",
+  };
 };
 
-// 🔹 Update user profile
 export const updateUserProfile = async (updatedData) => {
-
   const userRef = doc(db, "users", auth.currentUser.uid);
   await updateDoc(userRef, updatedData);
-
 };
 
-// 🔹 Delete user profile
 export const deleteUserProfile = async () => {
   await deleteDoc(doc(db, "users", auth.currentUser.uid));
-
 };

@@ -1,9 +1,11 @@
 // src/components/ItemCard.jsx
-import React from 'react';
-import { Star } from 'lucide-react';
-import image from '../../src/assets/hero/download.jpg';
-import useCartStore from '../data/stores/cartStore';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Star, Heart } from "lucide-react";
+import image from "../../src/assets/hero/download.jpg";
+import useCartStore from "../data/stores/cartStore";
+import wishlistStore from "../data/stores/wishlistStore";
+import userStore from "../data/stores/userStore";
+import { useNavigate } from "react-router-dom";
 
 const ItemCard = ({
   id,
@@ -15,13 +17,24 @@ const ItemCard = ({
   isAdmin = false,
 }) => {
   const finalPrice = Math.round(price * (1 - discount / 100));
+  const navigate = useNavigate();
+
   const addToCart = useCartStore((state) => state.addToCart);
   const setBuyNowItem = useCartStore((state) => state.setBuyNowItem);
-  const navigate = useNavigate();
+
+  const { data: user } = userStore();
+  const { addItem, removeItem, wishlist } = wishlistStore();
+
+  // ✅ Local state to control heart toggle
+  const [wishlisted, setWishlisted] = useState(false);
+
+  // ✅ Update local state when global wishlist changes
+  useEffect(() => {
+    setWishlisted(wishlist.some((w) => w.id === id));
+  }, [wishlist, id]);
 
   const handleDelete = () => {
     console.log(`Delete product with ID: ${id}`);
-    // Add delete logic here if needed
   };
 
   const handleEdit = () => {
@@ -38,7 +51,6 @@ const ItemCard = ({
   };
 
   const handleBuyNow = () => {
-    // ✅ Set only the buyNowItem, not cart
     setBuyNowItem({
       id,
       name,
@@ -46,9 +58,37 @@ const ItemCard = ({
       image: img || image,
       discount,
     });
+    navigate("/checkout");
+  };
 
-    // ✅ Navigate to checkout
-    navigate('/checkout');
+  const handleWishlistToggle = async () => {
+    if (!user || !user.uid) {
+      alert("Please login to use wishlist.");
+      return;
+    }
+
+    const item = {
+      id,
+      name,
+      price: finalPrice,
+      discount,
+      image: img || image,
+    };
+
+    try {
+      if (wishlisted) {
+        await removeItem(user.uid, id);
+        setWishlisted(false);
+        alert("Product removed from wishlist successfully");
+      } else {
+        await addItem(user.uid, item);
+        setWishlisted(true);
+        alert("Product added to wishlist successfully");
+      }
+    } catch (err) {
+      alert("Failed to update wishlist.");
+      console.error(err);
+    }
   };
 
   return (
@@ -57,9 +97,16 @@ const ItemCard = ({
         -{discount}%
       </div>
 
-      <div className="absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-secondary transition-colors duration-300">
-        ❤️
-      </div>
+      {/* ❤️ Wishlist Button */}
+      <button
+        onClick={handleWishlistToggle}
+        className="absolute top-2 right-2 text-gray-500 hover:text-secondary transition-colors duration-300"
+        aria-label="Add to Wishlist"
+      >
+        <Heart
+          className={`w-5 h-5 ${wishlisted ? "fill-red-500 text-red-500" : ""}`}
+        />
+      </button>
 
       <img
         src={img || image}
@@ -80,17 +127,12 @@ const ItemCard = ({
       </div>
 
       <div className="mb-2">
-        <span className="line-through text-gray-500 text-sm">Rs. {price}</span>{' '}
-        <span className="text-xl font-bold text-secondary">
-          Rs. {finalPrice}
-        </span>
+        <span className="line-through text-gray-500 text-sm">Rs. {price}</span>{" "}
+        <span className="text-xl font-bold text-secondary">Rs. {finalPrice}</span>
         <p className="text-sm text-gray-700 mt-1">
-          or ₹1208 +{' '}
-          <span className="text-secondary font-medium">64 rc coins</span>
+          or ₹1208 + <span className="text-secondary font-medium">64 rc coins</span>
         </p>
-        <p className="text-xs text-gray-500">
-          Incl. GST (No Hidden Charges)
-        </p>
+        <p className="text-xs text-gray-500">Incl. GST (No Hidden Charges)</p>
       </div>
 
       <div className="flex gap-2 mt-4">
@@ -111,15 +153,12 @@ const ItemCard = ({
           </>
         ) : (
           <>
-            {/* ✅ Add to Cart Button */}
             <button
               className="flex-1 bg-black text-white text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-800 cursor-pointer hover:shadow-md"
               onClick={handleAddToCart}
             >
               Add To Cart
             </button>
-
-            {/* ✅ Buy Now Button */}
             <button
               className="flex-1 border border-black text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-100 cursor-pointer hover:shadow-md hover:border-secondary"
               onClick={handleBuyNow}

@@ -14,11 +14,14 @@ import CheckOut from '../pages/CheckOut';
 import AdminLayout from '../pages/Layouts/AdminLayout';
 import Products from '../pages/Products';
 import ItemAdd from '../pages/ItemAdd';
-import AdminOrders from '../pages/AdminOrders';
+//import AdminOrders from '../pages/AdminOrders';
 import BuyNow from '../pages/BuyNow';
 import PayOnline from '../components/PayOnline';
 import PaymentSelection from '../pages/PaymentSelection';
 import UserOrders from '../pages/UserOrderInfo';
+import AdminOrderSection from '../pages/AdminOrderSection';
+import UserProfile from '../pages/UserProfile';
+import TrackOrderStatus from '../pages/TrackOrderStatus';
 
 
 
@@ -28,15 +31,19 @@ const UserRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<LandingScreen />} />
         <Route path="/collection/*" element={<CollectionRoutes />} />
-
+        {/* <Route path="/collection/*" element={<CollectionRoutes />} /> */}
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/track-order" element={<UserOrders />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+         {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
+               {/* <Route path="/server" element={<TrackOrderStatus />} /> */}
+               <Route path="/track-order/:id" element={<TrackOrderStatus />} />
 
       </Route>
       <Route element={<AdminLayout />}>
         <Route path='/admin/products' element={<Products />} />
         <Route path='/admin/products/add' element={<ItemAdd />} />
-        <Route path='/admin/orders' element={<AdminOrders />} />
+        <Route path='/admin/orders' element={<AdminOrderSection />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />
@@ -45,7 +52,7 @@ const UserRoutes = () => {
       <Route path="/payment-method" element={<PaymentSelection />} />
       <Route path="/order-success" element={<UserOrder />} />
       <Route path='/pay-online' element={<PayOnline />} />
-
+      {/* <Route path='/adminorder' element={<AdminOrderSection/>}/> */}
     </Routes>
   );
 };

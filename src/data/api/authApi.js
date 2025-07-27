@@ -1,23 +1,39 @@
+// src/data/api/authApi.js
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  
+  updateProfile,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
+const signup = async (email, password, name) => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-import { auth } from '../../firebase';
+  // ✅ Update displayName
+  await updateProfile(auth.currentUser, {
+    displayName: name,
+  });
 
-const signup = async (email,password) => {
-  await createUserWithEmailAndPassword(auth, email, password);
-}
+  // ✅ Save user info in Firestore
+  await setDoc(doc(db, "users", auth.currentUser.uid), {
+    uid: auth.currentUser.uid,
+    email,
+    name,
+    createdAt: new Date().toISOString(),
+  });
 
-const login = async (email,password) => {
-  await signInWithEmailAndPassword(auth,email, password);
-}
-const logout=()=>{
+  return userCredential;
+};
+
+const login = async (email, password) => {
+  await signInWithEmailAndPassword(auth, email, password);
+};
+
+const logout = () => {
   signOut(auth);
-}
+};
 
-
-export {signup,login,logout};
+export { signup, login, logout };
