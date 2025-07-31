@@ -13,9 +13,9 @@ import AddToCartHover from './AddToCard';
 import { HomeRoute } from '../constants/RouteConstants';
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,7 +57,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-xl font-bold">MyApp</div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Hamburger Button for Mobile */}
         <div className="md:hidden">
           <button
             onClick={() => setMenuOpen(!menuOpen)}

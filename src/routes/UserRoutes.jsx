@@ -24,8 +24,9 @@ import UserProfile from '../pages/UserProfile';
 import TrackOrderStatus from '../pages/TrackOrderStatus';
 import { HomeRoute } from '../constants/RouteConstants';
 import AdminDashboard from '../pages/AdminDashboard';
+import AdminDeleteButton from '../pages/AdminDeleteButton';
 
-
+ 
 const UserRoutes = () => {
   return (
     <Routes>
@@ -36,15 +37,16 @@ const UserRoutes = () => {
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/track-order" element={<UserOrders />} />
         <Route path="/user-profile" element={<UserProfile />} />
-         {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
-               {/* <Route path="/server" element={<TrackOrderStatus />} /> */}
-               <Route path="/track-order/:id" element={<TrackOrderStatus />} />
+        {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
+        {/* <Route path="/server" element={<TrackOrderStatus />} /> */}
+        <Route path="/track-order/:id" element={<TrackOrderStatus />} />
 
       </Route>
       <Route element={<AdminLayout />}>
-        <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
+        <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/admin/products' element={<Products />} />
         <Route path='/admin/products/add' element={<ItemAdd />} />
+        <Route path='/admin/products/delete' element={<AdminDeleteButton />} />
         <Route path='/admin/orders' element={<AdminOrderSection />} />
       </Route>
 

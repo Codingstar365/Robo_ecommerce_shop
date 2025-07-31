@@ -1,4 +1,3 @@
-// src/components/ItemCard.jsx
 import React, { useState, useEffect } from "react";
 import { Star, Heart } from "lucide-react";
 import image from "../../src/assets/hero/download.jpg";
@@ -97,16 +96,19 @@ const ItemCard = ({
         -{discount}%
       </div>
 
-      {/* ❤️ Wishlist Button */}
-      <button
-        onClick={handleWishlistToggle}
-        className="absolute top-2 right-2 text-gray-500 hover:text-secondary transition-colors duration-300"
-        aria-label="Add to Wishlist"
-      >
-        <Heart
-          className={`w-5 h-5 ${wishlisted ? "fill-red-500 text-red-500" : ""}`}
-        />
-      </button>
+      {/* ❤️ Wishlist Button (Only show if NOT admin) */}
+      {!isAdmin && (
+        <button
+          onClick={handleWishlistToggle}
+          className="absolute top-2 right-2 text-gray-500 hover:text-secondary transition-colors duration-300"
+          aria-label="Add to Wishlist"
+        >
+          <Heart
+            className={`w-5 h-5 ${wishlisted ? "fill-red-500 text-red-500" : ""
+              }`}
+          />
+        </button>
+      )}
 
       <img
         src={img || image}
@@ -128,18 +130,23 @@ const ItemCard = ({
 
       <div className="mb-2">
         <span className="line-through text-gray-500 text-sm">Rs. {price}</span>{" "}
-        <span className="text-xl font-bold text-secondary">Rs. {finalPrice}</span>
+        <span className="text-xl font-bold text-secondary">
+          Rs. {finalPrice}
+        </span>
         <p className="text-sm text-gray-700 mt-1">
-          or ₹1208 + <span className="text-secondary font-medium">64 rc coins</span>
+          or ₹1208 +{" "}
+          <span className="text-secondary font-medium">64 rc coins</span>
         </p>
-        <p className="text-xs text-gray-500">Incl. GST (No Hidden Charges)</p>
+        <p className="text-xs text-gray-500">
+          Incl. GST (No Hidden Charges)
+        </p>
       </div>
 
       <div className="flex gap-2 mt-4">
         {isAdmin ? (
           <>
             <button
-              onClick={handleDelete}
+              onClick={() => navigate("/admin/products/delete")}
               className="flex-1 bg-red-600 text-white text-sm px-4 py-2 rounded hover:bg-red-700 transition-transform duration-150 active:scale-95"
             >
               Delete

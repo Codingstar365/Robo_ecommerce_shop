@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Bell, Search, ChevronDown } from "lucide-react";
-import useOrderStore from "../data/stores/orderStore";
-import userStore from "../data/stores/userStore"; // 🔹 Import userStore
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
 
 // 🔹 Status to color mapping
 const getStatusStyle = (status) => {
@@ -21,37 +29,80 @@ const getStatusStyle = (status) => {
   }
 };
 
-const tabs = ["All orders", "Confirmed Order", "Processing Order", "Quality Check", "Product Dispatched", "Product Delivered"];
-const statusOptions = ["Confirmed Order", "Processing Order", "Quality Check", "Product Dispatched", "Product Delivered"];
+const tabs = [
+  "All orders",
+  "Confirmed Order",
+  "Processing Order",
+  "Quality Check",
+  "Product Dispatched",
+  "Product Delivered",
+];
+const statusOptions = [
+  "Confirmed Order",
+  "Processing Order",
+  "Quality Check",
+  "Product Dispatched",
+  "Product Delivered",
+];
 
 const UserProfile = () => {
-  const {
-    userOrders,
-    fetchUserOrders,
-    loading,
-    changeOrderStatus,
-    error,
-  } = useOrderStore();
-
-  const { data: userData } = userStore(); // 🔹 Get user data (name, address)
+  const [userOrders, setUserOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("All orders");
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
+  // 🔹 Fetch all orders (newest first) and user info
   useEffect(() => {
-    fetchUserOrders(); // 🔹 This already fetches all orders including address if present in Firestore
-  }, []);
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const q = query(
+          collection(db, "orders"),
+          orderBy("createdAt", "desc")
+        );
+        const snapshot = await getDocs(q);
 
-  useEffect(() => {
-    // 🔹 Update order status to "Confirm Order" for new paid/COD orders
-    userOrders.forEach((order) => {
-      if (
-        (order.paymentMethod === "COD" || order.paymentStatus === "Paid") &&
-        order.currentStatus === "Pending"
-      ) {
-        changeOrderStatus(order.id, "Confirm Order");
+        const ordersData = await Promise.all(
+          snapshot.docs.map(async (orderDoc) => {
+            const orderData = orderDoc.data();
+            let userName = "N/A";
+            let userAddress = "N/A";
+
+            if (orderData.userId) {
+              try {
+                const userRef = doc(db, "users", orderData.userId);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                  const userInfo = userSnap.data();
+                  userName = userInfo.name || "N/A";
+                  userAddress = userInfo.address || "N/A";
+                }
+              } catch (err) {
+                console.error("Error fetching user info:", err);
+              }
+            }
+
+            return {
+              id: orderDoc.id,
+              ...orderData,
+              userName,
+              userAddress,
+            };
+          })
+        );
+
+        setUserOrders(ordersData);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load orders.");
+      } finally {
+        setLoading(false);
       }
-    });
-  }, [userOrders]);
+    };
+
+    fetchOrders();
+  }, []);
 
   const filteredOrders =
     activeTab === "All orders"
@@ -59,7 +110,17 @@ const UserProfile = () => {
       : userOrders.filter((order) => order.currentStatus === activeTab);
 
   const handleStatusChange = async (orderId, newStatus) => {
-    await changeOrderStatus(orderId, newStatus);
+    try {
+      const orderRef = doc(db, "orders", orderId);
+      await updateDoc(orderRef, { currentStatus: newStatus });
+      setUserOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, currentStatus: newStatus } : order
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    }
     setDropdownOpen(null);
   };
 
@@ -78,7 +139,9 @@ const UserProfile = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">My Orders</h2>
-            <p className="text-gray-500 text-sm">{filteredOrders.length} orders found</p>
+            <p className="text-gray-500 text-sm">
+              {filteredOrders.length} orders found
+            </p>
           </div>
           <div className="flex items-center gap-4">
             <Bell className="w-5 h-5 text-gray-600 cursor-pointer" />
@@ -109,9 +172,7 @@ const UserProfile = () => {
         </div>
 
         {/* Error */}
-        {error && (
-          <div className="text-red-600 text-sm mb-4">{error}</div>
-        )}
+        {error && <div className="text-red-600 text-sm mb-4">{error}</div>}
 
         {/* Orders */}
         <div className="overflow-x-auto rounded-lg border border-gray-200">
@@ -144,8 +205,8 @@ const UserProfile = () => {
                 filteredOrders.map((order) => (
                   <tr key={order.id} className="border-b hover:bg-gray-50 transition">
                     <td className="py-3 px-4">{order.id}</td>
-                    <td className="py-3 px-4">{order.userName || userData?.name || "N/A"}</td>
-                    <td className="py-3 px-4">{order.userAddress || userData?.address || "N/A"}</td>
+                    <td className="py-3 px-4">{order.userName}</td>
+                    <td className="py-3 px-4">{order.userAddress}</td>
                     <td className="py-3 px-4">{formatDate(order.createdAt)}</td>
                     <td className="py-3 px-4">₹{order.totalAmount || 0}</td>
                     <td className="py-3 px-4">

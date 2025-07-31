@@ -1,4 +1,3 @@
-// src/pages/Products.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
@@ -36,7 +35,7 @@ const Products = () => {
         <h2 className="text-xl font-semibold">Product List</h2>
         <div className="flex gap-4">
           <button onClick={() => navigate('/admin/products/add')} className="px-4 py-2 bg-blue-600 text-white rounded">
-            Add Item
+            Add New Product
           </button>
           <button onClick={() => navigate('/admin/products/delete')} className="px-4 py-2 bg-red-600 text-white rounded">
             Delete Item
@@ -49,13 +48,13 @@ const Products = () => {
         <input
           type="text"
           placeholder="Search product..."
-          className="border px-4 py-2 rounded w-full md:w-1/2"
+          className="border border-gray-400 px-4 py-2 rounded w-full md:w-1/2"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         <select
-          className="border px-4 py-2 rounded w-full md:w-1/3"
+          className="border border-gray-400 px-4 py-2 rounded w-full md:w-1/3"
           value={selectedCategory}
           onChange={(e) => {
             setSelectedCategory(e.target.value);
@@ -70,7 +69,7 @@ const Products = () => {
 
         {(selectedCategory ? currentSubs.length > 0 : allSubcategories.length > 0) && (
           <select
-            className="border px-4 py-2 rounded w-full md:w-1/3"
+            className="border  border-gray-400 px-4 py-2 rounded w-full md:w-1/3"
             value={selectedSubcategory}
             onChange={(e) => setSelectedSubcategory(e.target.value)}
           >
@@ -108,9 +107,8 @@ const Products = () => {
               discount={item.discountPercent}
               image={item.image}
               rating={item.rating}
-              isAdmin={true} // 👈 Add this line
+              isAdmin={true} // 👈 Admin mode (hide heart)
             />
-
           ))}
         </div>
       )}
