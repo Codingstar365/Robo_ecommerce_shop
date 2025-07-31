@@ -7,7 +7,7 @@ import {
   FiSettings,
   FiLogOut,
 } from 'react-icons/fi';
-
+// xl,scls
 const AdminSidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
   if (!location.pathname.startsWith('/admin')) return null;
