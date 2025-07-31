@@ -1,6 +1,6 @@
 // src/components/PayOnline.jsx
 import React from "react";
-import loadRazorpay from "../utils/loadRazorpay"; // ✅ CORRECT FILE NAME & CASE
+import loadRazorpay from "../../src/utils/LoadRazorPay"; // ✅ CORRECT FILE NAME & CASE
 
 const PayOnline = () => {
   const handlePayment = async () => {
