@@ -91,7 +91,7 @@ const ItemCard = ({
   };
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-400 transform transition duration-300 hover:shadow-lg hover:scale-[1.02]">
+    <div className="w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-300 transform transition duration-300 hover:shadow-lg hover:scale-[1.02]">
       <div className="absolute top-2 left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg">
         -{discount}%
       </div>
@@ -167,7 +167,7 @@ const ItemCard = ({
               Add To Cart
             </button>
             <button
-              className="flex-1 border border-black text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-100 cursor-pointer hover:shadow-md hover:border-secondary"
+              className="flex-1 border border-gray-300 text-sm px-4 py-2 rounded transition-transform duration-150 active:scale-95 hover:bg-gray-100 cursor-pointer hover:shadow-md hover:border-secondary"
               onClick={handleBuyNow}
             >
               Buy Now

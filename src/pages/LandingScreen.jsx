@@ -51,7 +51,7 @@ const LandingScreen = () => {
             ))}
           </div>
         </div>
-        <div className='border relative border-gray-400 mb-3 rounded-lg mt-4' >
+        <div className='border relative border-gray-300 mb-3 rounded-lg mt-4' >
           <Brand
             isCenter={true}
           />

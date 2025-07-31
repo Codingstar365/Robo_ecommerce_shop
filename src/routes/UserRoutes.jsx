@@ -25,6 +25,7 @@ import TrackOrderStatus from '../pages/TrackOrderStatus';
 import { HomeRoute } from '../constants/RouteConstants';
 import AdminDashboard from '../pages/AdminDashboard';
 import AdminDeleteButton from '../pages/AdminDeleteButton';
+import LogOut from '../pages/auth/LogOut';
 
  
 const UserRoutes = () => {
@@ -35,6 +36,7 @@ const UserRoutes = () => {
         <Route path="/collection/*" element={<CollectionRoutes />} />
         {/* <Route path="/collection/*" element={<CollectionRoutes />} /> */}
         <Route path="/checkout" element={<CheckOut />} />
+         <Route path="/logout" element={<LogOut />} />
         <Route path="/track-order" element={<UserOrders />} />
         <Route path="/user-profile" element={<UserProfile />} />
         {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
@@ -48,11 +50,13 @@ const UserRoutes = () => {
         <Route path='/admin/products/add' element={<ItemAdd />} />
         <Route path='/admin/products/delete' element={<AdminDeleteButton />} />
         <Route path='/admin/orders' element={<AdminOrderSection />} />
+        
       </Route>
 
       <Route path='*' element={<NotFound />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/login' element={<Login />} />
+      
       <Route path="/payment-method" element={<PaymentSelection />} />
       <Route path="/order-success" element={<UserOrder />} />
       <Route path='/pay-online' element={<PayOnline />} />

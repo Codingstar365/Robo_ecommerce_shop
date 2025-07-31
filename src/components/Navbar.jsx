@@ -55,7 +55,7 @@ const Navbar = () => {
     <nav className="bg-white text-black p-2.5 w-full fixed top-0 left-0 z-50 border border-gray-300 shadow-sm">
       <div className="container mx-auto flex justify-between items-center px-5">
         {/* Logo */}
-        <div className="text-xl font-bold">MyApp</div>
+        <div className="text-xl text-primary font-bold">RoboMart</div>
 
         {/* Hamburger Button for Mobile */}
         <div className="md:hidden">

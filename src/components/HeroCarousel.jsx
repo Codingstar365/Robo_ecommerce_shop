@@ -52,7 +52,7 @@ const HeroCarousel = () => {
             key={idx}
             onClick={() => setCurrent(idx)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              idx === current ? 'bg-white' : 'bg-gray-400'
+              idx === current ? 'bg-white' : 'bg-gray-300'
             }`}
           />
         ))}

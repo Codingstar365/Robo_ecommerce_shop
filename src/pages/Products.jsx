@@ -10,6 +10,8 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFocus, setCategoryFocus] = useState(false);
+  const [subcategoryFocus, setSubcategoryFocus] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -20,7 +22,6 @@ const Products = () => {
   const allSubcategories = Array.from(
     new Set(categories.flatMap(c => c.subcategories || []))
   );
-  console.log("our products", products)
 
   const filtered = products.filter((p) => {
     if (selectedCategory && p.category !== selectedCategory) return false;
@@ -34,10 +35,16 @@ const Products = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Product List</h2>
         <div className="flex gap-4">
-          <button onClick={() => navigate('/admin/products/add')} className="px-4 py-2 bg-blue-600 text-white rounded">
+          <button
+            onClick={() => navigate('/admin/products/add')}
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+          >
             Add New Product
           </button>
-          <button onClick={() => navigate('/admin/products/delete')} className="px-4 py-2 bg-red-600 text-white rounded">
+          <button
+            onClick={() => navigate('/admin/products/delete')}
+            className="px-4 py-2 bg-red-600 text-white rounded"
+          >
             Delete Item
           </button>
         </div>
@@ -45,39 +52,66 @@ const Products = () => {
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
+        {/* Search Input */}
         <input
           type="text"
           placeholder="Search product..."
-          className="border border-gray-400 px-4 py-2 rounded w-full md:w-1/2"
+          className="border border-gray-300 px-4 py-2 rounded w-full md:w-1/2 focus:outline-none focus:ring-0"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <select
-          className="border border-gray-400 px-4 py-2 rounded w-full md:w-1/3"
-          value={selectedCategory}
-          onChange={(e) => {
-            setSelectedCategory(e.target.value);
-            setSelectedSubcategory('');
-          }}
-        >
-          <option value="">All Categories</option>
-          {categories.map((cat, i) => (
-            <option key={i} value={cat.name}>{cat.name}</option>
-          ))}
-        </select>
-
-        {(selectedCategory ? currentSubs.length > 0 : allSubcategories.length > 0) && (
+        {/* Category Dropdown with Rotating Arrow */}
+        <div className="relative w-full md:w-1/3">
           <select
-            className="border  border-gray-400 px-4 py-2 rounded w-full md:w-1/3"
-            value={selectedSubcategory}
-            onChange={(e) => setSelectedSubcategory(e.target.value)}
+            className="border border-gray-300 px-4 py-2 pr-10 rounded w-full appearance-none focus:outline-none focus:ring-0"
+            value={selectedCategory}
+            onFocus={() => setCategoryFocus(true)}
+            onBlur={() => setCategoryFocus(false)}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setSelectedSubcategory('');
+            }}
           >
-            <option value="">All Subcategories</option>
-            {(selectedCategory ? currentSubs : allSubcategories).map((sub, i) => (
-              <option key={i} value={sub}>{sub}</option>
+            <option value="">All Categories</option>
+            {categories.map((cat, i) => (
+              <option key={i} value={cat.name}>{cat.name}</option>
             ))}
           </select>
+          {/* Rotating Arrow */}
+          <span
+            className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${
+              categoryFocus ? 'rotate-180' : ''
+            }`}
+          >
+            ˅
+          </span>
+        </div>
+
+        {/* Subcategory Dropdown with Rotating Arrow */}
+        {(selectedCategory ? currentSubs.length > 0 : allSubcategories.length > 0) && (
+          <div className="relative w-full md:w-1/3">
+            <select
+              className="border border-gray-300 px-4 py-2 pr-10 rounded w-full appearance-none focus:outline-none focus:ring-0"
+              value={selectedSubcategory}
+              onFocus={() => setSubcategoryFocus(true)}
+              onBlur={() => setSubcategoryFocus(false)}
+              onChange={(e) => setSelectedSubcategory(e.target.value)}
+            >
+              <option value="">All Subcategories</option>
+              {(selectedCategory ? currentSubs : allSubcategories).map((sub, i) => (
+                <option key={i} value={sub}>{sub}</option>
+              ))}
+            </select>
+            {/* Rotating Arrow */}
+            <span
+              className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${
+                subcategoryFocus ? 'rotate-180' : ''
+              }`}
+            >
+              ˅
+            </span>
+          </div>
         )}
       </div>
 

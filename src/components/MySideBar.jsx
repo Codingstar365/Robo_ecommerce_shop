@@ -51,7 +51,7 @@ const MySideBar = () => {
   };
 
   return (
-    <div className="relative z-10 bg-white text-black p-5 rounded ml-2 border border-gray-400 mt-16 hidden md:block no-wrap">
+    <div className="relative z-10 bg-white text-black p-5 rounded ml-2 border border-gray-300 mt-16 mb-1.5 hidden md:block no-wrap ">
       <h2 className="text-xl font-bold mb-4">CATEGORIES</h2>
 
       {sidebarData.map((category) => (

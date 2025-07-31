@@ -1,36 +1,43 @@
 // src/data/stores/authStore.js
-
 import { create } from "zustand";
 import { signup, login, logout } from "../api/authApi";
 
-const useAuthStore = create((set) => ({
+export const useAuthStore = create((set) => ({
+  user: null, // ✅ store current logged-in user
   error: null,
   loading: false,
 
+  // ✅ Set user manually (used when Firebase Auth state changes)
+  setUser: (user) => set({ user }),
+
+  // ✅ Signup with email/password + name
   singupwithemail: async (email, password, name) => {
     set({ loading: true, error: null });
     try {
-      await signup(email, password, name); // ✅ name passed
-      set({ loading: false });
+      const newUser = await signup(email, password, name);
+      set({ user: newUser, loading: false });
     } catch (e) {
       set({ error: e.message, loading: false });
     }
   },
 
+  // ✅ Login with email/password
   loginWithEmail: async (email, password) => {
     set({ loading: true, error: null });
     try {
-      await login(email, password);
-      set({ loading: false });
+      const loggedInUser = await login(email, password);
+      set({ user: loggedInUser, loading: false });
     } catch (e) {
       set({ error: e.message, loading: false });
     }
   },
 
+  // ✅ Logout user
   logoutUser: async () => {
     set({ loading: true });
     try {
-      logout();
+      await logout();
+      set({ user: null }); // Clear Zustand user
     } catch (e) {
       set({ error: e.message });
     } finally {
@@ -38,5 +45,3 @@ const useAuthStore = create((set) => ({
     }
   },
 }));
-
-export { useAuthStore };
