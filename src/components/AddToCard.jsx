@@ -10,7 +10,7 @@ const AddToCartHover = () => {
     cartItems,
     incrementQty,
     decrementQty,
-    clearBuyNowItem, // ✅ Import this function
+    clearBuyNowItem, 
   } = useCartStore();
 
   const [isOpen, setIsOpen] = useState(false);
