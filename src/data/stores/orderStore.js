@@ -4,11 +4,19 @@ import {
   getUserOrders,
   getOrderById,
   updateOrderStatus,
+  getAllOrdersWithUserDetails,
 } from "../api/orderApi";
 
 import { getAuth } from "firebase/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 const ORDER_STORAGE_KEY = "user_orders_data";
 
@@ -18,81 +26,110 @@ const useOrderStore = create((set) => ({
   loading: false,
   error: null,
 
-  // 🔹 Place order
   createOrder: async (orderData) => {
     set({ loading: true, error: null });
     try {
-      const id = await placeOrderDetails(orderData);
-      set({ loading: false });
-
-      // Refetch and store updated orders
+      const orderId = await placeOrderDetails(orderData);
       const user = getAuth().currentUser;
+
       if (user) {
-        const updatedOrders = await getUserOrders(user.uid);
+        const updatedOrders = await useOrderStore
+          .getState()
+          .fetchOrdersWithUserDetails(user.uid);
         localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(updatedOrders));
         set({ userOrders: updatedOrders });
       }
 
-      return id;
+      set({ loading: false });
+      return orderId;
     } catch (err) {
-      console.error("Create Order Error:", err.message);
       set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Fetch current user's orders
+  // 🔹 MAIN FUNCTION CALLED FROM COMPONENT
   fetchUserOrders: async () => {
     const user = getAuth().currentUser;
     if (!user) return;
 
     set({ loading: true, error: null });
-    try {
-      const q = query(collection(db, "orders"), where("userId", "==", user.uid));
-      const querySnapshot = await getDocs(q);
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
 
-      localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(data));
-      set({ userOrders: data, loading: false });
+    try {
+      const tokenResult = await user.getIdTokenResult();
+      const isAdmin = tokenResult.claims?.admin || false;
+
+      let orders = [];
+
+      if (isAdmin) {
+        orders = await getAllOrdersWithUserDetails();
+      } else {
+        orders = await useOrderStore.getState().fetchOrdersWithUserDetails(user.uid);
+      }
+
+      localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(orders));
+      set({ userOrders: orders, loading: false });
     } catch (err) {
-      console.error("Fetch Orders Error:", err.message);
       set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Fetch single order
+  fetchOrdersWithUserDetails: async (userId) => {
+    const q = query(collection(db, "orders"), where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    const userDoc = await getDoc(doc(db, "users", userId));
+    const userData = userDoc.exists() ? userDoc.data() : {};
+
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      userName: userData.name || "Unknown",
+      userAddress: userData.address || "No address",
+    }));
+  },
+
   fetchOrderDetails: async (orderId) => {
     set({ loading: true, error: null });
     try {
       const order = await getOrderById(orderId);
-      set({ selectedOrder: order, loading: false });
+      let userInfo = {};
+
+      if (order.userId) {
+        const userDoc = await getDoc(doc(db, "users", order.userId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          userInfo = {
+            userName: userData.name || "Unknown",
+            userAddress: userData.address || "No address",
+          };
+        }
+      }
+
+      set({ selectedOrder: { ...order, ...userInfo }, loading: false });
     } catch (err) {
-      console.error("Fetch Order Details Error:", err.message);
       set({ loading: false, error: err.message });
     }
   },
 
-  // 🔹 Change status
-  changeOrderStatus: async (orderId, status) => {
+  changeOrderStatus: async (orderId, newStatus) => {
     try {
-      await updateOrderStatus(orderId, status);
+      await updateOrderStatus(orderId, newStatus);
+
       set((state) => {
         const updatedOrders = state.userOrders.map((order) =>
-          order.id === orderId ? { ...order, currentStatus: status } : order
+          order.id === orderId
+            ? { ...order, currentStatus: newStatus }
+            : order
         );
 
         localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(updatedOrders));
         return { userOrders: updatedOrders };
       });
     } catch (err) {
-      console.error("Change Order Status Error:", err.message);
       set({ error: err.message });
     }
   },
 
-  // 🔹 Clear orders from memory and localStorage
   clearOrders: () => {
     localStorage.removeItem(ORDER_STORAGE_KEY);
     set({ userOrders: [], selectedOrder: null });

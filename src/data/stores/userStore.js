@@ -1,10 +1,10 @@
 // src/data/stores/userStore.js
 import { create } from "zustand";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updateEmail } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 import {
   createUserProfile,
-  getUserProfile,
-  updateUserProfile,
   deleteUserProfile,
 } from "../api/userApi";
 
@@ -25,7 +25,7 @@ const serializeTimestamps = (obj) => {
 
 const STORAGE_KEY = "user_profile_data";
 
-const userStore = create((set) => ({
+const userStore = create((set, get) => ({
   user: null,
   data: JSON.parse(localStorage.getItem(STORAGE_KEY)) || null,
   loading: true,
@@ -50,7 +50,7 @@ const userStore = create((set) => ({
 
   setUser: (user) => set({ user }),
 
-  // User profile methods
+  // Create user profile
   createUser: async (userData) => {
     set({ loading: true, error: null });
     try {
@@ -63,34 +63,58 @@ const userStore = create((set) => ({
     }
   },
 
+  // Fetch user from Firestore
   fetchUser: async () => {
     set({ loading: true, error: null });
     try {
-      const profile = await getUserProfile();
-      const serializedProfile = serializeTimestamps(profile);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(serializedProfile));
-      set({ data: serializedProfile, loading: false });
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const profile = { uid: user.uid, ...userDoc.data() };
+        const serializedProfile = serializeTimestamps(profile);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(serializedProfile));
+        set({ data: serializedProfile, loading: false });
+      } else {
+        set({ loading: false });
+      }
     } catch (error) {
       console.error("Fetch Error:", error);
       set({ error: error.message, loading: false });
     }
   },
 
-  updateUser: async (updatedData) => {
+  // Update user Firestore + email + local store
+  updateUser: async (newData) => {
     set({ loading: true, error: null });
     try {
-      await updateUserProfile(updatedData);
-      set((state) => {
-        const updatedUser = { ...state.data, ...updatedData };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUser));
-        return { data: updatedUser, loading: false };
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const userRef = doc(db, "users", user.uid);
+
+      // Update Firestore
+      await updateDoc(userRef, {
+        name: newData.name,
+        address: newData.address,
+        email: newData.email,
       });
+
+      // Update Firebase Auth email if changed
+      if (newData.email && newData.email !== user.email) {
+        await updateEmail(user, newData.email);
+      }
+
+      // ✅ Fetch fresh data after update
+      await get().fetchUser();
     } catch (error) {
       console.error("Update Error:", error);
       set({ error: error.message, loading: false });
     }
   },
 
+  // Delete user
   deleteUser: async () => {
     set({ loading: true, error: null });
     try {

@@ -50,6 +50,16 @@ export const getAllProducts = async () => {
   return products;
 };
 
+// ✅ Get all users
+export const getAllUsers = async () => {
+  const querySnapshot = await getDocs(collection(db, 'users'));
+  const users = [];
+  querySnapshot.forEach((doc) => {
+    users.push({ id: doc.id, ...doc.data() });
+  });
+  return users;
+};
+
 // ✅ Add a new category
 export const addCategoryToFirestore = async (categoryName) => {
   const q = query(collection(db, 'categories'), where('name', '==', categoryName));

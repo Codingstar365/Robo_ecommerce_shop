@@ -12,6 +12,7 @@ const useProductStore = create((set) => ({
   categories: [],
   loading: false,
   error: null,
+  
 
   fetchProducts: async () => {
     set({ loading: true, error: null });

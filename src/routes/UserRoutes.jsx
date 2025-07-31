@@ -22,14 +22,15 @@ import UserOrders from '../pages/UserOrderInfo';
 import AdminOrderSection from '../pages/AdminOrderSection';
 import UserProfile from '../pages/UserProfile';
 import TrackOrderStatus from '../pages/TrackOrderStatus';
-
+import { HomeRoute } from '../constants/RouteConstants';
+import AdminDashboard from '../pages/AdminDashboard';
 
 
 const UserRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<LandingScreen />} />
+        <Route path='/' element={<LandingScreen />} />
         <Route path="/collection/*" element={<CollectionRoutes />} />
         {/* <Route path="/collection/*" element={<CollectionRoutes />} /> */}
         <Route path="/checkout" element={<CheckOut />} />
@@ -41,6 +42,7 @@ const UserRoutes = () => {
 
       </Route>
       <Route element={<AdminLayout />}>
+        <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
         <Route path='/admin/products' element={<Products />} />
         <Route path='/admin/products/add' element={<ItemAdd />} />
         <Route path='/admin/orders' element={<AdminOrderSection />} />

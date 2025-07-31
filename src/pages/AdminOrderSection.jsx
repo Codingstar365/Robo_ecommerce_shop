@@ -1,35 +1,75 @@
-// src/pages/UserProfile.jsx
 import React, { useEffect, useState } from "react";
-import { CalendarDays, Settings, ChevronDown, Bell, Search } from "lucide-react";
+import { Bell, Search, ChevronDown } from "lucide-react";
 import useOrderStore from "../data/stores/orderStore";
+import userStore from "../data/stores/userStore"; // 🔹 Import userStore
 
+// 🔹 Status to color mapping
 const getStatusStyle = (status) => {
   switch (status) {
     case "Pending":
       return "text-red-600 bg-red-100";
-    case "Dispatch":
+    case "Processing Order":
       return "text-yellow-700 bg-yellow-100";
-    case "Completed":
+    case "Dispatched":
+      return "text-blue-700 bg-blue-100";
+    case "Delivered":
       return "text-green-700 bg-green-100";
+    case "Confirm Order":
+      return "text-purple-700 bg-purple-100";
     default:
       return "";
   }
 };
 
-const tabs = ["All orders", "Dispatch", "Pending", "Completed"];
+const tabs = ["All orders", "Confirmed Order", "Processing Order", "Quality Check", "Product Dispatched", "Product Delivered"];
+const statusOptions = ["Confirmed Order", "Processing Order", "Quality Check", "Product Dispatched", "Product Delivered"];
 
 const UserProfile = () => {
-  const { userOrders, fetchUserOrders, loading } = useOrderStore();
+  const {
+    userOrders,
+    fetchUserOrders,
+    loading,
+    changeOrderStatus,
+    error,
+  } = useOrderStore();
+
+  const { data: userData } = userStore(); // 🔹 Get user data (name, address)
   const [activeTab, setActiveTab] = useState("All orders");
+  const [dropdownOpen, setDropdownOpen] = useState(null);
 
   useEffect(() => {
-    fetchUserOrders(); // 🔹 Fetch orders of current user
+    fetchUserOrders(); // 🔹 This already fetches all orders including address if present in Firestore
   }, []);
+
+  useEffect(() => {
+    // 🔹 Update order status to "Confirm Order" for new paid/COD orders
+    userOrders.forEach((order) => {
+      if (
+        (order.paymentMethod === "COD" || order.paymentStatus === "Paid") &&
+        order.currentStatus === "Pending"
+      ) {
+        changeOrderStatus(order.id, "Confirm Order");
+      }
+    });
+  }, [userOrders]);
 
   const filteredOrders =
     activeTab === "All orders"
       ? userOrders
-      : userOrders.filter((order) => order.status === activeTab);
+      : userOrders.filter((order) => order.currentStatus === activeTab);
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    await changeOrderStatus(orderId, newStatus);
+    setDropdownOpen(null);
+  };
+
+  const formatDate = (createdAt) => {
+    if (!createdAt) return "N/A";
+    if (createdAt.seconds) {
+      return new Date(createdAt.seconds * 1000).toLocaleDateString();
+    }
+    return new Date(createdAt).toLocaleDateString();
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 mt-24">
@@ -38,9 +78,7 @@ const UserProfile = () => {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">My Orders</h2>
-            <p className="text-gray-500 text-sm">
-              {filteredOrders.length} orders found
-            </p>
+            <p className="text-gray-500 text-sm">{filteredOrders.length} orders found</p>
           </div>
           <div className="flex items-center gap-4">
             <Bell className="w-5 h-5 text-gray-600 cursor-pointer" />
@@ -70,7 +108,12 @@ const UserProfile = () => {
           ))}
         </div>
 
-        {/* Orders Table */}
+        {/* Error */}
+        {error && (
+          <div className="text-red-600 text-sm mb-4">{error}</div>
+        )}
+
+        {/* Orders */}
         <div className="overflow-x-auto rounded-lg border border-gray-200">
           <table className="min-w-full text-sm text-left bg-white">
             <thead className="bg-gray-50 border-b text-gray-700 font-semibold">
@@ -98,34 +141,46 @@ const UserProfile = () => {
                   </td>
                 </tr>
               ) : (
-                filteredOrders.map((order, idx) => (
-                  <tr key={idx} className="border-b hover:bg-gray-50 transition">
+                filteredOrders.map((order) => (
+                  <tr key={order.id} className="border-b hover:bg-gray-50 transition">
                     <td className="py-3 px-4">{order.id}</td>
-                    <td className="py-3 px-4">{order.name || "N/A"}</td>
-                    <td className="py-3 px-4">{order.address || "N/A"}</td>
-                    <td className="py-3 px-4">
-                      {order.createdAt
-                        ? new Date(order.createdAt.seconds * 1000).toLocaleDateString()
-                        : "N/A"}
-                    </td>
-                    <td className="py-3 px-4">₹{order.totalAmount}</td>
+                    <td className="py-3 px-4">{order.userName || userData?.name || "N/A"}</td>
+                    <td className="py-3 px-4">{order.userAddress || userData?.address || "N/A"}</td>
+                    <td className="py-3 px-4">{formatDate(order.createdAt)}</td>
+                    <td className="py-3 px-4">₹{order.totalAmount || 0}</td>
                     <td className="py-3 px-4">
                       <span
                         className={`text-xs font-medium px-3 py-1 rounded-full inline-block ${getStatusStyle(
-                          order.status
+                          order.currentStatus
                         )}`}
                       >
-                        {order.status}
+                        {order.currentStatus}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-center">
-                      <div className="flex justify-center gap-3">
-                        <button className="hover:text-blue-600">
-                          <Settings className="w-4 h-4" />
-                        </button>
-                        <button className="hover:text-blue-600">
+                    <td className="py-3 px-4 text-center relative">
+                      <div className="flex justify-center gap-3 relative z-0">
+                        <button
+                          onClick={() =>
+                            setDropdownOpen(dropdownOpen === order.id ? null : order.id)
+                          }
+                          className="hover:text-blue-600 relative z-10"
+                        >
                           <ChevronDown className="w-4 h-4" />
                         </button>
+
+                        {dropdownOpen === order.id && (
+                          <div className="absolute top-6 right-0 z-20 w-40 bg-white border rounded shadow">
+                            {statusOptions.map((status) => (
+                              <div
+                                key={status}
+                                onClick={() => handleStatusChange(order.id, status)}
+                                className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                              >
+                                {status}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -139,4 +194,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile; 
+export default UserProfile;
