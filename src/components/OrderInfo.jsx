@@ -49,7 +49,7 @@ const UserDropdown = () => {
             <Link to="/account" onClick={() => setIsOpen(false)}>Account Options</Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/admin/products"  onClick={("/admin/products")}>Go to Admin</Link>
+            <Link to="/admin/products"  onClick={("/admin/dashboard")}>Go to Admin</Link>
           </li>
         </ul>
       </div>
