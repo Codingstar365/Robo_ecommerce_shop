@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import UserDropdown from './OrderInfo';
 import AddToCartHover from './AddToCard';
 import { HomeRoute } from '../constants/RouteConstants';
+import logo from '../assets/robomart.jpg'; // Import dummy logo
 
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -55,7 +56,9 @@ const Navbar = () => {
     <nav className="bg-white text-black p-2.5 w-full fixed top-0 left-0 z-50 border border-gray-300 shadow-sm">
       <div className="container mx-auto flex justify-between items-center px-5">
         {/* Logo */}
-        <div className="text-xl text-primary font-bold">RoboMart</div>
+        <Link to={HomeRoute}>
+          <img src={logo} alt="Logo" className="h-10 w-auto" />
+        </Link>
 
         {/* Hamburger Button for Mobile */}
         <div className="md:hidden">
