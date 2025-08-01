@@ -8,6 +8,7 @@ import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
 import MySideBar from '../components/MySideBar';
 import ItemCard from '../components/ItemCard';
+import BestSeller from '../components/ProductFromAdmin';
 
 const LandingScreen = () => {
   return (
@@ -33,7 +34,7 @@ const LandingScreen = () => {
             </div>
           </div>
         </div>
-        <div className='border rounded-lg mt-4 border-gray-300'>
+        {/* <div className='border rounded-lg mt-4 border-gray-300'>
           <div className="font-bold justify-items-center text-2xl mt-12 ">
             <h2>BEST SELLER</h2>
           </div>
@@ -51,8 +52,9 @@ const LandingScreen = () => {
               />
             ))}
           </div>
-        </div>
-        <div className='border relative border-gray-300 mb-3 rounded-lg mt-4' >
+        </div> */}
+        <BestSeller/>
+        <div className='border relative border-gray-300 mb-3 rounded-lg mt-4 ' >
           <Brand
             isCenter={true}
           />

@@ -133,7 +133,12 @@ const ItemAdd = () => {
     e.preventDefault();
     try {
       setSubmitLoading(true);
-      await addProduct(...items);
+
+      // ✅ Remove File object before sending to Firestore
+      const itemsWithoutFile = items.map(({ imageFile, ...rest }) => rest);
+
+      await addProduct(...itemsWithoutFile);
+
       alert("Product(s) added successfully!");
       setItems([
         {
@@ -234,50 +239,6 @@ const ItemAdd = () => {
                       ))}
                     </select>
 
-                    {item.category && (
-                      <div className="relative">
-                        <button
-                          type="button"
-                          className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
-                          onClick={() =>
-                            setCategoryDropdownOpen(
-                              categoryDropdownOpen === index ? null : index
-                            )
-                          }
-                        >
-                          ⋮
-                        </button>
-                        {categoryDropdownOpen === index && (
-                          <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-300 rounded shadow-lg z-10">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setEditingCategory(item.category);
-                                setNewCategoryName(item.category);
-                                setCategoryDropdownOpen(null);
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left"
-                            >
-                              <FiEdit2 className="text-blue-500" /> Edit
-                            </button>
-                            <button
-                              type="button"
-                              onClick={async () => {
-                                setActionLoading(true);
-                                await deleteCategory(item.category);
-                                setActionLoading(false);
-                                setCategoryDropdownOpen(null);
-                              }}
-                              className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left"
-                            >
-                              {actionLoading ? "Deleting..." : <FiTrash2 className="text-red-500" />}
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
                     <button
                       type="button"
                       onClick={() => {
@@ -292,38 +253,6 @@ const ItemAdd = () => {
                   </>
                 )}
               </div>
-
-              {/* Edit Category */}
-              {editingCategory && (
-                <div className="flex gap-2 col-span-full">
-                  <input
-                    type="text"
-                    value={newCategoryName}
-                    onChange={(e) => setNewCategoryName(e.target.value)}
-                    className="flex-1 border border-gray-300 px-3 py-2 rounded"
-                  />
-                  <button
-                    type="button"
-                    className="bg-green-500 text-white px-3 py-2 rounded"
-                    onClick={async () => {
-                      setActionLoading(true);
-                      await editCategory(editingCategory, newCategoryName);
-                      setActionLoading(false);
-                      setEditingCategory(null);
-                      setNewCategoryName("");
-                    }}
-                  >
-                    {actionLoading ? "Updating..." : "Update"}
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-gray-300 px-3 py-2 rounded"
-                    onClick={() => setEditingCategory(null)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
 
               {/* Subcategory Selector */}
               {item.category && (
@@ -344,53 +273,6 @@ const ItemAdd = () => {
                     )}
                   </select>
 
-                  {item.subcategory && (
-                    <div className="relative">
-                      <button
-                        type="button"
-                        className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
-                        onClick={() =>
-                          setSubcategoryDropdownOpen(
-                            subcategoryDropdownOpen === index ? null : index
-                          )
-                        }
-                      >
-                        ⋮
-                      </button>
-                      {subcategoryDropdownOpen === index && (
-                        <div className="absolute right-0 mt-2 w-36 bg-white border border-gray-300 rounded shadow-lg z-10">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setEditingSubcategory({
-                                category: item.category,
-                                subcategory: item.subcategory,
-                              });
-                              setNewSubcategoryName(item.subcategory);
-                              setSubcategoryDropdownOpen(null);
-                            }}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left"
-                          >
-                            <FiEdit2 className="text-blue-500" /> Edit
-                          </button>
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              setActionLoading(true);
-                              await deleteSubcategory(item.category, item.subcategory);
-                              setActionLoading(false);
-                              setSubcategoryDropdownOpen(null);
-                            }}
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 w-full text-left"
-                          >
-                            {actionLoading ? "Deleting..." : <FiTrash2 className="text-red-500" />}
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
                   <button
                     type="button"
                     onClick={() => {
@@ -401,42 +283,6 @@ const ItemAdd = () => {
                     className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
                   >
                     + Add Subcategory
-                  </button>
-                </div>
-              )}
-
-              {/* Edit Subcategory */}
-              {editingSubcategory && (
-                <div className="flex gap-2 col-span-full">
-                  <input
-                    type="text"
-                    value={newSubcategoryName}
-                    onChange={(e) => setNewSubcategoryName(e.target.value)}
-                    className="flex-1 border border-gray-300 px-3 py-2 rounded"
-                  />
-                  <button
-                    type="button"
-                    className="bg-green-500 text-white px-3 py-2 rounded"
-                    onClick={async () => {
-                      setActionLoading(true);
-                      await editSubcategory(
-                        editingSubcategory.category,
-                        editingSubcategory.subcategory,
-                        newSubcategoryName
-                      );
-                      setActionLoading(false);
-                      setEditingSubcategory(null);
-                      setNewSubcategoryName("");
-                    }}
-                  >
-                    {actionLoading ? "Updating..." : "Update"}
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-gray-300 px-3 py-2 rounded"
-                    onClick={() => setEditingSubcategory(null)}
-                  >
-                    Cancel
                   </button>
                 </div>
               )}
@@ -555,3 +401,4 @@ const ItemAdd = () => {
 };
 
 export default ItemAdd;
+  
