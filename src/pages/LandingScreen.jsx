@@ -47,6 +47,7 @@ const LandingScreen = () => {
                 name={item.name}
                 price={item.price}
                 discount={item.discount}
+                image={item.image}
               />
             ))}
           </div>
