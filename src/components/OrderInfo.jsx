@@ -74,18 +74,18 @@ const UserDropdown = () => {
               Your Profile
             </Link>
           </li>
-          <li className="px-4 py-2 hover:bg-gray-100">
+          {/* <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/invoice" onClick={() => setIsOpen(false)}>
               Download Invoice
             </Link>
-          </li>
+          </li> */}
           <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/account" onClick={() => setIsOpen(false)}>
               Account Options
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/admin/products" onClick={() => setIsOpen(false)}>
+            <Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>
               Go to Admin
             </Link>
           </li>

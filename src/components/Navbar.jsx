@@ -10,8 +10,7 @@ import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import UserDropdown from './OrderInfo';
 import AddToCartHover from './AddToCard';
-import { HomeRoute } from '../constants/RouteConstants';
-import logo from '../assets/robomart.jpg'; // Import dummy logo
+import logo from '../assets/robomart.jpg';
 
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -56,12 +55,16 @@ const Navbar = () => {
     <nav className="bg-white text-black p-2.5 w-full fixed top-0 left-0 z-50 border border-gray-300 shadow-sm">
       <div className="container mx-auto flex justify-between items-center px-5">
         {/* Logo */}
-        <Link to={HomeRoute}>
+        <Link to={"/"} className="flex items-center gap-2">
           <img src={logo} alt="Logo" className="h-10 w-auto" />
         </Link>
 
-        {/* Hamburger Button for Mobile */}
-        <div className="md:hidden">
+        {/* Mobile Header Icons */}
+        <div className="md:hidden flex items-center gap-4">
+          <div className="ml-2"> {/* Left margin only for mobile */}
+            <AddToCartHover />
+          </div>
+          <UserDropdown />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-2xl focus:outline-none"
@@ -70,45 +73,27 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Menu Container */}
-        <div
-          className={`md:flex md:items-center md:gap-5 absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent transition-all duration-300 ease-in-out ${
-            menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'
-          } overflow-hidden md:overflow-visible`}
-        >
-          <div className="flex flex-col md:flex-row md:gap-5">
-            {/* Dropdown Menus */}
-            {dropdownItems.map(({ label, data }) => (
-              <div
-                key={label}
-                className="relative group"
-                onMouseEnter={() => handleMouseEnter(label)}
-                onMouseLeave={handleMouseLeave}
+        {/* Desktop Menu */}
+        <div className="hidden md:flex md:items-center md:gap-5">
+          {dropdownItems.map(({ label, data }) => (
+            <div
+              key={label}
+              className="relative group"
+              onMouseEnter={() => handleMouseEnter(label)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button
+                className="flex items-center gap-1 hover:text-gray-400"
               >
-                <button
-                  onClick={() =>
-                    isMobile && setOpenDropdown(openDropdown === label ? null : label)
-                  }
-                  className="flex items-center gap-1 hover:text-gray-400 w-full md:w-auto py-2 md:py-0"
-                >
-                  {label}
-                  <FiChevronDown
-                    className={`transition-transform duration-300 ${
-                      openDropdown === label ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-
-                {/* Dropdown List */}
-                <ul
-                  className={`${
-                    openDropdown === label
-                      ? 'opacity-100 visible translate-y-0'
-                      : 'opacity-0 invisible -translate-y-2'
-                  } transition-all duration-300 md:absolute md:left-0 mt-2 md:w-48 w-full bg-white text-black rounded shadow-lg z-50 px-2 py-2 space-y-0.5 ${
-                    isMobile ? 'relative mt-1' : ''
+                {label}
+                <FiChevronDown
+                  className={`transition-transform duration-300 ${
+                    openDropdown === label ? 'rotate-180' : ''
                   }`}
-                >
+                />
+              </button>
+              {openDropdown === label && (
+                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 px-2 py-2 space-y-0.5">
                   {data.map((item, i) => (
                     <li key={i}>
                       <Link
@@ -121,54 +106,54 @@ const Navbar = () => {
                     </li>
                   ))}
                 </ul>
-              </div>
-            ))}
-
-            {/* Static Links */}
-            <Link
-              to={HomeRoute}
-              className="hover:text-gray-400 py-2 md:py-0"
-              onClick={closeMenu}
-            >
-              Home
-            </Link>
-            <Link
-              to="/blogs"
-              className="hover:text-gray-400 py-2 md:py-0"
-              onClick={closeMenu}
-            >
-              Blogs
-            </Link>
-            <Link
-              to="/academy"
-              className="hover:text-gray-400 py-2 md:py-0"
-              onClick={closeMenu}
-            >
-              Academy
-            </Link>
-            <Link
-              to="/careers"
-              className="hover:text-gray-400 py-2 md:py-0"
-              onClick={closeMenu}
-            >
-              Careers
-            </Link>
-            <Link
-              to="/projectgpt"
-              className="hover:text-gray-400 py-2 md:py-0"
-              onClick={closeMenu}
-            >
-              ProjectGpt
-            </Link>
-          </div>
-
+              )}
+            </div>
+          ))}
           {/* Cart & User */}
-          <div className="flex gap-4 items-center mt-4 md:mt-0 px-2">
-            <UserDropdown />
-            <AddToCartHover />
-          </div>
+          <UserDropdown />
+          <AddToCartHover />
         </div>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-md">
+          <div className="flex flex-col gap-2 p-4">
+            {dropdownItems.map(({ label, data }) => (
+              <div key={label} className="relative">
+                <button
+                  onClick={() =>
+                    setOpenDropdown(openDropdown === label ? null : label)
+                  }
+                  className="flex items-center justify-between w-full py-2"
+                >
+                  {label}
+                  <FiChevronDown
+                    className={`transition-transform duration-300 ${
+                      openDropdown === label ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {openDropdown === label && (
+                  <ul className="mt-1 bg-white px-2 py-2 rounded shadow">
+                    {data.map((item, i) => (
+                      <li key={i}>
+                        <Link
+                          to={item.href}
+                          className="block px-2 py-1 text-sm hover:bg-gray-100 rounded"
+                          onClick={closeMenu}
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -26,6 +26,8 @@ import { HomeRoute } from '../constants/RouteConstants';
 import AdminDashboard from '../pages/AdminDashboard';
 import AdminDeleteButton from '../pages/AdminDeleteButton';
 import LogOut from '../pages/auth/LogOut';
+import AdminUserSection from '../pages/AdminUserSection';
+import OrderBriefInfo from '../pages/OrderBriefInfo';
 
  
 const UserRoutes = () => {
@@ -39,6 +41,7 @@ const UserRoutes = () => {
          <Route path="/logout" element={<LogOut />} />
         <Route path="/track-order" element={<UserOrders />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/product/:id" element={<OrderBriefInfo />} />
         {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
         {/* <Route path="/server" element={<TrackOrderStatus />} /> */}
         <Route path="/track-order/:id" element={<TrackOrderStatus />} />
@@ -46,6 +49,7 @@ const UserRoutes = () => {
       </Route>
       <Route element={<AdminLayout />}>
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
+         <Route path='/admin/users' element={<AdminUserSection />} />
         <Route path='/admin/products' element={<Products />} />
         <Route path='/admin/products/add' element={<ItemAdd />} />
         <Route path='/admin/products/delete' element={<AdminDeleteButton />} />

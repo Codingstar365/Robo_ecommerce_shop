@@ -24,17 +24,11 @@ const ItemCard = ({
   const { data: user } = userStore();
   const { addItem, removeItem, wishlist } = wishlistStore();
 
-  // ✅ Local state to control heart toggle
   const [wishlisted, setWishlisted] = useState(false);
 
-  // ✅ Update local state when global wishlist changes
   useEffect(() => {
     setWishlisted(wishlist.some((w) => w.id === id));
   }, [wishlist, id]);
-
-  const handleDelete = () => {
-    console.log(`Delete product with ID: ${id}`);
-  };
 
   const handleEdit = () => {
     navigate(`/admin/products/edit/${id}`);
@@ -90,13 +84,30 @@ const ItemCard = ({
     }
   };
 
+  const handleOpenDetails = () => {
+    navigate(`/product/${id}`, {
+      state: {
+        product: {
+          id,
+          name,
+          price,
+          finalPrice,
+          discount,
+          rating,
+          image: img || image,
+          description:
+            "This is a brief description of the product. You can fetch real details from Firestore.",
+        },
+      },
+    });
+  };
+
   return (
     <div className="w-full bg-white rounded-lg shadow-md p-4 relative border border-gray-300 transform transition duration-300 hover:shadow-lg hover:scale-[1.02]">
       <div className="absolute top-2 left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg">
         -{discount}%
       </div>
 
-      {/* ❤️ Wishlist Button (Only show if NOT admin) */}
       {!isAdmin && (
         <button
           onClick={handleWishlistToggle}
@@ -104,21 +115,24 @@ const ItemCard = ({
           aria-label="Add to Wishlist"
         >
           <Heart
-            className={`w-5 h-5 ${wishlisted ? "fill-red-500 text-red-500" : ""
-              }`}
+            className={`w-5 h-5 ${
+              wishlisted ? "fill-red-500 text-red-500" : ""
+            }`}
           />
         </button>
       )}
 
-      <img
-        src={img || image}
-        alt={name}
-        className="w-full h-40 object-contain mb-4"
-      />
-
-      <h2 className="text-sm font-semibold truncate hover:underline leading-snug mb-2 w-48">
-        {name}
-      </h2>
+      {/* Clickable Product Preview */}
+      <div onClick={handleOpenDetails} className="cursor-pointer">
+        <img
+          src={img || image}
+          alt={name}
+          className="w-full h-40 object-contain mb-4"
+        />
+        <h2 className="text-sm font-semibold truncate hover:underline leading-snug mb-2 w-48">
+          {name}
+        </h2>
+      </div>
 
       <div className="flex space-x-1 text-yellow-500 text-sm mb-2">
         {Array(5)
@@ -137,9 +151,7 @@ const ItemCard = ({
           or ₹1208 +{" "}
           <span className="text-secondary font-medium">64 rc coins</span>
         </p>
-        <p className="text-xs text-gray-500">
-          Incl. GST (No Hidden Charges)
-        </p>
+        <p className="text-xs text-gray-500">Incl. GST (No Hidden Charges)</p>
       </div>
 
       <div className="flex gap-2 mt-4">

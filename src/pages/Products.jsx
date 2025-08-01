@@ -24,9 +24,14 @@ const Products = () => {
   );
 
   const filtered = products.filter((p) => {
+    const matchesSearch =
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.subcategory?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    if (!matchesSearch) return false;
     if (selectedCategory && p.category !== selectedCategory) return false;
     if (selectedSubcategory && p.subcategory !== selectedSubcategory) return false;
-    if (!p.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
 

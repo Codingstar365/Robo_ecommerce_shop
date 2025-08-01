@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage"; 
 const firebaseConfig = {
-  apiKey: "AIzaSyAeE2R2kdMOCy6w0SZ4kCUa1ZAzwueoy4o",
-  authDomain: "difmoproject.firebaseapp.com",
-  projectId: "difmoproject",
-  storageBucket: "difmoproject.appspot.com", // ✅ fixed typo
-  messagingSenderId: "1001181204930",
-  appId: "1:1001181204930:web:a1215d2a143e7f738b065b",
-  measurementId: "G-5GEQ3FJJ7H"
+ apiKey: "AIzaSyA4NpXxuDuN_KPeZ0kpAeKrey1JfJTrHY8",
+  authDomain: "tokengenerator-85ccb.firebaseapp.com",
+  projectId: "tokengenerator-85ccb",
+  storageBucket: "tokengenerator-85ccb.appspot.com",
+  messagingSenderId: "545985494948",
+  appId: "1:545985494948:web:017887950cf2c1f32bcb31",
+  measurementId: "G-KE9LC805BX" 
 };
 
 const app = initializeApp(firebaseConfig);

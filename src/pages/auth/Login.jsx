@@ -16,6 +16,8 @@ const Login = () => {
     password: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // 👈 New state for loader
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -25,18 +27,20 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // 👈 Show loader
     await loginWithEmail(formData.email, formData.password);
 
     if (!error) {
       navigate(redirectTo);
     }
+    setIsSubmitting(false); // 👈 Hide loader after login attempt
   };
 
   const handleBack = () => {
     navigate(fallbackRoute);
   };
 
-  if (loadig)
+  if (loadig || isSubmitting) // 👈 Show loader when store loading OR submitting
     return (
       <div className="h-screen flex items-center justify-center">
         <div className="text-center">

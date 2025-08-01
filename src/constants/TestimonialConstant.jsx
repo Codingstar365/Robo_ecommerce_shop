@@ -1,7 +1,9 @@
+import React from "react"
+import img from "../assets/testimonial.jpeg"
 export const Testimonial=[
   {
     "name": "Jaisimha A G",
-    "avatar": "/user-avatar.jpg",
+    "avatar": img,
     "platformIcon": "/google-icon.png",
     "rating": 5,
     "time": "a month ago",
@@ -9,7 +11,7 @@ export const Testimonial=[
   },
   {
     "name": "Ananya R",
-    "avatar": "/ananya.jpg",
+    "avatar": img,
     "platformIcon": "/google-icon.png",
     "rating": 5,
     "time": "2 weeks ago",
@@ -17,7 +19,7 @@ export const Testimonial=[
   },
   {
     "name": "Karthik M",
-    "avatar": "/karthik.jpg",
+    "avatar": img,
     "platformIcon": "/google-icon.png",
     "rating": 4,
     "time": "3 weeks ago",

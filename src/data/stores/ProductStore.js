@@ -2,9 +2,13 @@ import { create } from 'zustand';
 import {
   getAllProducts,
   addProductToFirestoreWithId,
-  getAllCategoriesWithSubcategories, // ✅ correct import
+  getAllCategoriesWithSubcategories,
   addCategoryToFirestore,
   addSubcategoryToFirestore,
+  updateCategoryInFirestore,      // ✅ new
+  deleteCategoryFromFirestore,    // ✅ new
+  updateSubcategoryInFirestore,   // ✅ new
+  deleteSubcategoryFromFirestore, // ✅ new
 } from '../api/ProductApi';
 
 const useProductStore = create((set) => ({
@@ -12,7 +16,6 @@ const useProductStore = create((set) => ({
   categories: [],
   loading: false,
   error: null,
-  
 
   fetchProducts: async () => {
     set({ loading: true, error: null });
@@ -27,7 +30,7 @@ const useProductStore = create((set) => ({
 
   fetchCategories: async () => {
     try {
-      const arr = await getAllCategoriesWithSubcategories(); // ✅ fix here
+      const arr = await getAllCategoriesWithSubcategories();
       set({ categories: arr });
     } catch (e) {
       console.error(e);
@@ -65,6 +68,46 @@ const useProductStore = create((set) => ({
   addSubcategory: async (category, sub) => {
     try {
       await addSubcategoryToFirestore(category, sub);
+      await useProductStore.getState().fetchCategories();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  // ✅ New: Edit Category
+  editCategory: async (oldName, newName) => {
+    try {
+      await updateCategoryInFirestore(oldName, newName);
+      await useProductStore.getState().fetchCategories();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  // ✅ New: Delete Category
+  deleteCategory: async (name) => {
+    try {
+      await deleteCategoryFromFirestore(name);
+      await useProductStore.getState().fetchCategories();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  // ✅ New: Edit Subcategory
+  editSubcategory: async (categoryName, oldSub, newSub) => {
+    try {
+      await updateSubcategoryInFirestore(categoryName, oldSub, newSub);
+      await useProductStore.getState().fetchCategories();
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  // ✅ New: Delete Subcategory
+  deleteSubcategory: async (categoryName, subName) => {
+    try {
+      await deleteSubcategoryFromFirestore(categoryName, subName);
       await useProductStore.getState().fetchCategories();
     } catch (e) {
       console.error(e);

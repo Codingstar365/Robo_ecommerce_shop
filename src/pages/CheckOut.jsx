@@ -1,11 +1,13 @@
 // src/pages/CheckoutPage.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useCartStore from "../data/stores/cartStore";
 import productImage from "../assets/hero/download.jpg";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // ✅ loader state
+
   const {
     cartItems,
     incrementQty,
@@ -17,23 +19,34 @@ const CheckoutPage = () => {
   const itemsToCheckout = buyNowItem ? [buyNowItem] : cartItems;
 
   useEffect(() => {
-    if (!buyNowItem) clearBuyNowItem(); // ✅ only clear if we're using cart, not buyNow
+    if (!buyNowItem) clearBuyNowItem();
   }, [buyNowItem, clearBuyNowItem]);
 
-  const totalPrice = itemsToCheckout.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const totalPrice = itemsToCheckout.reduce((sum, item) => {
+    const price = Number(item.price) || 0;
+    const qty = Number(item.quantity) || 0;
+    return sum + price * qty;
+  }, 0);
 
   const totalDiscount = itemsToCheckout.reduce((sum, item) => {
-    const originalPrice = Math.round(item.price / (1 - item.discount / 100));
-    return sum + (originalPrice - item.price) * item.quantity;
+    const price = Number(item.price) || 0;
+    const discount = Number(item.discount) || 0;
+    const qty = Number(item.quantity) || 0;
+    const originalPrice = discount > 0 ? Math.round(price / (1 - discount / 100)) : price;
+    return sum + (originalPrice - price) * qty;
   }, 0);
 
   const coupons = 342;
   const platformFee = 4;
   const finalAmount = totalPrice - totalDiscount - coupons + platformFee;
   const youSave = totalDiscount + coupons;
+
+  const handlePaymentClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate("/payment-method");
+    }, 1500); // Simulating network delay
+  };
 
   return (
     <div className="p-4 sm:p-6 bg-gray-100 min-h-screen mt-7">
@@ -46,9 +59,11 @@ const CheckoutPage = () => {
             <p className="text-gray-500 text-center">Your cart is empty.</p>
           ) : (
             itemsToCheckout.map((item) => {
-              const originalPrice = Math.round(
-                item.price / (1 - item.discount / 100)
-              );
+              const price = Number(item.price) || 0;
+              const discount = Number(item.discount) || 0;
+              const qty = Number(item.quantity) || 0;
+              const originalPrice = discount > 0 ? Math.round(price / (1 - discount / 100)) : price;
+
               return (
                 <div
                   key={item.id}
@@ -74,7 +89,7 @@ const CheckoutPage = () => {
                         >
                           −
                         </button>
-                        <span>{item.quantity}</span>
+                        <span>{qty}</span>
                         <button
                           onClick={() => incrementQty(item.id)}
                           className="px-2 py-1 border rounded text-lg"
@@ -89,16 +104,16 @@ const CheckoutPage = () => {
                         ₹{originalPrice}
                       </span>{" "}
                       <span className="text-green-600 font-semibold">
-                        ₹{item.price}
+                        ₹{price}
                       </span>{" "}
                       <span className="text-green-500">
-                        ({item.discount}% Off)
+                        ({discount}% Off)
                       </span>
                     </div>
                   </div>
 
                   <div className="font-bold text-gray-800 text-right whitespace-nowrap">
-                    ₹{item.price * item.quantity}
+                    ₹{price * qty}
                   </div>
                 </div>
               );
@@ -143,10 +158,20 @@ const CheckoutPage = () => {
             </p>
 
             <button
-              onClick={()=>navigate('/payment-method')}
-              className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded font-semibold transition-all duration-200"
+              onClick={handlePaymentClick}
+              disabled={loading}
+              className={`mt-4 w-full ${
+                loading ? "bg-red-500 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"
+              } text-white py-2 rounded font-semibold transition-all duration-200 flex justify-center items-center gap-2`}
             >
-              Choose Payment Method
+              {loading ? (
+                <>
+                  <span className="loader-circle animate-spin border-2 border-white border-t-transparent rounded-full w-5 h-5"></span>
+                  Processing...
+                </>
+              ) : (
+                "Choose Payment Method"
+              )}
             </button>
           </div>
         </div>
