@@ -7,12 +7,16 @@ import usePaymentStore from "../data/stores/PaymentStore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import useCartStore from "../data/stores/cartStore";
 import useOrderStore from "../data/stores/orderStore";
+import Lottie from "lottie-react";
+import successAnimation from "../assets/success.json"; // ✅ Your Lottie JSON file
 
 const PaymentSelection = () => {
   const navigate = useNavigate();
   const [selectedMethod, setSelectedMethod] = useState(null);
   const { savePaymentDetails } = usePaymentStore();
   const [authLoading, setAuthLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false); // ✅ Show Lottie state
   const { cartItems, buyNowItem } = useCartStore();
   const { createOrder } = useOrderStore();
 
@@ -36,18 +40,8 @@ const PaymentSelection = () => {
   }, []);
 
   const paymentMethods = [
-    {
-      key: "upi",
-      label: "UPI",
-      desc: "Pay using PhonePe, GPay, Paytm, etc.",
-      icon: <Wallet />,
-    },
-    {
-      key: "cod",
-      label: "Cash on Delivery",
-      desc: "Pay when your order arrives",
-      icon: <Banknote />,
-    },
+    { key: "upi", label: "UPI", desc: "Pay using PhonePe, GPay, Paytm, etc.", icon: <Wallet /> },
+    { key: "cod", label: "Cash on Delivery", desc: "Pay when your order arrives", icon: <Banknote /> },
   ];
 
   const handleProceed = async () => {
@@ -56,71 +50,81 @@ const PaymentSelection = () => {
       return;
     }
 
-    const orderDetails = {
-      userId: getAuth().currentUser?.uid,
-      items: products.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity || 1,
-        image: item.image || "",
-      })),
-      totalAmount: 550,
-      paymentMethod: selectedMethod.label,
-      status: selectedMethod.key === "cod" ? "pending" : "paid",
-    };
+    setLoading(true);
 
-    if (selectedMethod.key === "cod") {
-      const orderId = await createOrder(orderDetails);
-      await savePaymentDetails({
-        paymentId: "COD-" + new Date().getTime(),
-        method: "Cash on Delivery",
-        status: "pending",
-        amount: 550,
-        orderId,
-      });
-      alert("Order placed successfully!");
-      navigate("/order-success");
-    } else if (selectedMethod.key === "upi") {
-      const res = await loadRazorpayScript("https://checkout.razorpay.com/v1/checkout.js");
-      if (!res) {
-        alert("Razorpay SDK failed to load.");
-        return;
-      }
-
-      const options = {
-        key: "rzp_test_5JTg9I35AkiZMQ",
-        amount: 55000,
-        currency: "INR",
-        name: "Your Store",
-        description: "Payment for Order",
-        image: "https://your-logo-url.com/logo.png",
-        handler: async function (response) {
-          const orderId = await createOrder(orderDetails);
-          await savePaymentDetails({
-            paymentId: response.razorpay_payment_id,
-            orderId,
-            signature: response.razorpay_signature || "",
-            method: "UPI",
-            status: "success",
-            amount: 550,
-          });
-
-          alert("Payment successful! ID: " + response.razorpay_payment_id);
-          navigate("/order-success");
-        },
-        prefill: {
-          name: "Customer Name",
-          email: "customer@example.com",
-          contact: "9999999999",
-        },
-        theme: {
-          color: "#3399cc",
-        },
+    try {
+      const orderDetails = {
+        userId: getAuth().currentUser?.uid,
+        items: products.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity || 1,
+          image: item.image || "",
+        })),
+        totalAmount: 550,
+        paymentMethod: selectedMethod.label,
+        status: selectedMethod.key === "cod" ? "pending" : "paid",
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      if (selectedMethod.key === "cod") {
+        const orderId = await createOrder(orderDetails);
+        await savePaymentDetails({
+          paymentId: "COD-" + new Date().getTime(),
+          method: "Cash on Delivery",
+          status: "pending",
+          amount: 550,
+          orderId,
+        });
+        setShowSuccess(true); // ✅ Show Lottie
+        setTimeout(() => {
+          navigate("/order-success");
+        }, 2500);
+      } else if (selectedMethod.key === "upi") {
+        const res = await loadRazorpayScript("https://checkout.razorpay.com/v1/checkout.js");
+        if (!res) {
+          alert("Razorpay SDK failed to load.");
+          return;
+        }
+
+        const options = {
+          key: "rzp_test_5JTg9I35AkiZMQ",
+          amount: 55000,
+          currency: "INR",
+          name: "Your Store",
+          description: "Payment for Order",
+          image: "https://your-logo-url.com/logo.png",
+          handler: async function (response) {
+            const orderId = await createOrder(orderDetails);
+            await savePaymentDetails({
+              paymentId: response.razorpay_payment_id,
+              orderId,
+              signature: response.razorpay_signature || "",
+              method: "UPI",
+              status: "success",
+              amount: 550,
+            });
+            setShowSuccess(true); // ✅ Show Lottie
+            setTimeout(() => {
+              navigate("/order-success");
+            }, 2500);
+          },
+          prefill: {
+            name: "Customer Name",
+            email: "customer@example.com",
+            contact: "9999999999",
+          },
+          theme: { color: "#3399cc" },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Something went wrong, please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,6 +136,15 @@ const PaymentSelection = () => {
           <div className="loader ease-linear rounded-full border-8 border-t-8 border-orange-500 h-16 w-16 mb-4 animate-spin mx-auto"></div>
           <p className="text-gray-700 text-lg">Checking login status...</p>
         </div>
+      </div>
+    );
+  }
+
+  // ✅ Show success animation without text
+  if (showSuccess) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <Lottie animationData={successAnimation} loop={false} style={{ width: 250, height: 250 }} />
       </div>
     );
   }
@@ -165,9 +178,19 @@ const PaymentSelection = () => {
 
       <button
         onClick={handleProceed}
-        className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold text-lg transition-all duration-200"
+        disabled={loading}
+        className={`mt-6 w-full ${
+          loading ? "bg-orange-400 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"
+        } text-white py-3 rounded-xl font-semibold text-lg transition-all duration-200 flex justify-center items-center gap-2`}
       >
-        Proceed to Pay
+        {loading ? (
+          <>
+            <span className="border-2 border-white border-t-transparent rounded-full w-5 h-5 animate-spin"></span>
+            Processing...
+          </>
+        ) : (
+          "Proceed to Pay"
+        )}
       </button>
     </div>
   );

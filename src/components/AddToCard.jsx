@@ -49,7 +49,7 @@ const AddToCartHover = () => {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-80 bg-white border-gray-1000 rounded-lg shadow-lg z-50">
           <div className="p-4 max-h-52 overflow-y-auto">
             {cartItems.length === 0 ? (
               <p className="text-center text-gray-500">Your cart is empty</p>

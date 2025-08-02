@@ -24,11 +24,11 @@ const TestimonialCard = ({ name, avatar, platform, rating, time, message }) => {
             </div>
           </div>
         </div>
-        <img
+        {/* <img
           src={platform}
           alt="platformmmmmmmmmmmm"
           className="w-6 h-6"
-        />
+        /> */}
       </div>
 
       {/* Content */}

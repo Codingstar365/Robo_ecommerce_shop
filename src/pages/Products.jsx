@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 import useProductStore from '../data/stores/ProductStore';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Products = () => {
   const navigate = useNavigate();
@@ -35,6 +37,18 @@ const Products = () => {
     return true;
   });
 
+  // ✅ Toggle enable/disable status in Firestore
+  const toggleProductStatus = async (productId, currentStatus) => {
+    try {
+      await updateDoc(doc(db, "products", productId), {
+        enabled: !currentStatus
+      });
+      fetchProducts(); // refresh list
+    } catch (err) {
+      console.error("Error updating product status:", err);
+    }
+  };
+
   return (
     <div className="p-6 pt-20">
       <div className="flex justify-between items-center mb-6">
@@ -57,7 +71,6 @@ const Products = () => {
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
-        {/* Search Input */}
         <input
           type="text"
           placeholder="Search product..."
@@ -66,7 +79,7 @@ const Products = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        {/* Category Dropdown with Rotating Arrow */}
+        {/* Category Dropdown */}
         <div className="relative w-full md:w-1/3">
           <select
             className="border border-gray-300 px-4 py-2 pr-10 rounded w-full appearance-none focus:outline-none focus:ring-0"
@@ -83,17 +96,14 @@ const Products = () => {
               <option key={i} value={cat.name}>{cat.name}</option>
             ))}
           </select>
-          {/* Rotating Arrow */}
           <span
-            className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${
-              categoryFocus ? 'rotate-180' : ''
-            }`}
+            className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${categoryFocus ? 'rotate-180' : ''}`}
           >
             ˅
           </span>
         </div>
 
-        {/* Subcategory Dropdown with Rotating Arrow */}
+        {/* Subcategory Dropdown */}
         {(selectedCategory ? currentSubs.length > 0 : allSubcategories.length > 0) && (
           <div className="relative w-full md:w-1/3">
             <select
@@ -108,11 +118,8 @@ const Products = () => {
                 <option key={i} value={sub}>{sub}</option>
               ))}
             </select>
-            {/* Rotating Arrow */}
             <span
-              className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${
-                subcategoryFocus ? 'rotate-180' : ''
-              }`}
+              className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 ${subcategoryFocus ? 'rotate-180' : ''}`}
             >
               ˅
             </span>
@@ -120,7 +127,6 @@ const Products = () => {
         )}
       </div>
 
-      {/* Result Label */}
       {(selectedCategory || selectedSubcategory) && (
         <h3 className="text-lg font-semibold mb-4">
           Showing: {selectedCategory && <span className="text-blue-600">{selectedCategory}</span>}
@@ -128,7 +134,6 @@ const Products = () => {
         </h3>
       )}
 
-      {/* Product Grid */}
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -146,7 +151,9 @@ const Products = () => {
               discount={item.discountPercent}
               image={item.image}
               rating={item.rating}
-              isAdmin={true} // 👈 Admin mode (hide heart)
+              isAdmin={true}
+              enabled={item.enabled !== false}
+              onToggleStatus={() => toggleProductStatus(item.id, item.enabled !== false)}
             />
           ))}
         </div>

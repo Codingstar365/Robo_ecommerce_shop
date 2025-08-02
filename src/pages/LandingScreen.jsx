@@ -34,25 +34,7 @@ const LandingScreen = () => {
             </div>
           </div>
         </div>
-        {/* <div className='border rounded-lg mt-4 border-gray-300'>
-          <div className="font-bold justify-items-center text-2xl mt-12 ">
-            <h2>BEST SELLER</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3  gap-10 mt-5 mx-5 mb-5 ">
-            {CardData.map((item, index) => (
-              <ItemCard
 
-                
-                id={item.id} // ✅ Required for cart logic
-
-                name={item.name}
-                price={item.price}
-                discount={item.discount}
-                image={item.image}
-              />
-            ))}
-          </div>
-        </div> */}
         <BestSeller/>
         <div className='border relative border-gray-300 mb-3 rounded-lg mt-4 ' >
           <Brand
