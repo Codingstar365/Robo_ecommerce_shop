@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import useCartStore from "../data/stores/cartStore";
 import useOrderStore from "../data/stores/orderStore";
 import Lottie from "lottie-react";
-import successAnimation from "../assets/success.json"; // ✅ Your Lottie JSON file
+import successAnimation from "../assets/success.json";
 
 const PaymentSelection = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const PaymentSelection = () => {
   const { savePaymentDetails } = usePaymentStore();
   const [authLoading, setAuthLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false); // ✅ Show Lottie state
+  const [showSuccess, setShowSuccess] = useState(false);
   const { cartItems, buyNowItem } = useCartStore();
   const { createOrder } = useOrderStore();
 
@@ -76,7 +76,11 @@ const PaymentSelection = () => {
           amount: 550,
           orderId,
         });
-        setShowSuccess(true); // ✅ Show Lottie
+
+        // ✅ Mark order as confirmed so AddToCartHover can clear cart
+        localStorage.setItem("orderConfirmed", "true");
+
+        setShowSuccess(true);
         setTimeout(() => {
           navigate("/order-success");
         }, 2500);
@@ -104,7 +108,11 @@ const PaymentSelection = () => {
               status: "success",
               amount: 550,
             });
-            setShowSuccess(true); // ✅ Show Lottie
+
+            // ✅ Mark order as confirmed so AddToCartHover can clear cart
+            localStorage.setItem("orderConfirmed", "true");
+
+            setShowSuccess(true);
             setTimeout(() => {
               navigate("/order-success");
             }, 2500);
@@ -140,7 +148,6 @@ const PaymentSelection = () => {
     );
   }
 
-  // ✅ Show success animation without text
   if (showSuccess) {
     return (
       <div className="flex items-center justify-center h-screen bg-white">
@@ -163,7 +170,7 @@ const PaymentSelection = () => {
         ))}
       </div>
 
-      <div className="mt-8 p-4 bg-white rounded shadow-md border">
+      <div className="mt-8 p-4 bg-white rounded shadow-md border border-gray-300">
         <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
         <div className="flex justify-between text-sm mb-1">
           <span>Items Total</span><span>₹500</span>

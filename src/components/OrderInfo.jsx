@@ -63,7 +63,7 @@ const UserDropdown = () => {
       {/* Dropdown */}
       <div
         className={`
-          absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg
+          absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg
           transform transition-all duration-300 ease-in-out
           ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}
         `}
@@ -71,19 +71,15 @@ const UserDropdown = () => {
         <ul className="py-2 text-sm text-gray-700">
           <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/user-profile" onClick={() => setIsOpen(false)}>
-              Your Profile
+              My Profile
             </Link>
           </li>
+         
           {/* <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/invoice" onClick={() => setIsOpen(false)}>
-              Download Invoice
-            </Link>
-          </li> */}
-          <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/account" onClick={() => setIsOpen(false)}>
               Account Options
             </Link>
-          </li>
+          </li> */}
           <li className="px-4 py-2 hover:bg-gray-100">
             <Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>
               Go to Admin

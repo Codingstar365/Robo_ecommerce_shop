@@ -40,6 +40,13 @@ const useProductStore = create((set) => ({
 
   addProduct: async (...items) => {
     set({ loading: true, error: null });
+    console.log("Incoming items:", items);
+    items.forEach((item, index) => {
+      console.log(`Item ${index + 1}:`, item);
+    });
+    console.log("Incoming items:", JSON.stringify(items, null, 2));
+
+
     try {
       const newArr = [];
       for (const it of items) {
@@ -49,7 +56,7 @@ const useProductStore = create((set) => ({
       set((state) => ({
         products: [...state.products, ...newArr],
         loading: false,
-      }));
+      })); ``
     } catch (e) {
       console.error(e);
       set({ loading: false, error: e.message });

@@ -1,6 +1,5 @@
-// src/data/api/authApi.js
 
-import {
+  import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -8,16 +7,18 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { useAuthStore } from "../stores/authStore"; 
+
 
 const signup = async (email, password, name) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-  // ✅ Update displayName
+  
   await updateProfile(auth.currentUser, {
     displayName: name,
   });
 
-  // ✅ Save user info in Firestore
+  
   await setDoc(doc(db, "users", auth.currentUser.uid), {
     uid: auth.currentUser.uid,
     email,
@@ -25,15 +26,39 @@ const signup = async (email, password, name) => {
     createdAt: new Date().toISOString(),
   });
 
-  return userCredential;
+  
+  const userData = {
+    uid: auth.currentUser.uid,
+    email: auth.currentUser.email,
+    displayName: auth.currentUser.displayName,
+  };
+
+  useAuthStore.getState().setUser(userData);
+
+  return userData;
 };
 
+ 
 const login = async (email, password) => {
-  await signInWithEmailAndPassword(auth, email, password);
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+  const userData = {
+    uid: userCredential.user.uid,
+    email: userCredential.user.email,
+    displayName: userCredential.user.displayName,
+  };
+
+  
+  useAuthStore.getState().setUser(userData);
+
+  return userData;
 };
 
-const logout = () => {
-  signOut(auth);
+const logout = async () => {
+  await signOut(auth);
+
+    
+  useAuthStore.getState().clearUser();
 };
 
 export { signup, login, logout };

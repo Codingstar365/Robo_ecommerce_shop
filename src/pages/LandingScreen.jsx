@@ -1,6 +1,5 @@
 import React from 'react';
 import HeroCarousel from '../components/HeroCarousel';
-import { CardData } from '../constants/CardConstant';
 import SecondHero from '../components/SecondHero';
 import { CardDataSecond } from '../constants/SecondHeroConstant';
 import Brand from '../components/Brand';
@@ -9,10 +8,11 @@ import { Testimonial } from '../constants/TestimonialConstant';
 import MySideBar from '../components/MySideBar';
 import ItemCard from '../components/ItemCard';
 import BestSeller from '../components/ProductFromAdmin';
+import FAQSection from '../components/FAQSection';
 
 const LandingScreen = () => {
   return (
-    <div className="flex ">
+    <div className="flex mx-auto ">
       <MySideBar />
 
       <div className="w-full ml-2  ">
@@ -59,6 +59,7 @@ const LandingScreen = () => {
             ))}
           </div>
         </div>
+        <div><FAQSection/></div>
       </div>
       <div>
       </div>

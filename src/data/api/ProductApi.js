@@ -9,8 +9,23 @@ import {
   updateDoc,
   deleteDoc
 } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db,storage } from '../../firebase';
 
+export const saveImagetoDatabaseAndGetUrl = async (file) => {
+  try {
+    const storage = getStorage();
+    const fileName = `${uuidv4()}-${file.name || "image"}`;
+    const storageRef = ref(storage, `images/${fileName}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log("✅ File uploaded. Download URL:", downloadURL);
+
+    return downloadURL;
+  } catch (error) {
+    console.error("❌ Error uploading image:", error);
+    throw error;
+  }
+};
 // ✅ Generate new Product ID like Item0001
 export const generateNewProductId = async () => {
   const querySnapshot = await getDocs(collection(db, 'products'));

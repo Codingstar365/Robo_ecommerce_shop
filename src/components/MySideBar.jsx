@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 const sidebarData = [
-  { name: "Flash Sale", items: [] },
+  { name: "Flash Sale", items: ["Clones"] },
   { name: "STEM Kits", items: ["DIY STEM Kit", "School Kits", "Science Toys"] },
   { name: "Raspberry Pi", items: ["Pi 4", "Pi 5", "Accessories"] },
   { name: "Arduino", items: ["Uno", "Nano", "Mega"] },
@@ -59,7 +59,7 @@ const MySideBar = () => {
           key={category.name}
           ref={(el) => (itemRefs.current[category.name] = el)}
           onClick={() => handleClick(category.name)}
-          className="relative text-[12px] mb-2 cursor-pointer px-2 py-1 rounded border border-gray-300 transition duration-300 hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01]"
+          className="relative text-[12px] mb-2  hover:bg-red-500 cursor-pointer px-2 py-1 rounded border border-gray-300 transition duration-300 hover:bg-gray-100 hover:shadow-sm hover:scale-[1.01]"
         >
           <div className="flex items-center justify-between">
             <span>{category.name}</span>
@@ -73,7 +73,7 @@ const MySideBar = () => {
               {getItemsForCategory(category.name).map((item, index) => (
                 <div
                   key={index}
-                  className="text-sm hover:bg-blue-800 hover:text-white px-2 py-1 rounded cursor-pointer transition duration-200"
+                  className="text-sm hover:bg-red-500 hover:text-white px-2 py-1 rounded cursor-pointer transition duration-200"
                 >
                   {item}
                 </div>

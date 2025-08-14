@@ -7,6 +7,7 @@ import {
   FaCoins,
   FaImage,
   FaPen,
+  FaChevronDown
 } from "react-icons/fa";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import useProductStore from "../data/stores/ProductStore";
@@ -45,14 +46,6 @@ const ItemAdd = () => {
     },
   ]);
 
-  const [editingCategory, setEditingCategory] = useState(null);
-  const [newCategoryName, setNewCategoryName] = useState("");
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(null);
-
-  const [editingSubcategory, setEditingSubcategory] = useState(null);
-  const [newSubcategoryName, setNewSubcategoryName] = useState("");
-  const [subcategoryDropdownOpen, setSubcategoryDropdownOpen] = useState(null);
-
   const [actionLoading, setActionLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -71,6 +64,7 @@ const ItemAdd = () => {
     updated[index].imageFile = file;
     updated[index].image = URL.createObjectURL(file);
     setItems(updated);
+    console.log(file, "this is file selected");
   };
 
   const handleAddForm = () => {
@@ -131,14 +125,35 @@ const ItemAdd = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  console.log("From add items of admin1",items.image);
+  console.log("From add items of admin2",items.imageFile);
+    // ✅ Validation to ensure all fields are filled
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      console.log("from loop")
+      console.log("dskfjsldfjsldf", item.imageFile)
+      console.log(item.image)
+      if (
+        !item.name ||
+        !item.originalPrice ||
+        !item.discountedPrice ||
+        !item.discountPercent ||
+        !item.rating ||
+        !item.rcCoins ||
+        !item.category ||
+        !item.subcategory ||
+        (!item.image && !item.imageFile) ||
+        !item.description
+      ) {
+        alert(`Please fill all fields for Product ${i + 1}`);
+        return;
+      }
+    }
+
     try {
       setSubmitLoading(true);
-
-      // ✅ Remove File object before sending to Firestore
-      const itemsWithoutFile = items.map(({ imageFile, ...rest }) => rest);
-
-      await addProduct(...itemsWithoutFile);
-
+      // const itemsWithoutFile = items.map(({ imageFile, ...rest }) => rest);
+      await addProduct(...items);
       alert("Product(s) added successfully!");
       setItems([
         {
@@ -202,39 +217,117 @@ const ItemAdd = () => {
                 />
               </div>
 
-              {/* Category Selector */}
+              {/* Category Selector + Add Button */}
               <div className="flex items-center gap-2 relative">
-                {item.isAddingCategory ? (
-                  <>
-                    <input
-                      type="text"
-                      name="newCategory"
-                      placeholder="New Category"
-                      value={item.newCategory}
-                      onChange={(e) => handleChange(index, e)}
-                      className="flex-1 border border-gray-300 px-3 py-2 rounded"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleSaveNewCategory(index)}
-                      disabled={actionLoading}
-                      className="px-3 py-2 bg-green-500 text-white rounded"
-                    >
-                      {actionLoading ? "Saving..." : "Save"}
-                    </button>
-                  </>
-                ) : (
-                  <>
+                <div className="relative flex-1">
+                  <select
+                    name="category"
+                    value={item.category}
+                    onChange={(e) => handleChange(index, e)}
+                    className="w-full border border-gray-300 px-3 py-2 rounded appearance-none"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((cat, i) => (
+                      <option key={i} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                  <FaChevronDown className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
+                </div>
+
+                {/* Add Category Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const upd = [...items];
+                    upd[index].isAddingCategory = true;
+                    setItems(upd);
+                  }}
+                  className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
+                >
+                  + Add Category
+                </button>
+
+                {/* Edit Category Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentCat = item.category;
+                    if (!currentCat) {
+                      alert("Select a category to edit");
+                      return;
+                    }
+                    const newName = prompt("Edit category name", currentCat);
+                    if (newName && newName.trim()) {
+                      editCategory(currentCat, newName.trim());
+                    }
+                  }}
+                  className="text-blue-500"
+                >
+                  <FiEdit2 />
+                </button>
+
+                {/* Delete Category Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentCat = item.category;
+                    if (!currentCat) {
+                      alert("Select a category to delete");
+                      return;
+                    }
+                    if (window.confirm(`Delete category "${currentCat}"?`)) {
+                      deleteCategory(currentCat);
+                      const updated = [...items];
+                      updated[index].category = "";
+                      setItems(updated);
+                    }
+                  }}
+                  className="text-red-500"
+                >
+                  <FiTrash2 />
+                </button>
+              </div>
+
+              {/* New Category Input */}
+              {item.isAddingCategory && (
+                <div className="flex items-center gap-2 col-span-full mt-2">
+                  <input
+                    type="text"
+                    name="newCategory"
+                    placeholder="New Category"
+                    value={item.newCategory}
+                    onChange={(e) => handleChange(index, e)}
+                    className="flex-1 border border-gray-300 px-3 py-2 rounded"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSaveNewCategory(index)}
+                    disabled={actionLoading}
+                    className="px-3 py-2 bg-green-500 text-white rounded"
+                  >
+                    {actionLoading ? "Saving..." : "Save"}
+                  </button>
+                </div>
+              )}
+
+              {/* Subcategory Selector */}
+              {item.category && (
+                <>
+                  <div className="flex items-center gap-2">
                     <select
-                      name="category"
-                      value={item.category}
+                      name="subcategory"
+                      value={item.subcategory}
                       onChange={(e) => handleChange(index, e)}
                       className="flex-1 border border-gray-300 px-3 py-2 rounded"
                     >
-                      <option value="">Select Category</option>
-                      {categories.map((cat, i) => (
-                        <option key={i} value={cat.name}>
-                          {cat.name}
+                      <option value="">Select Subcategory</option>
+                      {(categories.find((c) => c.name === item.category)
+                        ?.subcategories || []
+                      ).map((subcat, i) => (
+                        <option key={i} value={subcat}>
+                          {subcat}
                         </option>
                       ))}
                     </select>
@@ -243,48 +336,56 @@ const ItemAdd = () => {
                       type="button"
                       onClick={() => {
                         const upd = [...items];
-                        upd[index].isAddingCategory = true;
+                        upd[index].isAddingSubcategory = true;
                         setItems(upd);
                       }}
                       className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
                     >
-                      + Add Category
+                      + Add Subcategory
                     </button>
-                  </>
-                )}
-              </div>
+                  </div>
 
-              {/* Subcategory Selector */}
-              {item.category && (
-                <div className="flex items-center gap-2">
-                  <select
-                    name="subcategory"
-                    value={item.subcategory}
-                    onChange={(e) => handleChange(index, e)}
-                    className="flex-1 border border-gray-300 px-3 py-2 rounded"
-                  >
-                    <option value="">Select Subcategory</option>
-                    {(categories.find((c) => c.name === item.category)?.subcategories || []).map(
-                      (subcat, i) => (
-                        <option key={i} value={subcat}>
-                          {subcat}
-                        </option>
-                      )
-                    )}
-                  </select>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const upd = [...items];
-                      upd[index].isAddingSubcategory = true;
-                      setItems(upd);
-                    }}
-                    className="px-3 py-2 bg-gray-200 border border-gray-300 rounded"
-                  >
-                    + Add Subcategory
-                  </button>
-                </div>
+                  {/* Edit/Delete Subcategory List */}
+                  <div className="flex flex-col gap-1 col-span-full mt-2">
+                    {(categories.find((c) => c.name === item.category)
+                      ?.subcategories || []
+                    ).map((subcat, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <span>{subcat}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newName = prompt(
+                              "Edit subcategory name",
+                              subcat
+                            );
+                            if (newName && newName.trim()) {
+                              editSubcategory(
+                                item.category,
+                                subcat,
+                                newName.trim()
+                              );
+                            }
+                          }}
+                          className="text-blue-500"
+                        >
+                          <FiEdit2 />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm("Delete this subcategory?")) {
+                              deleteSubcategory(item.category, subcat);
+                            }
+                          }}
+                          className="text-red-500"
+                        >
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
 
               {/* New Subcategory Input */}

@@ -1,7 +1,8 @@
 // src/components/BestSeller.jsx
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { db, storage } from "../firebase";
 import ItemCard from "./ItemCard";
 import { useNavigate } from "react-router-dom";
 import fallbackImage from "../assets/hero/download.jpg";
@@ -14,26 +15,35 @@ const BestSeller = () => {
     const fetchProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        const products = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          try {
+        const products = await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const data = doc.data();
+            let imageUrl = fallbackImage;
+
+            // Check if there's an image field
+            if (data.image && data.image.trim() !== "") {
+              try {
+                if (data.image.startsWith("http")) {
+                  // Already a full URL
+                  imageUrl = data.image;
+                } else {
+                  // Assume it's a Firebase Storage path
+                  const imgRef = ref(storage, data.image);
+                  imageUrl = await getDownloadURL(imgRef);
+                }
+              } catch (err) {
+                console.error(`Error fetching image for product ${doc.id}:`, err);
+                imageUrl = fallbackImage;
+              }
+            }
+
             return {
               id: doc.id,
               ...data,
-              image:
-                data.image && data.image.trim() !== ""
-                  ? data.image
-                  : fallbackImage,
+              image: imageUrl,
             };
-          } catch (err) {
-            console.error("Error loading image for product:", doc.id, err);
-            return {
-              id: doc.id,
-              ...data,
-              image: fallbackImage,
-            };
-          }
-        });
+          })
+        );
 
         const grouped = products.reduce((acc, product) => {
           const category = product.category || "Uncategorized";
@@ -88,7 +98,7 @@ const BestSeller = () => {
                 onClick={() =>
                   navigate(`/category/${encodeURIComponent(category)}`)
                 }
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
               >
                 See More
               </button>

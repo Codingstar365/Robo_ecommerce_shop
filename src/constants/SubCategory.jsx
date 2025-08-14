@@ -1,0 +1,95 @@
+
+export const navData = {
+  Allcategories: [
+    { id: 1, name: "STEM Kits", href: "/stem-kits", card: "Explore STEM Kits", image: "/images/stem-kits.jpg" },
+    { id: 2, name: "Raspberry Pi", href: "/raspberry-pi", card: "Raspberry Pi Products", image: "/images/raspberry-pi.jpg" },
+    { id: 3, name: "Arduino", href: "/arduino", card: "Arduino Boards & Kits", image: "/images/arduino.jpg" },
+    { id: 4, name: "Compatible with Arduino", href: "/compatible-arduino", card: "Arduino Compatible Modules", image: "/images/compatible-arduino.jpg" },
+    { id: 5, name: "Electronic Modules", href: "/electronic-modules", card: "Electronic Modules", image: "/images/electronic-modules.jpg" },
+    { id: 6, name: "Drone Parts", href: "/drone-parts", card: "Drone Parts & Accessories", image: "/images/drone-parts.jpg" },
+    { id: 7, name: "3D Printers/Pens", href: "/3d-printers", card: "3D Printers & Pens", image: "/images/3d-printers.jpg" },
+    { id: 8, name: "IOT & Wireless Boards", href: "/iot-wireless", card: "IoT & Wireless Boards", image: "/images/iot-wireless.jpg" },
+    { id: 9, name: "Sensors", href: "/sensors", card: "Sensors for Projects", image: "/images/sensors.jpg" },
+    { id: 10, name: "Motors & Mechanical", href: "/motors-mechanical", card: "Motors & Mechanical Parts", image: "/images/motors-mechanical.jpg" },
+    { id: 11, name: "Development Boards", href: "/development-boards", card: "Development Boards", image: "/images/development-boards.jpg" },
+    { id: 12, name: "Display Module", href: "/display-module", card: "Display Modules", image: "/images/display-module.jpg" },
+    { id: 13, name: "Battery and Power Supply", href: "/battery-power", card: "Battery & Power Supply", image: "/images/battery-power.jpg" },
+    { id: 14, name: "Cables", href: "/cables", card: "Cables & Connectors", image: "/images/cables.jpg" },
+    { id: 15, name: "Tools & Instruments", href: "/tools-instruments", card: "Tools & Instruments", image: "/images/tools-instruments.jpg" },
+  
+  
+    { id: 1, name: "Raspberry Pi", href: "/raspberry-pi", card: "Raspberry Pi Brand", image: "/images/raspberry-pi.jpg" },
+    { id: 2, name: "Arduino", href: "/arduino", card: "Arduino Brand", image: "/images/arduino.jpg" },
+    { id: 3, name: "BBC Micro:bit", href: "/bbc-microbit", card: "BBC Micro:bit Products", image: "/images/bbc-microbit.jpg" },
+    { id: 4, name: "Seeed Studio", href: "/seeed-studio", card: "Seeed Studio Products", image: "/images/seeed-studio.jpg" },
+    { id: 5, name: "Bonka LiPo Batteries", href: "/bonka-lipo", card: "Bonka LiPo Batteries", image: "/images/bonka-lipo.jpg" },
+    { id: 6, name: "Soldron", href: "/soldron", card: "Soldron Products", image: "/images/soldron.jpg" },
+    { id: 7, name: "Matata STEM Kit", href: "/matata-stem-kit", card: "Matata STEM Kits", image: "/images/matata-stem-kit.jpg" },
+    { id: 8, name: "Acebott STEM Kit", href: "/acebott-stem-kit", card: "Acebott STEM Kits", image: "/images/acebott-stem-kit.jpg" },
+    { id: 9, name: "Hiwonder", href: "/hiwonder", card: "Hiwonder Products", image: "/images/hiwonder.jpg" },
+    { id: 10, name: "Elephant Robotics", href: "/elephant-robotics", card: "Elephant Robotics", image: "/images/elephant-robotics.jpg" },
+    { id: 11, name: "Waveshare", href: "/waveshare", card: "Waveshare Products", image: "/images/waveshare.jpg" },
+    { id: 12, name: "7Semi", href: "/7semi", card: "7Semi Products", image: "/images/7semi.jpg" },
+    { id: 13, name: "Neol India", href: "/neol-India", card: "Neol India Products", image: "/images/neol-india.jpg" },
+    { id: 14, name: "Elecrow", href: "/elecrow", card: "Elecrow Products", image: "/images/elecrow.jpg" },
+    { id: 15, name: "DFRobot", href: "/dfrobot", card: "DFRobot Products", image: "/images/dfrobot.jpg" },
+    { id: 16, name: "Bambu Lab", href: "/bambu-lab", card: "Bambu Lab Products", image: "/images/bambu-lab.jpg" },
+    { id: 17, name: "Flysky", href: "/flysky", card: "Flysky Products", image: "/images/flysky.jpg" },
+    { id: 18, name: "Witty Fox", href: "/witty-fox", card: "Witty Fox Products", image: "/images/witty-fox.jpg" },
+    { id: 19, name: "Beagle Bone", href: "/beagle-bone", card: "Beagle Bone Products", image: "/images/beagle-bone.jpg" },
+    { id: 20, name: "Nvidia Jetson Nano", href: "/nvidia", card: "Nvidia Jetson Nano", image: "/images/nvidia.jpg" },
+  
+  
+    { id: 1, name: "Reseller", href: "/reseller", card: "Bulk Orders for Resellers", image: "/images/reseller.jpg" },
+    { id: 2, name: "Manufacturer/OEM", href: "/manufacturer-oem", card: "Manufacturer & OEM Bulk Orders", image: "/images/manufacturer-oem.jpg" },
+    { id: 3, name: "School/College", href: "/school-college", card: "Educational Bulk Orders", image: "/images/school-college.jpg" },
+    { id: 4, name: "GeM Portal", href: "/gem-portal", card: "Orders via GeM Portal", image: "/images/gem-portal.jpg" },
+    { id: 5, name: "Industrial", href: "/industrial", card: "Industrial Bulk Orders", image: "/images/industrial.jpg" },
+  
+
+    { id: 1, name: "AICTE IDEA Lab", href: "/aicte-idea-lab", card: "Setup AICTE IDEA Lab", image: "/images/aicte-idea-lab.jpg" },
+    { id: 2, name: "PM SHRI Robotics Lab", href: "/pm-shri-robotics-lab", card: "PM SHRI Robotics Lab Setup", image: "/images/pm-shri-robotics-lab.jpg" },
+    { id: 3, name: "Arduino Labs", href: "/arduino-labs", card: "Arduino Lab Setup", image: "/images/arduino-labs.jpg" },
+    { id: 4, name: "STEM & Robotics Lab", href: "/stem-robotics-lab", card: "STEM & Robotics Lab Setup", image: "/images/stem-robotics-lab.jpg" },
+    { id: 5, name: "IoT & AI/ML Lab", href: "/iot-ai-ml-lab", card: "IoT & AI/ML Lab Setup", image: "/images/iot-ai-ml-lab.jpg" },
+    { id: 6, name: "Faculty Development Program", href: "/faculty-development", card: "Faculty Development Program", image: "/images/faculty-development.jpg" },
+    { id: 7, name: "STEM Lab for NGO and CSR", href: "/stem-lab-ngo-csr", card: "STEM Lab for NGO/CSR", image: "/images/stem-lab-ngo-csr.jpg" },
+  
+  
+    { id: 1, name: "Controller / PLC", href: "/controller-plc", card: "Industrial PLC Controllers", image: "/images/controller-plc.jpg" },
+    { id: 2, name: "Robotics / AI", href: "/robotics-ai", card: "Industrial Robotics & AI", image: "/images/robotics-ai.jpg" },
+    { id: 3, name: "Electronic Modules", href: "/electronic-modules", card: "Industrial Electronic Modules", image: "/images/electronic-modules.jpg" },
+    { id: 4, name: "Sensors", href: "/sensors", card: "Industrial Sensors", image: "/images/sensors.jpg" },
+    { id: 5, name: "HMI / Displays", href: "/hmi-displays", card: "Industrial HMI & Displays", image: "/images/hmi-displays.jpg" },
+    { id: 6, name: "IoT & Wireless", href: "/iot-wireless", card: "Industrial IoT & Wireless", image: "/images/iot-wireless.jpg" },
+    { id: 7, name: "3D Printers / Additive Manufacturing", href: "/3d-printers-additive", card: "Industrial 3D Printing", image: "/images/3d-printers-additive.jpg" },
+    { id: 8, name: "Batteries & Power Supply", href: "/batteries-power-supply", card: "Industrial Batteries & Power", image: "/images/batteries-power-supply.jpg" },
+    { id: 9, name: "Motors & Mechanical", href: "/motors-mechanical", card: "Industrial Motors & Mechanical", image: "/images/motors-mechanical.jpg" },
+    { id: 10, name: "Tools & Accessories", href: "/tools-accessories", card: "Industrial Tools & Accessories", image: "/images/tools-accessories.jpg" },
+    { id: 11, name: "Services", href: "/services", card: "Industrial Services", image: "/images/services.jpg" },
+
+
+    { id: 1, name: "Arduino Pin Configuration", href: "/arduino-pin-configuration", card: "Learn Arduino Pin Configuration", image: "/images/arduino-pin-configuration.jpg" },
+    { id: 2, name: "What is Ah in Battery", href: "/what-is-ah-in-battery", card: "Battery Ah Explained", image: "/images/what-is-ah-in-battery.jpg" },
+    { id: 3, name: "IR Sensor Working", href: "/ir-sensor-working", card: "How IR Sensors Work", image: "/images/ir-sensor-working.jpg" },
+    { id: 4, name: "Types of Sensors in IoT", href: "/types-of-sensors-in-iot", card: "IoT Sensor Types", image: "/images/types-of-sensors-in-iot.jpg" },
+    { id: 5, name: "Drone Part List", href: "/drone-part-list", card: "Drone Parts Overview", image: "/images/drone-part-list.jpg" },
+    { id: 6, name: "How to Choose ESC for Quadcopter", href: "/choose-esc-for-quadcopter", card: "Choosing ESC for Quadcopters", image: "/images/choose-esc-for-quadcopter.jpg" },
+    { id: 7, name: "What is Motor Driver", href: "/what-is-motor-driver", card: "Motor Driver Basics", image: "/images/what-is-motor-driver.jpg" },
+  
+  
+    { id: 1, name: "Support Center", href: "/support-center", card: "Get Help at Support Center", image: "/images/support-center.jpg" },
+    { id: 2, name: "Track Your Order", href: "/track-your-order", card: "Track Your Orders Easily", image: "/images/track-your-order.jpg" },
+    { id: 3, name: "Buy in Bulk", href: "/buy-in-bulk", card: "Bulk Purchase Options", image: "/images/buy-in-bulk.jpg" },
+    { id: 4, name: "Download Invoice", href: "/download-invoice", card: "Download Your Invoice", image: "/images/download-invoice.jpg" },
+    { id: 5, name: "Return & Shipping Policy", href: "/return-shipping-policy", card: "Returns & Shipping Info", image: "/images/return-shipping-policy.jpg" },
+    { id: 6, name: "International Shipping Policy", href: "/international-shipping-policy", card: "International Shipping Info", image: "/images/international-shipping-policy.jpg" },
+    { id: 7, name: "FAQ", href: "/faq", card: "Frequently Asked Questions", image: "/images/faq.jpg" },
+    { id: 8, name: "Reward Program", href: "/reward-program", card: "Join Our Reward Program", image: "/images/reward-program.jpg" },
+    { id: 9, name: "About Us", href: "/about-us", card: "Know More About Us", image: "/images/about-us.jpg" },
+    { id: 10, name: "Contact Us", href: "/contact-us", card: "Get in Touch", image: "/images/contact-us.jpg" },
+    { id: 11, name: "My Account", href: "/my-account", card: "Manage Your Account", image: "/images/my-account.jpg" },
+    { id: 12, name: "Privacy Policy", href: "/privacy-policy", card: "Our Privacy Policy", image: "/images/privacy-policy.jpg" },
+    { id: 13, name: "Terms of Use", href: "/terms-of-use", card: "Terms of Using Our Site", image: "/images/terms-of-use.jpg" }
+  ]
+}; 

@@ -1,14 +1,11 @@
-// src/pages/SignUp.js
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../data/stores/authStore';
 import userStore from '../../data/stores/userStore';
-import { auth } from '../../firebase';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { error, loadig, singupwithemail } = useAuthStore();
+  const { signupWithEmail,user } = useAuthStore();
   const { createUser } = userStore();
 
   const [formData, setFormData] = useState({
@@ -18,7 +15,7 @@ const SignUp = () => {
     confirmPassword: ''
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loadingUI, setLoadingUI] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
@@ -37,32 +34,34 @@ const SignUp = () => {
     }
 
     try {
-      setLoading(true);
+      setLoadingUI(true);
 
-      // ✅ Fixed line: Pass name also!
-      await singupwithemail(formData.email, formData.password, formData.name);
+      // ✅ Ensure signupWithEmail returns userCredential
+        await signupWithEmail(
+        formData.email,
+        formData.password,
+        formData.name
+      );
 
       await createUser({
         name: formData.name,
         email: formData.email,
-        uid: auth.currentUser.uid,
+        // uid: user.uid,
         createdAt: new Date().toISOString(),
       });
 
       setSuccess(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      setTimeout(() => navigate("/"), 2000);
     } catch (e) {
       console.log("Signup error:", e);
     } finally {
-      setLoading(false);
+      setLoadingUI(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 relative">
-      {loading && (
+      {loadingUI && (
         <div className="absolute inset-0 bg-white bg-opacity-80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
           <p className="mt-4 text-blue-600 font-semibold text-lg">Creating your account...</p>
@@ -87,8 +86,9 @@ const SignUp = () => {
               name="name"
               placeholder="Your name"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              autoComplete="name"
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -98,8 +98,9 @@ const SignUp = () => {
               name="email"
               placeholder="Enter your email"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              autoComplete="email"
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -109,8 +110,9 @@ const SignUp = () => {
               name="password"
               placeholder="Create a password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              autoComplete="new-password"
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -120,8 +122,9 @@ const SignUp = () => {
               name="confirmPassword"
               placeholder="Confirm your password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              autoComplete="new-password"
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <button

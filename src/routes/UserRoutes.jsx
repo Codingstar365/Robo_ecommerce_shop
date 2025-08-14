@@ -37,17 +37,15 @@ const UserRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path='/' element={<LandingScreen />} />
         <Route path="/collection/*" element={<CollectionRoutes />} />
-        {/* <Route path="/" element={<BestSeller />} /> */}
+        
         <Route path="/category/:categoryName" element={<CategoryPage />} />
 
-        {/* <Route path="/collection/*" element={<CollectionRoutes />} /> */}
+        
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/logout" element={<LogOut />} />
         <Route path="/track-order" element={<UserOrders />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/product/:id" element={<OrderBriefInfo />} />
-        {/* <Route path= `/track-order/${order.id}` element={<UserProfile />} /> */}
-        {/* <Route path="/server" element={<TrackOrderStatus />} /> */}
         <Route path="/track-order/:id" element={<TrackOrderStatus />} />
 
       </Route>
@@ -61,7 +59,7 @@ const UserRoutes = () => {
 
       </Route>
 
-      <Route path='*' element={<NotFound />} />
+      <Route path='*' element={<NotFound/>} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/login' element={<Login />} />
 

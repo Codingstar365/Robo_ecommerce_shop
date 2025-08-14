@@ -1,4 +1,3 @@
-// src/data/stores/cartStore.js
 import { create } from "zustand";
 
 const storedCart = localStorage.getItem("cartItems");
@@ -22,8 +21,6 @@ const useCartStore = create((set) => ({
         updatedCart.push({ ...product, quantity: 1 });
       }
       syncToLocalStorage(updatedCart);
-
-      // ✅ Clear buyNowItem if user starts using cart
       return { cartItems: updatedCart, buyNowItem: null };
     }),
 
@@ -39,7 +36,9 @@ const useCartStore = create((set) => ({
   decrementQty: (id) =>
     set((state) => {
       const updatedCart = state.cartItems
-        .map((item) => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item))
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        )
         .filter((item) => item.quantity > 0);
       syncToLocalStorage(updatedCart);
       return { cartItems: updatedCart };
@@ -47,6 +46,13 @@ const useCartStore = create((set) => ({
 
   setBuyNowItem: (item) => set({ buyNowItem: { ...item, quantity: 1 } }),
   clearBuyNowItem: () => set({ buyNowItem: null }),
+
+  // ✅ Function to clear all cart items
+  clearCart: () =>
+    set(() => {
+      syncToLocalStorage([]);
+      return { cartItems: [] };
+    }),
 }));
 
 export default useCartStore;

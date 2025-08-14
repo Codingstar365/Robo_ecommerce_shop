@@ -96,18 +96,18 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-gray-100 via-white to-gray-100 py-6 px-2 md:px-4 mt-20">
-      <div className="max-w-7xl mx-auto bg-white shadow-2xl rounded-xl flex flex-col md:flex-row overflow-hidden border border-gray-200">
-        <aside className="bg-blue-50 w-full md:w-64 p-6 border-r">
+    <div className="min-h-screen w-full  py-6 px-2 md:px-4 mt-20">
+      <div className="max-w-7xl mx-auto text shadow-2xl rounded-xl flex flex-col md:flex-row overflow-hidden border border-gray-300">
+        <aside className=" w-full md:w-64 p-6 border-r border-gray-300">
           <div className="flex flex-col items-center text-center mb-8">
             <img
-              src={user?.photoURL || "https://randomuser.me/api/portraits/men/11.jpg"}
+              src={user?.photoURL || "https://randomuser.me/api/portraits/men/1.jpg"}
               alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border-4 border-blue-500 shadow-lg"
+              className="w-24 h-24 rounded-full object-cover border-4 shadow-lg"
             />
-            <h2 className="text-xl font-bold mt-3 text-gray-800">{user?.name || "User Name"}</h2>
-            <p className="text-sm text-gray-500">{user?.email || "user@example.com"}</p>
-            <p className="text-sm text-gray-500 mt-1">Welcome back</p>
+            <h2 className="text-xl font-bold mt-3 ">{user?.name || "User Name"}</h2>
+            <p className="text-sm font-semibold">{user?.email || "user@example.com"}</p>
+            <p className="text-sm  font-semibold mt-1">Welcome back</p>
           </div>
 
           <nav className="space-y-2">
@@ -119,8 +119,8 @@ const UserProfile = () => {
                   setIsEditing(false);
                 }}
                 className={`w-full text-left px-4 py-2 text-sm rounded-lg transition font-semibold ${activeTab === item
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-blue-800 hover:bg-blue-100"
+                  ? "  shadow-md"
+                  : " hover:bg-red-100"
                   }`}
               >
                 {item}
@@ -129,14 +129,14 @@ const UserProfile = () => {
           </nav>
         </aside>
 
-        <main className="flex-1 p-6 sm:p-8 bg-white overflow-y-auto max-h-[80vh]">
-          <div className="flex justify-between items-center mb-6 border-b pb-4">
-            <h2 className="text-2xl font-bold text-blue-700">
+        <main className="flex-1 p-6 sm:p-8  overflow-y-auto max-h-[80vh]">
+          <div className="flex justify-between items-center mb-6 border-b border-gray-300 pb-4">
+            <h2 className="text-2xl font-bold ">
               {activeTab === "My Account" ? "👤 Personal Information" : activeTab}
             </h2>
             {activeTab === "My Account" && !isEditing && (
               <button
-                className="text-blue-600 text-sm font-medium hover:underline"
+                className=" text-sm font-medium hover:underline text-red-500 "
                 onClick={() => setIsEditing(true)}
               >
                 ✎ Edit Profile
@@ -151,49 +151,49 @@ const UserProfile = () => {
               ) : isEditing ? (
                 <form onSubmit={handleFormSubmit} className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-sm text-gray-500 font-medium">Full Name</label>
+                    <label className="text-sm  font-medium">Full Name</label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md "
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm text-gray-500 font-medium">Email</label>
+                    <label className="text-sm  font-medium">Email</label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md "
                     />
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="text-sm text-gray-500 font-medium">Address</label>
+                    <label className="text-sm  font-medium">Address</label>
                     <textarea
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
                       rows="3"
-                      className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md"
                     />
                   </div>
 
                   <div className="sm:col-span-2 flex gap-4">
                     <button
                       type="submit"
-                      className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+                      className=" border px-5 py-2 rounded-md bg-red-500 "
                     >
                       Save Changes
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="bg-gray-300 text-gray-800 px-5 py-2 rounded-md hover:bg-gray-400"
+                      className="border  px-5 py-2 rounded-md bg-red-500"
                     >
                       Cancel
                     </button>
@@ -202,23 +202,23 @@ const UserProfile = () => {
               ) : (
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <p className="text-sm text-gray-500 font-medium">Full Name</p>
+                    <p className="text-sm font-medium">Full Name</p>
                     <h3 className="text-lg font-semibold text-gray-800">{user?.name || "N/A"}</h3>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 font-medium">Email</p>
+                    <p className="text-sm font-medium">Email</p>
                     <h3 className="text-lg font-semibold text-gray-800">{user?.email || "N/A"}</h3>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 font-medium">Address</p>
+                    <p className="text-sm  font-medium">Address</p>
                     <h3 className="text-lg font-semibold text-gray-800">
                       {user?.address || "N/A"}
                     </h3>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 font-medium">Total Orders</p>
+                    <p className="text-sm font-medium">Total Orders</p>
                     {orderLoading ? (
-                      <p className="text-gray-400">Loading...</p>
+                      <p className="">Loading...</p>
                     ) : (
                       <h3 className="text-lg font-semibold text-gray-800">
                         {userOrders.length || 0}
@@ -235,26 +235,26 @@ const UserProfile = () => {
               {orderLoading ? (
                 <p className="text-gray-500">Fetching your orders...</p>
               ) : userOrders.length === 0 ? (
-                <p className="text-gray-500 italic">You haven't placed any orders yet.</p>
+                <p className=" italic">You haven't placed any orders yet.</p>
               ) : (
                 <div className="space-y-4 overflow-y-auto max-h-[60vh] pr-2">
                   {userOrders.map((order, index) => (
                     <div
                       key={index}
-                      className="border rounded-xl p-4 shadow-md transition bg-gradient-to-r from-white to-blue-50 hover:shadow-lg"
+                      className="border border-gray-300 rounded-xl p-4 shadow-md transition from-white to-red-50 hover:shadow-lg"
                     >
                       <div className="flex justify-between items-center mb-2">
                         <div>
-                          <h3 className="text-lg font-bold text-blue-700">
+                          <h3 className="text-lg font-bold ">
                             Order #{order.orderId || index + 1}
                           </h3>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm ">
                             Placed on: {new Date(order.createdAt).toLocaleDateString()}
                           </p>
                         </div>
                         <button
                           onClick={() => navigate(`/track-order/${order.id}`)}
-                          className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full shadow"
+                          className="text-sm   px-4 py-1.5 rounded-full shadow"
                         >
                           🚚 Track Order
                         </button>
@@ -266,20 +266,20 @@ const UserProfile = () => {
                             <img
                               src={item.image || "https://via.placeholder.com/80"}
                               alt={item.title}
-                              className="w-16 h-16 object-cover rounded-md border"
+                              className="w-16 h-16 object-cover rounded-md border border-gray-300"
                             />
                             <div>
                               <p className="font-medium text-gray-800">{item.title}</p>
-                              <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                              <p className="text-sm text-gray-600">Price: ₹{item.price}</p>
+                              <p className="text-sm">Qty: {item.quantity}</p>
+                              <p className="text-sm">Price: ₹{item.price}</p>
                             </div>
                           </div>
                         ))}
                       </div>
 
-                      <div className="mt-4 flex justify-between items-center border-t pt-3">
+                      <div className="mt-4 flex justify-between items-center border-t border-gray-300 pt-3">
                         <p className="text-gray-800 font-semibold">Total: ₹{order.totalAmount}</p>
-                        <span className="text-sm font-medium px-3 py-1 rounded-full bg-green-100 text-green-700">
+                        <span className="text-sm font-medium px-3 py-1 rounded-full  ">
                           {order.status?.[order.status.length - 1] || "Pending"}
                         </span>
                       </div>
@@ -300,12 +300,12 @@ const UserProfile = () => {
                 wishlist.map((item, index) => (
                   <div
                     key={index}
-                    className="flex gap-4 items-start p-4 border rounded-lg shadow-sm hover:shadow-md transition bg-white"
+                    className="flex gap-4 items-start p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition"
                   >
                     <img
                       src={item.image || "https://via.placeholder.com/100"}
                       alt={item.title}
-                      className="w-24 h-24 object-cover rounded-md border"
+                      className="w-24 h-24 object-cover rounded-md border border-gray-300"
                     />
                     <div className="flex-1 space-y-1">
                       <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
@@ -328,11 +328,10 @@ const UserProfile = () => {
                     <div className="flex flex-col gap-2 items-end">
                       <button
                         onClick={() => navigate(`/product/${item.id}`)}
-                        className="text-sm bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                        className="text-sm  text-white px-4 py-2 rounded-md "
                       >
                         View
                       </button>
-                      {/* Optional: Add remove button here */}
                     </div>
                   </div>
                 ))
@@ -349,36 +348,36 @@ const UserProfile = () => {
           {activeTab === "Change Password" && (
             <form onSubmit={handlePasswordChange} className="max-w-md space-y-4">
               <div>
-                <label className="text-sm text-gray-500 font-medium">Current Password</label>
+                <label className="text-sm  font-medium">Current Password</label>
                 <input
                   type="password"
                   name="current"
                   required
                   value={passwords.current}
                   onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
-                  className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                  className="mt-1 w-full px-4 py-2 border border-gray-400 rounded-md "
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-500 font-medium">New Password</label>
+                <label className="text-sm  font-medium">New Password</label>
                 <input
                   type="password"
                   name="newPass"
                   required
                   value={passwords.newPass}
                   onChange={(e) => setPasswords({ ...passwords, newPass: e.target.value })}
-                  className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                  className="mt-1 w-full px-4 py-2 border border-gray-400 rounded-md "
                 />
               </div>
               <div>
-                <label className="text-sm text-gray-500 font-medium">Confirm Password</label>
+                <label className="text-sm  font-medium">Confirm Password</label>
                 <input
                   type="password"
                   name="confirm"
                   required
                   value={passwords.confirm}
                   onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })}
-                  className="mt-1 w-full px-4 py-2 border rounded-md text-gray-800"
+                  className="mt-1 w-full px-4 py-2 border border-gray-400 rounded-md "
                 />
               </div>
               {passwordMessage && (
@@ -391,7 +390,7 @@ const UserProfile = () => {
               )}
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+                className="  border bg-red-500 px-5 py-2 rounded-md"
               >
                 Update Password
               </button>
@@ -403,4 +402,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserProfile; 

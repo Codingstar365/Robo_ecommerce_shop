@@ -1,81 +1,78 @@
  const Allcategories = [
-  { "name": "STEM Kits", "href": "/stem-kits" },
-  { "name": "Raspberry Pi", "href": "/raspberry-pi" },
-  { "name": "Arduino", "href": "/arduino" },
-  { "name": "Compatible with Arduino", "href": "/compatible-arduino" },
-  { "name": "Electronic Modules", "href": "/electronic-modules" },
-  { "name": "Drone Parts", "href": "/drone-parts" },
-  { "name": "3D Printers/Pens", "href": "/3d-printers" },
-  { "name": "IOT & Wireless Boards", "href": "/iot-wireless" },
-  { "name": "Sensors", "href": "/sensors" },
-  { "name": "Motors & Mechanical", "href": "/motors-mechanical" },
-  { "name": "Development Boards", "href": "/development-boards" },
-  { "name": "Display Module", "href": "/display-module" },
-  { "name": "Battery and Power Supply", "href": "/battery-power" },
-  { "name": "Cables", "href": "/cables" },
-  { "name": "Tools & Instruments", "href": "/tools-instruments" }
+  { "name": "STEM Kits", "href": "/collection/stem-kits" },
+  { "name": "Raspberry Pi", "href": "/collection/raspberry-pi" },
+  { "name": "Arduino", "href": "/collection/arduino" },
+  { "name": "Compatible with Arduino", "href": "/collection/compatible-arduino" },
+  { "name": "Electronic Modules", "href": "/collection/electronic-modules" },
+  { "name": "Drone Parts", "href": "/collection/drone-parts" },
+  { "name": "3D Printers/Pens", "href": "/collection/3d-printers" },
+  { "name": "IOT & Wireless Boards", "href": "/collection/iot-wireless" },
+  { "name": "Sensors", "href": "/collection/sensors" },
+  { "name": "Motors & Mechanical", "href": "/collection/motors-mechanical" },
+  { "name": "Development Boards", "href": "/collection/development-boards" },
+  { "name": "Display Module", "href": "/collection/display-module" },
+  { "name": "Battery and Power Supply", "href": "/collection/battery-power" },
+  { "name": "Cables", "href": "/collection/cables" },
+  { "name": "Tools & Instruments", "href": "/collection/tools-instruments" }
 ]
 
 
 
 const ShopByBrand =[
-  { "name": "Raspberry Pi", "href": "/raspberry-pi" },
-  { "name": "Arduino", "href": "/arduino" },
-  { "name": "BBC Micro:bit", "href": "/bbc-microbit" },
-  { "name": "Seeed Studio", "href": "/seeed-studio" },
-  { "name": "Bonka LiPo Batteries", "href": "/bonka-lipo" },
-  { "name": "Soldron", "href": "/soldron" },
-  { "name": "Matata STEM Kit", "href": "/matata-stem-kit" },
+  { "name": "Raspberry Pi", "href": "/collection/raspberry-pi" },
+  { "name": "Arduino", "href": "/collection/arduino" },
+  { "name": "BBC Micro:bit", "href": "/collection/bbc-microbit" },
+  { "name": "Seeed Studio", "href": "/collection/seeed-studio" },
+  { "name": "Bonka LiPo Batteries", "href": "/collection/bonka-lipo" },
+  { "name": "Soldron", "href": "/collection/soldron" },
+  { "name": "Matata STEM Kit", "href": "/collection/matata-stem-kit" },
   { "name": "Acebott STEM Kit", "href": "/acebott-stem-kit" },
-  { "name": "Hiwonder", "href": "/hiwonder" },
-  { "name": "Elephant Robotics", "href": "/elephant-robotics" },
-  { "name": "Waveshare", "href": "/waveshare" },
-  { "name": "7Semi", "href": "/7semi" },
-  { "name": "Neol India", "href": "/neol-India" },
-  { "name": "Elecrow", "href": "/elecrow" },
-  { "name": "DFRobot", "href": "/dfrobot" },
-  { "name": "Bambu Lab", "href": "/bambu-lab" },
-  { "name": "Flysky", "href": "/flysky" },
-  { "name": "Witty Fox", "href": "/witty-fox" },
-  { "name": "Beagle Bone", "href": "/beagle-bone" },
-  { "name": "Nvidia Jetson Nano", "href": "/nvidia" },
-  { "name": "Elecfreaks", "href": "/elecfreaks" },
-  { "name": "M5Stack", "href": "/m5stack" },
-  { "name": "Multitec", "href": "/multitec" },
-  { "name": "Metroq", "href": "/metroq" }
+  { "name": "Hiwonder", "href": "/collection/hiwonder" },
+  { "name": "Elephant Robotics", "href": "/collection/elephant-robotics" },
+  { "name": "Waveshare", "href": "/collection/waveshare" },
+  { "name": "7Semi", "href": "/collection/7semi" },
+  { "name": "Neol India", "href": "/collection/neol-India" },
+  { "name": "Elecrow", "href": "/collection/elecrow" },
+  { "name": "DFRobot", "href": "/collection/dfrobot" },
+  { "name": "Bambu Lab", "href": "/collection/bambu-lab" },
+  { "name": "Flysky", "href": "/collection/flysky" },
+  { "name": "Witty Fox", "href": "/collection/witty-fox" },
+  { "name": "Beagle Bone", "href": "/collection/beagle-bone" },
+  { "name": "Nvidia Jetson Nano", "href": "/collection/nvidia" },
+ 
 ]
 
  const BulkOrders = 
   [
-  { "name": "Reseller", "href": "/reseller" },
-  { "name": "Manufacturer/OEM", "href": "/manufacturer-oem" },
-  { "name": "School/College", "href": "/school-college" },
-  { "name": "GeM Portal", "href": "/gem-portal" },
-  { "name": "Industrial", "href": "/industrial" }
+  { "name": "Reseller", "href": "/collection/reseller" },
+  { "name": "Manufacturer/OEM", "href": "/collection/manufacturer-oem" },
+  { "name": "School/College", "href": "/collection/school-college" },
+  { "name": "GeM Portal", "href": "/collection/gem-portal" },
+  { "name": "Industrial", "href": "/collection/industrial" }
 ]
   
  const LabSetUp = [
-  { "name": "AICTE IDEA Lab", "href": "/aicte-idea-lab" },
-  { "name": "PM SHRI Robotics Lab", "href": "/pm-shri-robotics-lab" },
-  { "name": "Arduino Labs", "href": "/arduino-labs" },
-  { "name": "STEM & Robotics Lab", "href": "/stem-robotics-lab" },
-  { "name": "IoT & AI/ML Lab", "href": "/iot-ai-ml-lab" },
-  { "name": "Faculty Development Program", "href": "/faculty-development" },
-  { "name": "STEM Lab for NGO and CSR", "href": "/stem-lab-ngo-csr" }
+  { "name": "AICTE IDEA Lab", "href": "/collection/aicte-idea-lab" },
+  { "name": "PM SHRI Robotics Lab", "href": "/collection/pm-shri-robotics-lab" },
+  { "name": "Arduino Labs", "href": "/collection/arduino-labs" },
+  { "name": "STEM & Robotics Lab", "href": "/collection/stem-robotics-lab" },
+  { "name": "IoT & AI/ML Lab", "href": "/collection/iot-ai-ml-lab" },
+  { "name": "Faculty Development Program", "href": "/collection/faculty-development" },
+  { "name": "STEM Lab for NGO and CSR", "href": "/collection/stem-lab-ngo-csr" }
 ]
 
  const Industrial =[
-  { "name": "Controller / PLC", "href": "/controller-plc" },
-  { "name": "Robotics / AI", "href": "/robotics-ai" },
-  { "name": "Electronic Modules", "href": "/electronic-modules" },
-  { "name": "Sensors", "href": "/sensors" },
-  { "name": "HMI / Displays", "href": "/hmi-displays" },
-  { "name": "IoT & Wireless", "href": "/iot-wireless" },
-  { "name": "3D Printers / Additive Manufacturing", "href": "/3d-printers-additive" },
-  { "name": "Batteries & Power Supply", "href": "/batteries-power-supply" },
-  { "name": "Motors & Mechanical", "href": "/motors-mechanical" },
-  { "name": "Tools & Accessories", "href": "/tools-accessories" },
-  { "name": "Services", "href": "/services" }
+  { "name": "Controller / PLC", "href": "/collection/controller-plc" },
+  { "name": "Robotics / AI", "href": "/collection/robotics-ai" },
+  { "name": "Electronic Modules", "href": "/collection/electronic-modules" },
+  { "name": "Sensors", "href": "/collection/sensors" },
+  { "name": "HMI / Displays", "href": "/collection/hmi-displays" },
+  { "name": "IoT & Wireless", "href": "/collection/iot-wireless" },
+  { "name": "3D Printers / Additive Manufacturing", "href": "/collection/3d-printers-additive" },
+  { "name": "Batteries & Power Supply", "href": "/collection/batteries-power-supply" },
+  { "name": "Motors & Mechanical", "href": "/collection/motors-mechanical" },
+  { "name": "Tools & Accessories", "href": "/collection/tools-accessories" },
+  { "name": "Services", "href": "/collection /services" }
 ] 
 
 const FooterBlogs =[

@@ -7,7 +7,7 @@ import logo from "../assets/robomart2.png"; // ✅ Add your logo image path here
 const Footer = () => {
   return (
     <div className='bottom-0 left-0 w-full     '>
-      <div className="bg-secondary text-center px-6 py-7 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="bg-secondary text-center px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
         <h2 className="text-white text-base md:text-lg font-semibold ">
           Sign up for our newsletter and unlock exclusive promotions and discounts
         </h2>

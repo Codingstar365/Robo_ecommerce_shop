@@ -2,7 +2,7 @@ import React from 'react';
 
 const TestimonialCard = ({ name, avatar, platform, rating, time, message }) => {
   return (
-    <div className="max-w-sm bg-gray-300 rounded-xl shadow-md p-4 flex flex-col space-y-2 border-gray-300 m-2">
+    <div className="max-w-sm border  rounded-xl shadow-md p-4 flex flex-col space-y-2 border-gray-300 m-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">

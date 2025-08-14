@@ -1,4 +1,4 @@
-export const CardData = [
+ const CardData = [
   {
     "id": 1,
     "name": "Original Arduino UNO EK R4 WiFi - Made in India",
@@ -63,3 +63,4 @@ export const CardData = [
     "description": "A gas detection sensor for LPG, smoke, methane, and other combustible gases in safety and automation projects."
   }
 ];
+export  {CardData}

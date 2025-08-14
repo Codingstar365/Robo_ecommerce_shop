@@ -2,7 +2,7 @@ import React from "react";
 
 const PageSidebar = () => {
   return (
-    <div className="w-64 h-full p-4 border-r text-sm">
+    <div className="w-64 h-full p-4 border-r border-gray-300 text-sm">
       {/* Filter Section */}
       <h2 className="font-semibold mb-2">Filter:</h2>
       <div className="border-b mb-4 pb-2">

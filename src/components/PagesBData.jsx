@@ -5,7 +5,7 @@ const PagesBData = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="border rounded-md shadow-inner bg-gray-200">
+    <div className="border border-gray-300 rounded-md shadow-inner bg-gray-100">
       {/* Header toggle section */}
       <div
         className="flex items-center justify-between cursor-pointer px-4 py-3"

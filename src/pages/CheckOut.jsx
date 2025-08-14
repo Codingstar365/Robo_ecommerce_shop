@@ -85,14 +85,14 @@ const CheckoutPage = () => {
                       <div className="flex items-center mt-2 space-x-2">
                         <button
                           onClick={() => decrementQty(item.id)}
-                          className="px-2 py-1 border rounded text-lg"
+                          className="px-2 py-1 border border-gray-300 rounded text-lg"
                         >
                           −
                         </button>
                         <span>{qty}</span>
                         <button
                           onClick={() => incrementQty(item.id)}
-                          className="px-2 py-1 border rounded text-lg"
+                          className="px-2 py-1 border border-gray-300 rounded text-lg"
                         >
                           +
                         </button>

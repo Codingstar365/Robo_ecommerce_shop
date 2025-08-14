@@ -4,6 +4,7 @@ import ItemCard from '../components/ItemCard';
 import useProductStore from '../data/stores/ProductStore';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import fallbackImage from '../assets/hero/download.jpg'; // fallback image
 
 const Products = () => {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const Products = () => {
     new Set(categories.flatMap(c => c.subcategories || []))
   );
 
+
+  console.log("products from admin",products);
   const filtered = products.filter((p) => {
     const matchesSearch =
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -37,7 +40,7 @@ const Products = () => {
     return true;
   });
 
-  // ✅ Toggle enable/disable status in Firestore
+  // Toggle enable/disable status in Firestore
   const toggleProductStatus = async (productId, currentStatus) => {
     try {
       await updateDoc(doc(db, "products", productId), {

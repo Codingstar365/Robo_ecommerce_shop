@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Allcategories,
   BulkOrders,
@@ -11,11 +11,15 @@ import { Link } from 'react-router-dom';
 import UserDropdown from './OrderInfo';
 import AddToCartHover from './AddToCard';
 import logo from '../assets/robomart.jpg';
+import { useAuthStore } from '../data/stores/authStore'; // ✅ Zustand store
 
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeTimeout = useRef(null);
+
+  const { user } = useAuthStore((state) => state); // ✅ Zustand store with localStorage persist
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,11 +43,18 @@ const Navbar = () => {
   ];
 
   const handleMouseEnter = (label) => {
-    if (!isMobile) setOpenDropdown(label);
+    if (!isMobile) {
+      clearTimeout(closeTimeout.current);
+      setOpenDropdown(label);
+    }
   };
 
   const handleMouseLeave = () => {
-    if (!isMobile) setOpenDropdown(null);
+    if (!isMobile) {
+      closeTimeout.current = setTimeout(() => {
+        setOpenDropdown(null);
+      }, 200);
+    }
   };
 
   const closeMenu = () => {
@@ -61,10 +72,19 @@ const Navbar = () => {
 
         {/* Mobile Header Icons */}
         <div className="md:hidden flex items-center gap-4">
-          <div className="ml-2"> {/* Left margin only for mobile */}
+          <div className="ml-2">
             <AddToCartHover />
           </div>
-          <UserDropdown />
+          {user ? (
+            <UserDropdown />
+          ) : (
+            <Link
+              to="/login"
+              className="px-3 py-1  text-white rounded hover:bg-blue-700 text-sm"
+            >
+              Login
+            </Link>
+          )}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-2xl focus:outline-none"
@@ -82,18 +102,18 @@ const Navbar = () => {
               onMouseEnter={() => handleMouseEnter(label)}
               onMouseLeave={handleMouseLeave}
             >
-              <button
-                className="flex items-center gap-1 hover:text-gray-400"
-              >
+              <button className="flex items-center gap-1 hover:text-gray-400">
                 {label}
                 <FiChevronDown
-                  className={`transition-transform duration-300 ${
-                    openDropdown === label ? 'rotate-180' : ''
-                  }`}
+                  className={`transition-transform duration-300 ${openDropdown === label ? 'rotate-180' : ''}`}
                 />
               </button>
               {openDropdown === label && (
-                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 px-2 py-2 space-y-0.5">
+                <ul
+                  className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 px-2 py-2 space-y-0.5"
+                  onMouseEnter={() => handleMouseEnter(label)}
+                  onMouseLeave={handleMouseLeave}
+                >
                   {data.map((item, i) => (
                     <li key={i}>
                       <Link
@@ -109,8 +129,16 @@ const Navbar = () => {
               )}
             </div>
           ))}
-          {/* Cart & User */}
-          <UserDropdown />
+          {user ? (
+            <UserDropdown />
+          ) : (
+            <Link
+              to="/login"
+              className="px-3 border rounded-xl py-1 bg-red-600 text-white font-normal text-md transition-colors duration-300 hover:bg-red-500"
+            >
+              Login
+            </Link>
+          )}
           <AddToCartHover />
         </div>
       </div>
@@ -129,9 +157,7 @@ const Navbar = () => {
                 >
                   {label}
                   <FiChevronDown
-                    className={`transition-transform duration-300 ${
-                      openDropdown === label ? 'rotate-180' : ''
-                    }`}
+                    className={`transition-transform duration-300 ${openDropdown === label ? 'rotate-180' : ''}`}
                   />
                 </button>
                 {openDropdown === label && (

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import productImage from '../assets/hero/download.jpg';
-import useCartStore from '../data/stores/cartStore'; // ✅ Zustand store
+import useCartStore from '../data/stores/cartStore';
 import { useNavigate } from 'react-router-dom';
 
 const AddToCartHover = () => {
@@ -10,13 +10,23 @@ const AddToCartHover = () => {
     cartItems,
     incrementQty,
     decrementQty,
-    clearBuyNowItem, 
+    clearBuyNowItem,
+    clearCart,
   } = useCartStore();
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close on click outside
+  useEffect(() => {
+    const checkOrderConfirmed = () => {
+      if (localStorage.getItem("orderConfirmed") === "true") {
+        clearCart();
+        localStorage.removeItem("orderConfirmed");
+      }
+    };
+    checkOrderConfirmed();
+  }, [clearCart]);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -34,7 +44,6 @@ const AddToCartHover = () => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      {/* Cart Icon */}
       <button
         onClick={() => setIsOpen(prev => !prev)}
         className="relative p-2 rounded-full hover:bg-gray-200 transition"
@@ -47,9 +56,8 @@ const AddToCartHover = () => {
         )}
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white border-gray-1000 rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
           <div className="p-4 max-h-52 overflow-y-auto">
             {cartItems.length === 0 ? (
               <p className="text-center text-gray-500">Your cart is empty</p>
@@ -69,14 +77,14 @@ const AddToCartHover = () => {
                     <div className="flex items-center mt-1 space-x-2">
                       <button
                         onClick={() => decrementQty(item.id)}
-                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                        className="p-1 rounded border border-gray-300 bg-gray-200 hover:bg-gray-300"
                       >
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="text-sm">{item.quantity}</span>
                       <button
                         onClick={() => incrementQty(item.id)}
-                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                        className="p-1 rounded border border-gray-300 bg-gray-200 hover:bg-gray-300"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
@@ -90,18 +98,17 @@ const AddToCartHover = () => {
             )}
           </div>
 
-          {/* Total and Checkout Button */}
           {cartItems.length > 0 && (
-            <div className="border-t px-4 py-3">
+            <div className="border-t border-gray-300 px-4 py-3">
               <div className="flex justify-between mb-3 text-sm font-medium">
                 <span>Total</span>
                 <span>₹{total}</span>
               </div>
               <button
                 onClick={() => {
-                  setIsOpen(false);        // ✅ Immediately close popup
-                  clearBuyNowItem();       // ✅ Ensure cart is the checkout source
-                  navigate("/checkout");   // ✅ Navigate to checkout
+                  setIsOpen(false);
+                  clearBuyNowItem();
+                  navigate("/checkout");
                 }}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
               >
