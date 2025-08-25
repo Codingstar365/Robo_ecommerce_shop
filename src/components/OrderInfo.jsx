@@ -41,63 +41,65 @@ const UserDropdown = () => {
       // Step 3: Clear all localStorage
       localStorage.clear();
 
-      // Step 4: Navigate to home
-      navigate("/");
+      // Step 4: Navigate to home (after short delay so loader shows)
+      setTimeout(() => {
+        navigate("/");
+      }, 800); // 800ms delay so loader is visible
     } catch (error) {
       console.error("Logout failed:", error);
-    } finally {
-      // Step 5: Hide loader only after everything is done
-      setIsLoggingOut(false);
+      setIsLoggingOut(false); // Only hide if failed
     }
   };
 
   return (
-    <div ref={dropdownRef} className="relative inline-block text-left z-50">
-      <button
-        className="text-gray-700 hover:text-blue-600 focus:outline-none transition duration-200"
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <FaUser className="w-6 h-6" />
-      </button>
+    <>
+      {/* Fullscreen Loader Overlay */}
+      {isLoggingOut && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-blue-600 font-medium">Logging out...</p>
+          </div>
+        </div>
+      )}
 
-      {/* Dropdown */}
-      <div
-        className={`
-          absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg
-          transform transition-all duration-300 ease-in-out
-          ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}
-        `}
-      >
-        <ul className="py-2 text-sm text-gray-700">
-          <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/user-profile" onClick={() => setIsOpen(false)}>
-              My Profile
-            </Link>
-          </li>
-         
-          {/* <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/account" onClick={() => setIsOpen(false)}>
-              Account Options
-            </Link>
-          </li> */}
-          <li className="px-4 py-2 hover:bg-gray-100">
-            <Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>
-              Go to Admin
-            </Link>
-          </li>
-          <li
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
-            onClick={handleLogout}
-          >
-            {isLoggingOut ? (
-              <span className="text-blue-600 text-sm">Logging out...</span>
-            ) : (
-              "Logout"
-            )}
-          </li>
-        </ul>
+      <div ref={dropdownRef} className="relative inline-block text-left z-40">
+        <button
+          className="text-gray-700 hover:text-blue-600 focus:outline-none transition duration-200"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <FaUser className="w-6 h-6" />
+        </button>
+
+        {/* Dropdown */}
+        <div
+          className={`
+            absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg
+            transform transition-all duration-300 ease-in-out
+            ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}
+          `}
+        >
+          <ul className="py-2 text-sm text-gray-700">
+            <li className="px-4 py-2 hover:bg-gray-100">
+              <Link to="/user-profile" onClick={() => setIsOpen(false)}>
+                My Profile
+              </Link>
+            </li>
+            <li className="px-4 py-2 hover:bg-gray-100">
+              <Link to="/admin/dashboard" onClick={() => setIsOpen(false)}>
+                Go to Admin
+              </Link>
+            </li>
+            <li
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

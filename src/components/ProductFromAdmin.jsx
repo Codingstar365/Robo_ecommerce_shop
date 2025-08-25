@@ -71,15 +71,16 @@ const BestSeller = () => {
 
   return (
     <div className="border rounded-lg mt-4 border-gray-300">
-      <div className="font-bold justify-items-center text-2xl mt-4">
-        <h2>Our Products</h2>
+      <div className="font-bold justify-items-center text-2xl mt-2">
+        <h2><span className="text-red-500">OUR </span>PRODUCTS</h2>
       </div>
 
       {Object.keys(productsByCategory).map((category) => (
         <div key={category} className="mt-6">
-          <h3 className="text-xl font-semibold mb-4 px-5">{category}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-5 mx-5 mb-5">
-            {productsByCategory[category].slice(0, 3).map((item) => (
+<h3 className="text-xl font-semibold mb-4 px-5 uppercase">{category}</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mt-5 mx-5 mb-5">
+            {productsByCategory[category].slice(0, 4).map((item) => (
               <ItemCard
                 key={item.id}
                 id={item.id}

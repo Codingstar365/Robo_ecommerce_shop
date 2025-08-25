@@ -133,21 +133,21 @@ const ItemAdd = () => {
       console.log("from loop")
       console.log("dskfjsldfjsldf", item.imageFile)
       console.log(item.image)
-      if (
-        !item.name ||
-        !item.originalPrice ||
-        !item.discountedPrice ||
-        !item.discountPercent ||
-        !item.rating ||
-        !item.rcCoins ||
-        !item.category ||
-        !item.subcategory ||
-        (!item.image && !item.imageFile) ||
-        !item.description
-      ) {
-        alert(`Please fill all fields for Product ${i + 1}`);
-        return;
-      }
+      // if (
+      //   !item.name ||
+      //   !item.originalPrice ||
+      //   !item.discountedPrice ||
+      //   !item.discountPercent ||
+      //   !item.rating ||
+      //   !item.rcCoins ||
+      //   !item.category ||
+      //   !item.subcategory ||
+      //   (!item.image && !item.imageFile) ||
+      //   !item.description
+      // ) {
+      //   alert(`Please fill all fields for Product ${i + 1}`);
+      //   return;
+      // }
     }
 
     try {
@@ -184,7 +184,7 @@ const ItemAdd = () => {
     <div className="p-6 pt-24 max-w-4xl mx-auto bg-white rounded shadow mt-4">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Add Products</h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-">
         {items.map((item, index) => (
           <div
             key={index}
@@ -203,7 +203,7 @@ const ItemAdd = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 ">
               {/* Product Name */}
               <div className="relative">
                 <FaTag className="absolute left-3 top-3 text-gray-400" />

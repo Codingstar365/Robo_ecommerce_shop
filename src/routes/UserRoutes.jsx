@@ -25,7 +25,6 @@ import TrackOrderStatus from '../pages/TrackOrderStatus';
 import { HomeRoute } from '../constants/RouteConstants';
 import AdminDashboard from '../pages/AdminDashboard';
 import AdminDeleteButton from '../pages/AdminDeleteButton';
-import LogOut from '../pages/auth/LogOut';
 import AdminUserSection from '../pages/AdminUserSection';
 import OrderBriefInfo from '../pages/OrderBriefInfo';
 import CategoryPage from '../pages/CategoryPage';
@@ -42,7 +41,7 @@ const UserRoutes = () => {
 
         
         <Route path="/checkout" element={<CheckOut />} />
-        <Route path="/logout" element={<LogOut />} />
+        
         <Route path="/track-order" element={<UserOrders />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/product/:id" element={<OrderBriefInfo />} />

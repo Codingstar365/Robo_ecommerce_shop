@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import img1 from '../../src/assets/hero/download.jpg';
-import img2 from '../../src/assets/hero/download2.jpg';
-import img3 from '../../src/assets/hero/download3.jpg';
-import img4 from '../../src/assets/hero/download4.jpg';
+import img1 from '../../src/assets/hero/banner1.png';
+import img2 from '../../src/assets/hero/banner6.png';
+import img3 from '../../src/assets/hero/banner1.jpg';
+import img4 from '../../src/assets/hero/banner5.png';
 
 const HeroCarousel = () => {
   const images = [img1, img2, img3, img4];
@@ -37,14 +37,10 @@ const HeroCarousel = () => {
           <img
             src={img}
             alt={`Slide ${index + 1}`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
         </div>
       ))}
-
-      
-
-      
 
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
         {images.map((_, idx) => (

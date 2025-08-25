@@ -9,13 +9,24 @@ import {
   updateDoc,
   deleteDoc
 } from 'firebase/firestore';
-import { db,storage } from '../../firebase';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+// Simple unique ID generator: timestamp + random string
+const generateUniqueId = () => {
+  return (
+    Date.now().toString(36) +
+    Math.random().toString(36).substring(2, 8)
+  );
+};
 
 export const saveImagetoDatabaseAndGetUrl = async (file) => {
   try {
     const storage = getStorage();
-    const fileName = `${uuidv4()}-${file.name || "image"}`;
-    const storageRef = ref(storage, `images/${fileName}`);
+    
+    const uniqueId = generateUniqueId();
+    const fileName = `${uniqueId}-${file.name || "image"}`;
+
+    const storageRef = ref (storage, `images/${fileName}`);
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     console.log("✅ File uploaded. Download URL:", downloadURL);

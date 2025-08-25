@@ -1,4 +1,4 @@
-import img1 from '../../src/assets/drone.svg'
+import img1 from '../../src/assets/second1.webp'
 import img2 from '../../src/assets/image.svg'
 import img3 from '../../src/assets/image.svg'
 import img4 from '../../src/assets/image.svg'

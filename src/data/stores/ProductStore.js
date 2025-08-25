@@ -8,7 +8,8 @@ import {
   updateCategoryInFirestore,      // ✅ new
   deleteCategoryFromFirestore,    // ✅ new
   updateSubcategoryInFirestore,   // ✅ new
-  deleteSubcategoryFromFirestore, // ✅ new
+  deleteSubcategoryFromFirestore,
+  saveImagetoDatabaseAndGetUrl, // ✅ new
 } from '../api/ProductApi';
 
 const useProductStore = create((set) => ({
@@ -38,30 +39,36 @@ const useProductStore = create((set) => ({
     }
   },
 
-  addProduct: async (...items) => {
-    set({ loading: true, error: null });
-    console.log("Incoming items:", items);
-    items.forEach((item, index) => {
-      console.log(`Item ${index + 1}:`, item);
-    });
-    console.log("Incoming items:", JSON.stringify(items, null, 2));
 
+addProduct: async (...items) => {
+  set({ loading: true, error: null });
+  try {
+    const newArr = [];
+    for (const it of items) {
+      let imageUrl = it.image;
 
-    try {
-      const newArr = [];
-      for (const it of items) {
-        const added = await addProductToFirestoreWithId(it);
-        newArr.push(added);
+      // ✅ Upload to Firebase Storage if file exists
+      if (it.imageFile) {
+        imageUrl = await saveImagetoDatabaseAndGetUrl(it.imageFile);
       }
-      set((state) => ({
-        products: [...state.products, ...newArr],
-        loading: false,
-      })); ``
-    } catch (e) {
-      console.error(e);
-      set({ loading: false, error: e.message });
+
+      const productData = { ...it, image: imageUrl };
+      delete productData.imageFile; // don’t save raw file object
+
+      const added = await addProductToFirestoreWithId(productData);
+      newArr.push(added);
     }
-  },
+
+    set((state) => ({
+      products: [...state.products, ...newArr],
+      loading: false,
+    }));
+  } catch (e) {
+    console.error(e);
+    set({ loading: false, error: e.message });
+  }
+},
+
 
   addCategory: async (name) => {
     try {
