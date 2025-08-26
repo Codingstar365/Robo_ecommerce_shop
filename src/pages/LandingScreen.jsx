@@ -26,7 +26,7 @@ const LandingScreen = () => {
                 <SecondHero
                   key={index}
                   name={item.name}
-
+                   img={item.image}
 
                   discount={item.discount}
                 />

@@ -5,7 +5,7 @@ import userStore from '../../data/stores/userStore';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { signupWithEmail,user } = useAuthStore();
+  const { signupWithEmail } = useAuthStore();
   const { createUser } = userStore();
 
   const [formData, setFormData] = useState({

@@ -127,7 +127,11 @@ const ItemCard = ({
             className={`w-full h-40 object-cover rounded-t-md mb-4 transition-opacity duration-500 ${isImageLoading ? "opacity-0" : "opacity-100"
               }`}
             onLoad={() => setIsImageLoading(false)}
-            onError={() => setIsImageLoading(false)}
+            onError={(e) => {
+              setIsImageLoading(false);
+              e.currentTarget.src =
+                "https://via.placeholder.com/300x200.png?text=No+Image";
+            }}
           />
 
           <div className="absolute top-2  left-0 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-tr-lg rounded-bl-lg">

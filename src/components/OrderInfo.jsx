@@ -26,28 +26,31 @@ const UserDropdown = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ Logout with loader until everything is done
+  // ✅ Logout with loader for 10s before actually logging out
   const handleLogout = async () => {
     setIsLoggingOut(true); // Show loader immediately
+    setIsOpen(false); // Close dropdown
 
     try {
-      // Step 1: Wait for Firebase sign out
-      await signOut(auth);
+      // Wait for 10 seconds before logging out
+      setTimeout(async () => {
+        // Step 1: Firebase sign out
+        await signOut(auth);
 
-      // Step 2: Clear Zustand auth & cart
-      setUser(null);
-      clearBuyNowItem();
+        // Step 2: Clear Zustand auth & cart
+        setUser(null);
+        clearBuyNowItem();
 
-      // Step 3: Clear all localStorage
-      localStorage.clear();
+        // Step 3: Clear localStorage
+        localStorage.clear();
 
-      // Step 4: Navigate to home (after short delay so loader shows)
-      setTimeout(() => {
+        // Step 4: Navigate home
         navigate("/");
-      }, 800); // 800ms delay so loader is visible
+      }, 10000); // 10000ms = 10 seconds
+
     } catch (error) {
       console.error("Logout failed:", error);
-      setIsLoggingOut(false); // Only hide if failed
+      setIsLoggingOut(false); // Hide loader only if failed
     }
   };
 
@@ -67,6 +70,7 @@ const UserDropdown = () => {
         <button
           className="text-gray-700 hover:text-blue-600 focus:outline-none transition duration-200"
           onClick={() => setIsOpen((prev) => !prev)}
+          disabled={isLoggingOut} // prevent clicks while logging out
         >
           <FaUser className="w-6 h-6" />
         </button>
