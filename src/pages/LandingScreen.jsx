@@ -6,46 +6,52 @@ import Brand from '../components/Brand';
 import TestimonialCard from '../components/TestimonialCard';
 import { Testimonial } from '../constants/TestimonialConstant';
 import MySideBar from '../components/MySideBar';
-import ItemCard from '../components/ItemCard';
 import BestSeller from '../components/ProductFromAdmin';
 import FAQSection from '../components/FAQSection';
 
 const LandingScreen = () => {
   return (
-    <div className="flex mx-auto ">
-      <MySideBar />
+    <div className="flex max-w-[1400px] p-4 mx-auto px-4 md:px-6 lg:px-8 font-sans">
+      {/* Sidebar */}
+      <aside className="hidden md:block w-64 pr-4">
+        <MySideBar />
+      </aside>
 
-      <div className="w-full ml-2  ">
-        <HeroCarousel />
-        <div>
+      {/* Main Content */}
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="mb-8">
+          <HeroCarousel />
+        </section>
 
-          <div className="  border border-2xl p-5 border-gray-300  rounded-lg ">
-
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mt-5 justify-around  ">
-              {CardDataSecond.map((item, index) => (
-                <SecondHero
-                  key={index}
-                  name={item.name}
-                   img={item.image}
-
-                  discount={item.discount}
-                />
-              ))}
-            </div>
+        {/* Category Section */}
+        <section className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
+            {CardDataSecond.map((item, index) => (
+              <SecondHero
+                key={index}
+                name={item.name}
+                Icon={item.img}
+                discount={item.discount}
+              />
+            ))}
           </div>
-        </div>
+        </section>
 
-        <BestSeller/>
-        <div className='border relative border-gray-300 mb-3 rounded-lg mt-4 ' >
-          <Brand
-            isCenter={true}
-          />
+        {/* Best Seller Section */}
+        <section className="mb-8">
+          <BestSeller />
+        </section>
 
-        </div>
-        <div className='justify-items-center text-2xl font-bold border border-gray-300 m-1 rounded-lg'>
-          <div> <h2>TESTIMONIAL</h2>
-          </div>
-          <div className="flex  flex-wrap mt-5 mb-5 justify-around">
+        {/* Brand Section */}
+        <section className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <Brand isCenter={true} />
+        </section>
+
+        {/* Testimonial Section */}
+        <section className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <h2 className="text-center text-2xl font-bold mb-6">What Our Customers Say</h2>
+          <div className="flex flex-wrap gap-6 justify-center">
             {Testimonial.map((item, index) => (
               <TestimonialCard
                 key={index}
@@ -58,11 +64,13 @@ const LandingScreen = () => {
               />
             ))}
           </div>
-        </div>
-        <div><FAQSection/></div>
-      </div>
-      <div>
-      </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="bg-white shadow-md rounded-lg p-6 mb-8">
+          <FAQSection />
+        </section>
+      </main>
     </div>
   );
 };

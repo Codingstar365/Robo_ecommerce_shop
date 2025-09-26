@@ -1,85 +1,126 @@
-import React from 'react'
-import { FaFacebook, FaGoogle, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { FaLinkedin } from 'react-icons/fa6';
-import { Allcategories, FooterBlogs, ShopByBrand, Support } from '../constants/NavbarConstant';
-import logo from "../assets/robomart2.png"; // ✅ Add your logo image path here
+import React from "react";
+import {
+  FaFacebook,
+  FaGoogle,
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+  FaLinkedin,
+} from "react-icons/fa";
+import {
+  Allcategories,
+  FooterBlogs,
+  ShopByBrand,
+  Support,
+} from "../constants/NavbarConstant";
+import logo from "../assets/robomart2.png"; // ✅ Add your logo image
 
 const Footer = () => {
   return (
-    <div className='bottom-0 left-0 w-full     '>
-      <div className="bg-secondary text-center px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-4">
-        <h2 className="text-white text-base md:text-lg font-semibold ">
-          Sign up for our newsletter and unlock exclusive promotions and discounts
+    <footer className="bg-gray-100 text-gray-700">
+      {/* Newsletter Section */}
+      <div className="bg-secondary px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <h2 className="text-white text-lg md:text-xl font-semibold text-center md:text-left">
+          Sign up for our newsletter & unlock exclusive promotions and discounts 🚀
         </h2>
-
-        <div className="flex flex-wrap justify-center gap-4">
-          <FaInstagram size={28} className="text-white  hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaFacebook size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaYoutube size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaLinkedin size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaTwitter size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
-          <FaGoogle size={28} className="text-white hover:bg-blue-600 rounded-full p-1 transition-all" />
+        <div className="flex gap-2 w-full md:w-auto">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="px-4 py-2 rounded-lg outline-none w-full md:w-64"
+          />
+          <button className="bg-primary text-white px-5 py-2 rounded-lg hover:bg-orange-600 transition-all">
+            Subscribe
+          </button>
         </div>
       </div>
 
-      <div className='bg-gray-200 flex gap-10 flex-col md:flex-row justify-between text-center md:text-left p-4 text-1xl '>
-        <div className='md:w-1/5  '>
-          {/* ✅ Replaced text with logo image */}
-          <img src={logo} alt="Company Logo" className="w-28 h-auto object-contain" />
-          <div className='w-full text-sm mt-5'>
-            Robocraze is India's most trusted
-            Robotics and DIY store. We aim at
-            fostering the growth of knowledge in
-            Embedded Systems, IoT and Automation.</div>
-        </div>
-        <div className='md:w-4/5 flex justify-between flex-col md:flex-row'>
-          <div>
-            <div className='text-primary font-bold text-2xl'>
-              Top Categories
-            </div>
-            <div className='mt-5'>
-              {
-                Allcategories.map((value) => {
-                  return <div className='text-sm'>{value.name}</div>
-                })
-              }
-            </div>
-          </div>
-          <div>
-            <div className='text-primary font-bold text-2xl '>
-              Shop By Brand
-            </div>
-            <div className="mt-5">
-              {ShopByBrand.slice(0, 15).map((value, index) => {
-                return <div key={index} className="text-sm">{value.name}</div>;
-              })}
-            </div>
-          </div>
-          <div className='hidden md:block'>
-            <div className='text-primary font-bold text-2xl'>Blogs</div>
-            <div className='mt-5'>
-              {
-                FooterBlogs.map((value) => {
-                  return <div className='text-sm'>{value.name}</div>
-                })
-              }
-            </div>
-          </div>
-          <div>
-            <div className='text-primary font-bold text-2xl '>Support</div>
-            <div className='mt-5'>
-              {
-                Support.map((value) => {
-                  return <div className='text-sm'>{value.name}</div>
-                })
-              }
-            </div>
+      {/* Main Footer */}
+      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-5 gap-10">
+        {/* Logo & Description */}
+        <div className="col-span-2 md:col-span-1">
+          <img src={logo} alt="Company Logo" className="w-32 h-auto mb-4" />
+          <p className="text-sm leading-relaxed">
+            Robocraze is India's most trusted Robotics and DIY store. We foster
+            growth of knowledge in Embedded Systems, IoT, and Automation.
+          </p>
+          <div className="flex gap-3 mt-4">
+            <FaInstagram size={28} className="text-gray-600 hover:text-primary transition" />
+            <FaFacebook size={28} className="text-gray-600 hover:text-primary transition" />
+            <FaYoutube size={28} className="text-gray-600 hover:text-primary transition" />
+            <FaLinkedin size={28} className="text-gray-600 hover:text-primary transition" />
+            <FaTwitter size={28} className="text-gray-600 hover:text-primary transition" />
+            <FaGoogle size={28} className="text-gray-600 hover:text-primary transition" />
           </div>
         </div>
 
+        {/* Categories */}
+        <div>
+          <h3 className="text-primary font-bold text-lg mb-4">Top Categories</h3>
+          <ul className="space-y-2 text-sm">
+            {Allcategories.map((value, index) => (
+              <li
+                key={index}
+                className="hover:text-primary cursor-pointer transition"
+              >
+                {value.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Brands */}
+        <div>
+          <h3 className="text-primary font-bold text-lg mb-4">Shop By Brand</h3>
+          <ul className="space-y-2 text-sm">
+            {ShopByBrand.slice(0, 10).map((value, index) => (
+              <li
+                key={index}
+                className="hover:text-primary cursor-pointer transition"
+              >
+                {value.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Blogs */}
+        <div className="hidden md:block">
+          <h3 className="text-primary font-bold text-lg mb-4">Blogs</h3>
+          <ul className="space-y-2 text-sm">
+            {FooterBlogs.map((value, index) => (
+              <li
+                key={index}
+                className="hover:text-primary cursor-pointer transition"
+              >
+                {value.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Support */}
+        <div>
+          <h3 className="text-primary font-bold text-lg mb-4">Support</h3>
+          <ul className="space-y-2 text-sm">
+            {Support.map((value, index) => (
+              <li
+                key={index}
+                className="hover:text-primary cursor-pointer transition"
+              >
+                {value.name}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div >
-  )
+
+      {/* Bottom Bar */}
+      <div className="bg-gray-900 text-gray-400 text-center text-sm py-4">
+        © {new Date().getFullYear()} Robocraze. All rights reserved. | Designed by Surendra
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

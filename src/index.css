@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+/* ✅ Import a clean professional font (Inter is a great choice) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @theme {
-  --color-primary: #ef233c;
-  --color-secondary: #21B692;
+  --color-primary: #ef233c;   /* Red Accent */
+  --color-secondary: #21B692; /* Teal Accent */
+}
+
+/* ✅ Apply global font */
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
