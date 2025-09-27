@@ -1,17 +1,27 @@
 import React from 'react';
+import img1 from '../assets/cmpicons/1.webp'
+import img2 from '../assets/cmpicons/2.jpg'
+import img3 from '../assets/cmpicons/3.jpg'
+import img4 from '../assets/cmpicons/4.jpg'
+import img5 from '../assets/cmpicons/5.jpg'
+import img6 from '../assets/cmpicons/6.jpg'
+import img7 from '../assets/cmpicons/7.jpg'
+import img8 from '../assets/cmpicons/8.jpg'
+import img9 from '../assets/cmpicons/9.jpg'
+import img10 from '../assets/cmpicons/10.jpg'
 
 const brandLogos = [
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Google_Logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Amazon_logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/2/21/Intel_logo_%282020%29.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Tesla_logo.png' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/5/5a/IBM_logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Sony_logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Netflix_2015_logo.svg' },
-  { image: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png' },
+  { image: img1 },
+  { image: img2 },
+  { image: img3 },
+  { image: img4 },
+  { image: img5 },
+  { image: img6 },
+  { image: img7 },
+  { image: img8 },
+  { image: img9 },
+  { image: img10 },
+
 ];
 
 const Brand = ({ isCenter }) => {
